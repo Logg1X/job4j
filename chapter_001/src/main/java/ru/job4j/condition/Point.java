@@ -3,7 +3,7 @@ package ru.job4j.condition;
 /**
  * @version $Id$
  * since 0.1
- * @autor Toporov Pavel (per4mancerror@gmail.com).
+ * @author Toporov Pavel (per4mancerror@gmail.com).
  */
 public class Point {
     private int x;
@@ -18,6 +18,7 @@ public class Point {
      * Method dinstanceTo - calculate of distance between points.
      *
      * @param that - point at which the distance is calculated
+     * @return Result.
      */
     public double distanceTo(Point that) {
         return Math.sqrt(Math.pow(this.x - that.x, 2) + Math.pow(this.y - that.y, 2));
