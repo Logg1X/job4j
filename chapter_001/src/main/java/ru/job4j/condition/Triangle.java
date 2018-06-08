@@ -1,6 +1,8 @@
 package ru.job4j.condition;
+
 /**
- * @author Toporov Pavel*/
+ * @author Toporov Pavel
+ */
 
 public class Triangle {
 
@@ -16,9 +18,9 @@ public class Triangle {
 
     /**
      * Метод вычисления полупериметра по длинам сторон.
-     *
+     * <p>
      * Формула.
-     *
+     * <p>
      * (ab + ac + bc) / 2
      *
      * @param ab расстояние между точками a b
@@ -29,6 +31,7 @@ public class Triangle {
     public double period(double ab, double ac, double bc) {
         return (ab + ac + bc) / 2;
     }
+
     /**
      * Метод должен вычислить площадь треугольника.
      *
@@ -47,10 +50,6 @@ public class Triangle {
     }
 
     private boolean exist(double ab, double ac, double bc) {
-        boolean exist = false;
-        if (ab + ac > bc || ab + bc > ac || bc + ac > ab) {
-            exist = true;
-        }
-        return exist;
+        return (ab + ac > bc || ab + bc > ac || bc + ac > ab);
     }
 }
