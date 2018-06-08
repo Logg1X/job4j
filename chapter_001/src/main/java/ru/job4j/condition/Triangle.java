@@ -1,4 +1,6 @@
 package ru.job4j.condition;
+/**
+ * @author Toporov Pavel*/
 
 public class Triangle {
 
