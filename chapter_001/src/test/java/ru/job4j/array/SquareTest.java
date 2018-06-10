@@ -27,17 +27,11 @@ public class SquareTest {
         int[] rst = square.calculate(bound);
         assertThat(rst, is(new int[]{}));
     }
-
-    /*Очевидно что в таком случае мы получим Exception.
-    И понятно, что в рамках данно курса это "рано".
-    Просто интересно, на такие случаи пишутся тесты?
-    Или такие штуки отлавливаются в "основном" коде блоками Try/catch и не учитываются в тестах ?
-    @Test
+   @Test(expected = NegativeArraySizeException.class)
     public void wenOne() {
         int bound = -1;
-        Square square = new Square();
-        int[] rst = square.calculate(bound);
-        assertThat(rst, is((????)));
-    }*/
+       Square square = new Square();
+       int[] rst = square.calculate(bound);
+    }
 
 }
