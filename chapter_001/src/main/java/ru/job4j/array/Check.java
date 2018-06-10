@@ -3,17 +3,10 @@ package ru.job4j.array;
 public class Check {
     public boolean mono(boolean[] data) {
         boolean result = false;
-        int trueCount = 0;
-        int falseCount = 0;
-        for (boolean datum : data) {
-            if (datum) {
-                trueCount++;
-            } else {
-                falseCount++;
+        for (int i = 0; i < data.length; i++) {
+            if (data[0] == data[1]) {
+                result = true;
             }
-        }
-        if (trueCount == 0 || falseCount == 0) {
-            result = true;
         }
         return result;
     }
