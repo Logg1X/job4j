@@ -2,26 +2,15 @@ package ru.job4j.array;
 
 public class BubbleSort {
     public int[] sort(int[] array) {
-        int i = 0;
-        int goodPairsCounter = 0;
-        while (true) {
-            if (array[i] > array[i + 1]) {
-                int q = array[i];
-                array[i] = array[i + 1];
-                array[i + 1] = q;
-                goodPairsCounter = 0;
-            } else {
-                goodPairsCounter++;
-            }
-            i++;
-            if (i == array.length - 1) {
-                i = 0;
-            }
-            if (goodPairsCounter == array.length - 1) {
-                break;
+        for (int i = array.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tmp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = tmp;
+                }
             }
         }
-
         return array;
     }
 
