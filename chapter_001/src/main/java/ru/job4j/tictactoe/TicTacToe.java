@@ -54,6 +54,7 @@ public class TicTacToe extends Application {
     private boolean checkState() {
         boolean gap = this.logic.hasGap();
         if (!gap) {
+            checkWinner();
             this.showAlert("Все поля запонены! Начните новую Игру!");
         }
         return gap;
