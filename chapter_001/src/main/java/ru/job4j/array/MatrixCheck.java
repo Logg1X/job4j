@@ -1,9 +1,15 @@
 package ru.job4j.array;
-
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @version $Id$
+ * @since 0.1*/
 public class MatrixCheck {
+    /**
+     * Проверка диагоналей массива на одинаковые значения.
+     * @param data Массив для проверки.
+     * @return результат проверки.*/
 
     public boolean mono(boolean[][] data) {
-        boolean result = true;
         int trueCount = 0;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data.length; j++) {
@@ -16,4 +22,3 @@ public class MatrixCheck {
         return data.length == trueCount;
     }
 }
-//data[i][i] != data[0][0] &

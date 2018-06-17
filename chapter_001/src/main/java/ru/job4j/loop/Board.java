@@ -19,8 +19,7 @@ public class Board {
             for (int j = 0; j < width; j++) {
                 if ((j + i) % 2 == 0) {
                     screen.append("X");
-
-                } else {
+                    } else {
                     screen.append(" ");
                 }
             }

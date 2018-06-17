@@ -1,7 +1,18 @@
 package ru.job4j.array;
 
-public class Matrix {
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
 
+public class Matrix {
+    /**
+     * Таблица умножения.
+     *
+     * @param size Размерность таблицы (например 10х10)
+     * @return Таблица умножения.
+     */
     int[][] multiple(int size) {
         int[][] table = new int[size][size];
         for (int i = 0; i < size; i++) {

@@ -1,6 +1,17 @@
 package ru.job4j.array;
 
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
 public class BubbleSort {
+    /**
+     * Сортировка "пузырьком"
+     *
+     * @param array массив, который будем сортировать.
+     * @return Отсортированный массив.
+     */
     public int[] sort(int[] array) {
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {

@@ -23,7 +23,7 @@ public class Logic3T {
      * Проверяет победил ли "О"
      */
     public boolean isWinnerO() {
-        return checkVerticalLineO() || checkFirstDiagonalsO() || checkSexondDiagonalsO() || checkGorisontalLineO();
+        return checkVerticalLineO() || checkFirstDiagonalsO() || checkSecondDiagonalsO() || checkGorisontalLineO();
     }
 
     /**
@@ -62,7 +62,6 @@ public class Logic3T {
                 temp++;
             }
         }
-
         return trueCount == 3;
     }
 
@@ -126,7 +125,6 @@ public class Logic3T {
                 temp++;
             }
         }
-
         return trueCount == 3;
     }
 
@@ -143,7 +141,7 @@ public class Logic3T {
         return trueCount == 3;
     }
 
-    private boolean checkSexondDiagonalsO() {
+    private boolean checkSecondDiagonalsO() {
         int trueCount = 0;
         for (int i = 0; i < this.table.length; i++) {
             for (int j = 0; j < this.table.length; j++) {
@@ -172,7 +170,6 @@ public class Logic3T {
         }
         return trueCount == 3;
     }
-
 }
 
 
