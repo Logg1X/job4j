@@ -33,8 +33,8 @@ public class Tracker {
      */
     private String generateId() {
         Date date = new Date();
-        long millis = date.getTime();
-        int  random =  (int) (Math.random()*100);
+        long millis = date.getTime()%1000;
+        int random = (int) (Math.random() * 100);
         return String.valueOf(millis + "#" + random);
     }
 
@@ -44,36 +44,39 @@ public class Tracker {
 
     public void delete(String id) {
         int index = getIndexAsInt(id);
-        int numMoved = items.length - index - 1;
-        System.arraycopy(items, index + 1, items, index, numMoved);
+        int numMoved = this.items.length - index - 1;
+        System.arraycopy(this.items, index + 1, this.items, index, numMoved);
+        this.position--;
     }
 
     public Item[] findAll() {
-        return null;
+        return Arrays.copyOf(this.items, this.position);
 
     }
 
     public Item[] findByName(String key) {
-        Item[] result ;
-        for (Item item : items) {
-            if (item.getName().equals(key)) {
-
+        int counter = 0;
+        Item[] result = new Item[this.items.length];
+        for (Item item : this.items) {
+            if (item!=null && item.getName().equals(key)) {
+                result[counter] = item;
+                counter++;
             }
         }
-        return null;
+        return Arrays.copyOf(result, counter);
     }
 
 
     public Item findById(String id) {
         int index = getIndexAsInt(id);
-        return index > 0 ? items[index] : null;
+        return index > 0 ? this.items[index] : null;
     }
 
     private int getIndexAsInt(String id) {
         int index = -1;
-        for (Item item : items) {
+        for (Item item : this.items) {
             if (item.getId().equals(id)) {
-                index = Arrays.asList(items).indexOf(item);
+                index = Arrays.asList(this.items).indexOf(item);
             }
         }
         return index;
