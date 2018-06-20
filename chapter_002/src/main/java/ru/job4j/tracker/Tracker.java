@@ -49,7 +49,9 @@ public class Tracker {
      * @param item на эту заяку меняем.
      */
     public void replace(String id, Item item) {
-        this.items[getIndexAsInt(id)] = item;
+        int index = getIndexAsInt(id);
+        item.setId(this.items[index].getId());
+        this.items[index] = item;
     }
 
     /**
@@ -83,9 +85,9 @@ public class Tracker {
     public Item[] findByName(String key) {
         int counter = 0;
         Item[] result = new Item[this.items.length];
-        for (Item item : this.items) {
-            if (item != null && item.getName().equals(key)) {
-                result[counter] = item;
+        for (int i = 0; i < this.position; i++) {
+            if (items[i].getName().equals(key)) {
+                result[counter] = items[i];
                 counter++;
             }
         }
@@ -105,11 +107,9 @@ public class Tracker {
 
     private int getIndexAsInt(String id) {
         int index = -1;
-        for (Item item : this.items) {
-            if (item == null) {
-                break;
-            } else if (item.getId().equals(id)) {
-                index = Arrays.asList(this.items).indexOf(item);
+        for (int i = 0; i < this.position; i++) {
+            if (items[i].getId().equals(id)) {
+                index = i;
             }
         }
         return index;
