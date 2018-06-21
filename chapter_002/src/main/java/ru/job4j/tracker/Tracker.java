@@ -72,7 +72,7 @@ public class Tracker {
      * @return массив заявок.
      */
     public Item[] findAll() {
-        return Arrays.copyOf(this.items, this.position + 1);
+        return Arrays.copyOf(this.items, this.position );
 
     }
 

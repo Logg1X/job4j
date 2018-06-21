@@ -1,11 +1,18 @@
 package ru.job4j.tracker;
 
+import javax.xml.crypto.Data;
+
 public class Item {
     private String id;
     private String name;
     private String descripton;
     private long crate;
     private String[] comments;
+
+    public Item(String name, String descripton) {
+        this.name = name;
+        this.descripton = descripton;
+    }
 
     public Item(String name, String descripton, long crate) {
         this.name = name;
@@ -29,5 +36,21 @@ public class Item {
     public Item setName(String name) {
         this.name = name;
         return this;
+    }
+
+    public String getDescripton() {
+        return descripton;
+    }
+
+    public Item setDescripton(String descripton) {
+        this.descripton = descripton;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Задача №: " + id + ".\n"+
+                "Имя: " + name + ".\n" +
+                "Описание: " + descripton+".";
     }
 }
