@@ -1,5 +1,7 @@
 package ru.job4j.tictactoe;
 
+import java.util.function.Predicate;
+
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com).
  * @version $Id$
@@ -16,14 +18,28 @@ public class Logic3T {
      * Проверяет Победил ли "Х"
      */
     public boolean isWinnerX() {
-        return checkFirstDiagonalsX() || checkSecondDiagonalsX() || checkVerticalLineX() || checkGorisontalLineX();
+        return this.fillBy(Figure3T::hasMarkX, 0, 0, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkX, 0, 1, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkX, 0, 2, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkX, 0, 0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkX, 1, 0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkX, 2, 0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkX, 0, 0, 1, 1) ||
+                this.fillBy(Figure3T::hasMarkX, this.table.length - 1, 0, -1, 1);
     }
 
     /**
      * Проверяет победил ли "О"
      */
     public boolean isWinnerO() {
-        return checkVerticalLineO() || checkFirstDiagonalsO() || checkSecondDiagonalsO() || checkGorisontalLineO();
+        return this.fillBy(Figure3T::hasMarkO, 0, 0, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkO, 0, 1, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkO, 0, 2, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkO, 0, 0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkO, 1, 0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkO, 2, 0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkO, 0, 0, 1, 1) ||
+                this.fillBy(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1);
     }
 
     /**
@@ -45,7 +61,23 @@ public class Logic3T {
         return hasGap;
     }
 
-    private boolean checkVerticalLineX() {
+    private boolean fillBy(Predicate<Figure3T> predicate, int startX, int startY, int deltaX, int deltaY) {
+        boolean result = true;
+        for (int index = 0; index != this.table.length; index++) {
+            Figure3T cell = this.table[startX][startY];
+            startX += deltaX;
+            startY += deltaY;
+            if (!predicate.test(cell)) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+
+
+/*    private boolean checkVerticalLineX() {
         int trueCount = 0;
         int temp = 0;
         for (int i = 0; i < this.table.length; i++) {
@@ -169,7 +201,7 @@ public class Logic3T {
             }
         }
         return trueCount == 3;
-    }
+    }*/
 }
 
 
