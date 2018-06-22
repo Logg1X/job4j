@@ -82,14 +82,12 @@ public class StartUI {
     private void showAllItems() {
         System.out.println("------------ Список всех заявок --------------");
         for (Item item : tracker.findAll()) {
-            System.out.println(item.toString() + "\n" +
-                    "________________________________________________");
+            System.out.println(item.toString());
         }
     }
 
     private void editItem() {
         String yes = "y";
-        String no = "n";
         String name = "";
         String desc = "";
         Item item = new Item(name, desc);
@@ -97,15 +95,15 @@ public class StartUI {
         String id = this.input.ask("Введите номер заявки :");
         String editName = this.input.ask("Хотите изменить имя заявки? ('y' - YES / 'n' - NO):");
         if (yes.equals(editName)) {
-            name = this.input.ask("Введите новое имя заявки :");
-        } else if (no.equals(editName)) {
-            name = tracker.findById(id).getName();
+           item.setName(this.input.ask("Введите новое имя заявки :"));
+        } else  {
+           item.setName(tracker.findById(id).getName());
         }
         String editDesc = this.input.ask("Хотите изменить описание заявки? ('y' - YES / 'n' - NO)::");
         if (editDesc.equals(yes)) {
-            desc = this.input.ask("Введите новое описание заявки :");
-        } else if (editDesc.equals(no)) {
-            desc = tracker.findById(id).getDescripton();
+           item.setDescripton(this.input.ask("Введите новое описание заявки :"));
+        } else {
+            item.setDescripton(tracker.findById(id).getDescripton());
         }
         tracker.replace(id, item);
        System.out.println("--------------Заявка " + item.getId() + " обновлена.--------------");
@@ -132,8 +130,7 @@ public class StartUI {
 
     private void showMenu() {
         StringBuilder menu = new StringBuilder();
-        menu.append("----------МЕНЮ-----------\n");
-        menu.append("_________________________\n");
+        menu.append("_________- МЕНЮ -________\n");
         menu.append("| 0. Add new Item       |\n");
         menu.append("|_______________________|\n");
         menu.append("| 1. Show all items     |\n");
