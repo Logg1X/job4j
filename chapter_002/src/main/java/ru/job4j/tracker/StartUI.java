@@ -14,7 +14,6 @@ public class StartUI {
     private static final String DELL = "3";
     private static final String GET = "4";
     private static final String DUBLICATES = "5";
-//    private static final String ADD = "0";
 
     /**
      * Константа для выхода из цикла.
@@ -56,12 +55,12 @@ public class StartUI {
             } else if (EDIT.equals(answer)) {
                 editItem();
             } else if (DELL.equals(answer)) {
-                dellite();
+                delete();
             } else if (GET.equals(answer)) {
                 findById();
-            }else if (DUBLICATES.equals(answer)) {
+            } else if (DUBLICATES.equals(answer)) {
                 dublicateNames();
-            }else if (EXIT.equals(answer)) {
+            } else if (EXIT.equals(answer)) {
                 exit = true;
             }
         }
@@ -93,30 +92,40 @@ public class StartUI {
         Item item = new Item(name, desc);
         System.out.println("------------ Изменение заявки  --------------");
         String id = this.input.ask("Введите номер заявки :");
-        String editName = this.input.ask("Хотите изменить имя заявки? ('y' - YES / 'n' - NO):");
-        if (yes.equals(editName)) {
-           item.setName(this.input.ask("Введите новое имя заявки :"));
-        } else  {
-           item.setName(tracker.findById(id).getName());
-        }
-        String editDesc = this.input.ask("Хотите изменить описание заявки? ('y' - YES / 'n' - NO)::");
-        if (editDesc.equals(yes)) {
-           item.setDescripton(this.input.ask("Введите новое описание заявки :"));
+        if (tracker.findById(id) != null) {
+            String editName = this.input.ask("Хотите изменить имя заявки? ('y' - YES / 'n' - NO):");
+            if (yes.equals(editName)) {
+                item.setName(this.input.ask("Введите новое имя заявки :"));
+            } else {
+                item.setName(tracker.findById(id).getName());
+            }
+            String editDesc = this.input.ask("Хотите изменить описание заявки? ('y' - YES / 'n' - NO):");
+            if (editDesc.equals(yes)) {
+                item.setDescripton(this.input.ask("Введите новое описание заявки :"));
+            } else {
+                item.setDescripton(tracker.findById(id).getDescripton());
+            }
+            tracker.replace(id, item);
+            System.out.println("--------------Заявка " + item.getId() + " обновлена.--------------");
+        } else System.out.println("Заявки с таким номером не существует!" + System.lineSeparator()
+                + "Ознакомьтесь со списком заявок, выбрав пункт '3'.");
+    }
+
+    private void delete() {
+        String id = this.input.ask("Введите номер заявки :");
+        tracker.delete(id);
+        System.out.println("------------ Задача №: " + id + " удалена! ------------");
+    }
+
+    private void findById() {
+        String id = this.input.ask("Введите номер заявки :");
+        if (tracker.findById(id) != null) {
+            System.out.println(tracker.findById(id).toString());
         } else {
-            item.setDescripton(tracker.findById(id).getDescripton());
+            System.out.println("Заявки с таким номером не существует!"+ System.lineSeparator()
+                    + "Ознакомьтесь со списком заявок, выбрав пункт '3'.");
         }
-        tracker.replace(id, item);
-       System.out.println("--------------Заявка " + item.getId() + " обновлена.--------------");
-       }
-       private void dellite() {
-           String id = this.input.ask("Введите номер заявки :");
-           tracker.delete(id);
-           System.out.println("------------ Задача №: "+id+ " удалена! ------------");
-       }
-       private void findById() {
-           String id = this.input.ask("Введите номер заявки :");
-           System.out.println(tracker.findById(id).toString());
-       }
+    }
 
     private void dublicateNames() {
         String name = this.input.ask("Введите имя заявки :");
@@ -127,24 +136,23 @@ public class StartUI {
     }
 
 
-
     private void showMenu() {
         StringBuilder menu = new StringBuilder();
-        menu.append("_________- МЕНЮ -________\n");
-        menu.append("| 0. Add new Item       |\n");
-        menu.append("|_______________________|\n");
-        menu.append("| 1. Show all items     |\n");
-        menu.append("|_______________________|\n");
-        menu.append("| 2. Edit item          |\n");
-        menu.append("|_______________________|\n");
-        menu.append("| 3. Delete item        |\n");
-        menu.append("|_______________________|\n");
-        menu.append("| 4. Find item by Id    |\n");
-        menu.append("|_______________________|\n");
-        menu.append("| 5. Find items by name |\n");
-        menu.append("|_______________________|\n");
-        menu.append("| 6. Exit Program       |\n");
-        menu.append("|_______________________|\n");
+        menu.append("_________- МЕНЮ -________").append(System.lineSeparator());
+        menu.append("| 0. Add new Item       |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("| 1. Show all items     |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("| 2. Edit item          |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("| 3. Delete item        |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("| 4. Find item by Id    |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("| 5. Find items by name |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("| 6. Exit Program       |").append(System.lineSeparator());
+        menu.append("|_______________________|").append(System.lineSeparator());
         System.out.println(menu);
 
 
