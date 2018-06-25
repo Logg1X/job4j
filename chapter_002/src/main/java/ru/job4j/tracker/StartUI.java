@@ -59,7 +59,7 @@ public class StartUI {
             } else if (GET.equals(answer)) {
                 findById();
             } else if (DUBLICATES.equals(answer)) {
-                dublicateNames();
+                duplicateNames();
             } else if (EXIT.equals(answer)) {
                 exit = true;
             }
@@ -75,7 +75,7 @@ public class StartUI {
         String desc = this.input.ask("Введите описание заявки :");
         Item item = new Item(name, desc);
         this.tracker.add(item);
-        System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
+        System.out.println("------------ Новая заявка с номером : " + item.getId() + "-----------");
     }
 
     private void showAllItems() {
@@ -107,14 +107,22 @@ public class StartUI {
             }
             tracker.replace(id, item);
             System.out.println("--------------Заявка " + item.getId() + " обновлена.--------------");
-        } else System.out.println("Заявки с таким номером не существует!" + System.lineSeparator()
-                + "Ознакомьтесь со списком заявок, выбрав пункт '3'.");
+        } else {
+            System.out.println("Заявки с таким номером не существует!"
+                    + System.lineSeparator()
+                    + "Ознакомьтесь со списком заявок, выбрав пункт '3'.");
+        }
     }
 
     private void delete() {
         String id = this.input.ask("Введите номер заявки :");
-        tracker.delete(id);
-        System.out.println("------------ Задача №: " + id + " удалена! ------------");
+        if (tracker.findById(id) != null) {
+            tracker.delete(id);
+            System.out.println("------------ Задача №: " + id + " удалена! ------------");
+        } else {
+            System.out.println("Удалить заявку № " + id + " не удалось."
+                    + ". Возможно такой заявки не существует.");
+        }
     }
 
     private void findById() {
@@ -122,12 +130,13 @@ public class StartUI {
         if (tracker.findById(id) != null) {
             System.out.println(tracker.findById(id).toString());
         } else {
-            System.out.println("Заявки с таким номером не существует!"+ System.lineSeparator()
+            System.out.println("Заявки с таким номером не существует!"
+                    + System.lineSeparator()
                     + "Ознакомьтесь со списком заявок, выбрав пункт '3'.");
         }
     }
 
-    private void dublicateNames() {
+    private void duplicateNames() {
         String name = this.input.ask("Введите имя заявки :");
         for (Item item : tracker.findByName(name)) {
             System.out.println(item.toString());

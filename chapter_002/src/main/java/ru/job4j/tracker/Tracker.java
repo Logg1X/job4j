@@ -50,8 +50,10 @@ public class Tracker {
      */
     public void replace(String id, Item item) {
         int index = getIndexAsInt(id);
-        item.setId(this.items[index].getId());
-        this.items[index] = item;
+        if (index != -1) {
+            item.setId(this.items[index].getId());
+            this.items[index] = item;
+        }
     }
 
     /**
@@ -61,9 +63,11 @@ public class Tracker {
      */
     public void delete(String id) {
         int index = getIndexAsInt(id);
-        int numMoved = this.items.length - index - 1;
-        System.arraycopy(this.items, index + 1, this.items, index, numMoved);
-        this.position--;
+        if (index != -1) {
+            int numMoved = this.items.length - index - 1;
+            System.arraycopy(this.items, index + 1, this.items, index, numMoved);
+            this.position--;
+        }
     }
 
     /**
@@ -72,8 +76,7 @@ public class Tracker {
      * @return массив заявок.
      */
     public Item[] findAll() {
-        return Arrays.copyOf(this.items, this.position );
-
+        return Arrays.copyOf(this.items, this.position);
     }
 
     /**

@@ -1,7 +1,5 @@
 package ru.job4j.tracker;
 
-import javax.xml.crypto.Data;
-
 public class Item {
     private String id;
     private String name;
@@ -49,10 +47,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return "________________________________________________ \n" +
-                "Задача №: " + id + ".\n"+
-                "Имя: " + name + ".\n" +
-                "Описание: " + descripton+"." + "\n" +
-                "________________________________________________";
+        return "________________________________________________ \n"
+                + "Задача №: " + id + ".\n"
+                + "Имя: " + name + ".\n"
+                + "Описание: " + descripton + "." + "\n"
+                + "________________________________________________";
     }
 }
