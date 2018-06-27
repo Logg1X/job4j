@@ -47,10 +47,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return "________________________________________________ \n"
-                + "Задача №: " + id + ".\n"
-                + "Имя: " + name + ".\n"
-                + "Описание: " + descripton + "." + "\n"
+        return "________________________________________________ " + System.lineSeparator()
+                + "Задача №: " + id + "." + System.lineSeparator()
+                + "Имя: " + name + "." + System.lineSeparator()
+                + "Описание: " + descripton + "." + System.lineSeparator()
                 + "________________________________________________";
     }
 }
