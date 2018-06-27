@@ -111,7 +111,7 @@ public class StartUI {
             String editDesc = this.input.ask("Хотите изменить описание задачи? ('y' - YES / 'n' - NO):");
             if (editDesc.equals(yes)) {
                 item.setDescripton(this.input.ask("Введите новое описание задачи :"));
-                System.out.println("----- Описание задачи № " + id + "изменено.");
+                System.out.println("----- Описание задачи № " + id + " изменено.");
             } else {
                 item.setDescripton(tracker.findById(id).getDescripton());
                 System.out.println("----- Описание задачи № " + id + " осталось без изменений.");
