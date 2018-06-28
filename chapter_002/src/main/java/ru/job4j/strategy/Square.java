@@ -13,7 +13,7 @@ public class Square implements Shape {
         square.append("#  #").append(System.lineSeparator());
         square.append("#  #").append(System.lineSeparator());
         square.append("#  #").append(System.lineSeparator());
-        square.append("####").append(System.lineSeparator());
+        square.append("####");
         return square.toString();
     }
 }

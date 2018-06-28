@@ -12,7 +12,7 @@ public class Triangle implements Shape {
         triangle.append("   #   ").append(System.lineSeparator());
         triangle.append("  ###  ").append(System.lineSeparator());
         triangle.append(" ##### ").append(System.lineSeparator());
-        triangle.append("#######").append(System.lineSeparator());
+        triangle.append("#######");
         return triangle.toString();
     }
 
