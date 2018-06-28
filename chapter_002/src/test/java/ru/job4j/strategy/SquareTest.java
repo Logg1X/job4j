@@ -1,11 +1,15 @@
 package ru.job4j.strategy;
 
 import org.junit.Test;
-import ru.job4j.strategy.Square;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @version $Id$
+ * @since 1.0
+ */
 public class SquareTest {
     @Test
     public void whenDrawSquare() {

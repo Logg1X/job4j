@@ -1,5 +1,10 @@
 package ru.job4j.tracker;
 
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @version $Id$
+ * @since 1.0
+ */
 public class StubInput implements Input {
 
     private final String[] value;

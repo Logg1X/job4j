@@ -1,8 +1,9 @@
 package ru.job4j.tracker;
 
 /**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
  * @version $Id$
- * @since 0.1
+ * @since 1.0
  */
 public class StartUI {
     /**
