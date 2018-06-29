@@ -45,7 +45,6 @@ public class PaintTest {
                 )
         );
         System.setOut(stream);
-
     }
 
     @Test
@@ -61,7 +60,6 @@ public class PaintTest {
                         .toString()
                 )
         );
-
         System.setOut(stream);
     }
 }

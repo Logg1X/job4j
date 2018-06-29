@@ -184,7 +184,7 @@ public class StartUI {
         menu.append("| 5. Find items by name |").append(System.lineSeparator());
         menu.append("|_______________________|").append(System.lineSeparator());
         menu.append("| 6. Exit Program       |").append(System.lineSeparator());
-        menu.append("|_______________________|").append(System.lineSeparator());
+        menu.append("|_______________________|");
         System.out.println(menu);
 
 

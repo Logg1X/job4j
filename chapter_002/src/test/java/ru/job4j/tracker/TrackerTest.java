@@ -73,6 +73,4 @@ public class TrackerTest {
         Item[] result = {item2, item4, item5};
         assertThat(result, is(tracker.findByName("test")));
     }
-
-
 }
