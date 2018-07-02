@@ -46,7 +46,7 @@ public class StartUITest {
         Item item = new Item("TestName1", "TestDescription1");
         item.setId(this.tracker.findAll()[1].getId());
         assertThat(this.tracker.findAll()[1].getName(), is(item.getName()));
-        assertThat(this.tracker.findAll()[1].getDescripton(), is(item.getDescripton()));
+        assertThat(this.tracker.findAll()[1].getDescription(), is(item.getDescription()));
         assertThat(this.tracker.findAll()[1].getId(), is(item.getId()));
 
     }
@@ -61,7 +61,7 @@ public class StartUITest {
                 "2", this.tracker.findByName("TestName2")[0].getId(), "y", "NameCHANGED", "y", "DescCHANGED", "6"});
         new StartUI(input, this.tracker).init();
         assertThat(this.tracker.findAll()[1].getName(), is("NameCHANGED"));
-        assertThat(this.tracker.findAll()[1].getDescripton(), is("DescCHANGED"));
+        assertThat(this.tracker.findAll()[1].getDescription(), is("DescCHANGED"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class StartUITest {
         Input input = new StubInput(new String[]{
                 "2", this.tracker.findByName("TestName2")[0].getId(), "n", "y", "DescCHANGED", "6"});
         new StartUI(input, this.tracker).init();
-        assertThat(this.tracker.findAll()[1].getDescripton(), is("DescCHANGED"));
+        assertThat(this.tracker.findAll()[1].getDescription(), is("DescCHANGED"));
         assertThat(this.tracker.findAll()[1].getName(), is("TestName2"));
     }
 
@@ -85,7 +85,7 @@ public class StartUITest {
                 "2", this.tracker.findByName("TestName2")[0].getId(), "y", "NameCHANGED", "n", "6"});
         new StartUI(input, this.tracker).init();
         assertThat(this.tracker.findAll()[1].getName(), is("NameCHANGED"));
-        assertThat(this.tracker.findAll()[1].getDescripton(), is("TestDescription2"));
+        assertThat(this.tracker.findAll()[1].getDescription(), is("TestDescription2"));
 
     }
 

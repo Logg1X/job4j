@@ -1,5 +1,9 @@
 package ru.job4j.tracker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
  * @version $Id$
@@ -8,18 +12,23 @@ package ru.job4j.tracker;
 public class Item {
     private String id;
     private String name;
-    private String descripton;
+    private String description;
+    private String dateCreating;
+    private String dateUpdate;
     private long crate;
     private String[] comments;
 
-    public Item(String name, String descripton) {
+    public Item(String name, String description) {
         this.name = name;
-        this.descripton = descripton;
+        this.description = description;
+        this.dateCreating = new SimpleDateFormat("dd.MM.yyyy' в 'HH:mm")
+                .format(new Date());
+        this.dateUpdate = this.dateCreating;
     }
 
-    public Item(String name, String descripton, long crate) {
+    public Item(String name, String description, long crate) {
         this.name = name;
-        this.descripton = descripton;
+        this.description = description;
         this.crate = crate;
     }
 
@@ -41,21 +50,28 @@ public class Item {
         return this;
     }
 
-    public String getDescripton() {
-        return descripton;
+    public String getDescription() {
+        return description;
     }
 
-    public Item setDescripton(String descripton) {
-        this.descripton = descripton;
+    public Item setDescription(String descripton) {
+        this.description = descripton;
+        return this;
+    }
+
+    public Item setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
         return this;
     }
 
     @Override
     public String toString() {
         return "________________________________________________ " + System.lineSeparator()
-                + "Задача №: " + id + "." + System.lineSeparator()
-                + "Имя: " + name + "." + System.lineSeparator()
-                + "Описание: " + descripton + "." + System.lineSeparator()
+                + "Задача №: " + this.id + "." + System.lineSeparator()
+                + "Имя: " + this.name + "." + System.lineSeparator()
+                + "Описание: " + this.description + "." + System.lineSeparator()
+                + "Дата создания: " + this.dateCreating + "." + System.lineSeparator()
+                + "Дата обновления: " + this.dateUpdate + "." + System.lineSeparator()
                 + "________________________________________________";
     }
 }
