@@ -48,13 +48,18 @@ public class Tracker {
      * @param id   номер заявки, который нужно заменить.
      * @param item на эту заяку меняем.
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean result;
         int index = getIndexAsInt(id);
         if (index != -1) {
             item.setId(this.items[index].getId());
             item.setId(this.items[index].getId());
             this.items[index] = item;
+            result = true;
+        } else {
+            result = false;
         }
+        return result;
     }
 
     /**
@@ -62,14 +67,20 @@ public class Tracker {
      *
      * @param id номер заявки, которую нужно удалить.
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result;
         int index = getIndexAsInt(id);
-        if (index != -1) {
+        if (getIndexAsInt(id) != -1) {
             int numMoved = this.items.length - index - 1;
             System.arraycopy(this.items, index + 1, this.items, index, numMoved);
             this.position--;
+            result = true;
+        } else {
+            result = false;
         }
+        return result;
     }
+
 
     /**
      * Метод показывает все заявки.
