@@ -19,4 +19,8 @@ public class StubInput implements Input {
         return this.value[this.position++];
     }
 
+    @Override
+    public int ask(String question, int[] range) {
+        throw new UnsupportedOperationException("Действие не поддерживается");
+    }
 }

@@ -18,6 +18,8 @@ public class StartUI {
 
     private boolean exit = true;
 
+    private int[] range;
+
     /**
      * Конструтор инициализирующий поля.
      *
@@ -37,13 +39,22 @@ public class StartUI {
         menu.fillActions(this);
         do {
             menu.show();
-            int key = Integer.valueOf(this.input.ask("Введите пункт меню : "));
-            menu.select(key - 1);
+            menu.select(input.ask("Введите пункт меню : ", fillingRange())-1);
+
         } while (exit);
     }
 
     public void stop() {
         this.exit = false;
+    }
+
+    private int[] fillingRange() {
+        MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
+        this.range = new int[menuTracker.getActions().length];
+        for (int i = 0; i < range.length; i++) {
+            range[i] = i;
+        }
+        return range;
     }
 
     /**
@@ -52,6 +63,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }

@@ -67,6 +67,10 @@ public class MenuTracker {
         }
     }
 
+    public UserAction[] getActions() {
+        return this.actions;
+    }
+
     /**
      * Реализует добавленяи новый задачи в хранилище.
      */
