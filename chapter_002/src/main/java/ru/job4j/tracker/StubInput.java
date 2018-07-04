@@ -15,12 +15,24 @@ public class StubInput implements Input {
     }
 
     @Override
-    public String ask(String qustion) {
+    public String ask(String question) {
         return this.value[this.position++];
     }
 
     @Override
     public int ask(String question, int[] range) {
-        throw new UnsupportedOperationException("Действие не поддерживается");
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int i : range) {
+            if (i == key - 1) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Выход за пределы меню. ");
+        }
     }
 }

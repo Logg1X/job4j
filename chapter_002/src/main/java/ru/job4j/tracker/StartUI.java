@@ -39,7 +39,7 @@ public class StartUI {
         menu.fillActions(this);
         do {
             menu.show();
-            menu.select(input.ask("Введите пункт меню : ", fillingRange())-1);
+            menu.select(input.ask("Введите пункт меню : ", fillingRange()) - 1);
 
         } while (exit);
     }
@@ -63,6 +63,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }

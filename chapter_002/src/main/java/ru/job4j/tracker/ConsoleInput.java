@@ -17,11 +17,11 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range){
+    public int ask(String question, int[] range) {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
         for (int i : range) {
-            if (i == key) {
+            if (i == key - 1) {
                 exist = true;
                 break;
             }
