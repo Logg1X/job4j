@@ -6,10 +6,9 @@ import java.util.Date;
 /**
  * Реализует удаление задачи из хранилища.
  */
-class DeleteItem implements UserAction {
-    @Override
-    public int key() {
-        return 3;
+class DeleteItem extends BaseAction {
+    protected DeleteItem(int key, String name) {
+        super(key, name);
     }
 
     @Override
@@ -21,12 +20,6 @@ class DeleteItem implements UserAction {
             System.out.println("Удалить задачу № " + id + " не удалось."
                     + ". Возможно такой задачи не существует.");
         }
-
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s %s. %s%s%s", "|", this.key() + 1, "Delete Item        |", System.lineSeparator(), "|_______________________|");
     }
 }
 
@@ -47,13 +40,13 @@ public class MenuTracker {
     }
 
     public void fillActions(StartUI ui) {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new MenuTracker.ShowAllItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindItemById();
-        this.actions[5] = new FindItemByName();
-        this.actions[6] = new ExitTracker(ui);
+        this.actions[0] = new AddItem(0, "Add new Item       |");
+        this.actions[1] = new MenuTracker.ShowAllItems(1, "Show all items     |");
+        this.actions[2] = new EditItem(2, "Edit item          |");
+        this.actions[3] = new DeleteItem(3, "Delete Item        |");
+        this.actions[4] = new FindItemById(4, "Find item by Id    |");
+        this.actions[5] = new FindItemByName(5, "Find item by Name  |");
+        this.actions[6] = new ExitTracker(6, "EXIT               |", ui);
 
     }
 
@@ -74,10 +67,9 @@ public class MenuTracker {
     /**
      * Реализует добавленяи новый задачи в хранилище.
      */
-    private class AddItem implements UserAction {
-        @Override
-        public int key() {
-            return 0;
+    private class AddItem extends BaseAction {
+        protected AddItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -89,20 +81,15 @@ public class MenuTracker {
             tracker.add(item);
             System.out.println("---- Новая задача с номером : " + item.getId() + " добавлена. ----");
         }
-
-        @Override
-        public String info() {
-            return String.format("%s %s. %s%s%s", "|", this.key() + 1, "Add new Item       |", System.lineSeparator(), "|_______________________|");
-        }
     }
 
     /**
      * Выводит в консоль список всех задач.
      */
-    private static class ShowAllItems implements UserAction {
-        @Override
-        public int key() {
-            return 1;
+    private static class ShowAllItems extends BaseAction {
+
+        protected ShowAllItems(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -116,20 +103,15 @@ public class MenuTracker {
                 System.out.println("-------------- Список задач пуст ---------------");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s %s. %s%s%s", "|", this.key() + 1, "Show all items     |", System.lineSeparator(), "|_______________________|");
-        }
     }
 
     /**
      * Реализует изменение имени и описания дадачи.
      */
-    private class EditItem implements UserAction {
-        @Override
-        public int key() {
-            return 2;
+    private class EditItem extends BaseAction {
+
+        protected EditItem(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -148,23 +130,15 @@ public class MenuTracker {
                         + "Ознакомьтесь со списком задач, выбрав пункт '2'.");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s %s. %s%s%s", "|", this.key() + 1, "Edit item          |", System.lineSeparator(), "|_______________________|");
-        }
-
-
     }
 
     /**
      * Осуществляет поиск задач по номеру.
      * Выводит информацию о задаче в консоль.
      */
-    private class FindItemById implements UserAction {
-        @Override
-        public int key() {
-            return 4;
+    private class FindItemById extends BaseAction {
+        protected FindItemById(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -189,30 +163,27 @@ public class MenuTracker {
      * Осуществляет поиск дубликатов задач в хранилище.
      * Выводит дубликаты в консоль.
      */
-    private class FindItemByName implements UserAction {
-        @Override
-        public int key() {
-            return 5;
+    private class FindItemByName extends BaseAction {
+
+        protected FindItemByName(int key, String name) {
+            super(key, name);
         }
 
         @Override
+
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Введите имя задачи :");
             for (Item item : tracker.findByName(name)) {
                 System.out.println(item.toString());
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s %s. %s%s%s", "|", this.key() + 1, "Find item by Name  |", System.lineSeparator(), "|_______________________|");
-        }
     }
 
-    private class ExitTracker implements UserAction {
+    private class ExitTracker extends BaseAction {
         private final StartUI ui;
 
-        private ExitTracker(StartUI ui) {
+        private ExitTracker(int key, String name, StartUI ui) {
+            super(key, name);
             this.ui = ui;
         }
 
