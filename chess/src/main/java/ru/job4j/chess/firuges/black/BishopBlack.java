@@ -1,5 +1,6 @@
 package ru.job4j.chess.firuges.black;
 
+import ru.job4j.chess.exeption.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
@@ -22,11 +23,19 @@ public class BishopBlack implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        return new Cell[] { dest };
+        if (!isDiagonal(source, dest)) {
+            throw new ImpossibleMoveException("Фигура не может так пойти!");
+        }
+        return trace(source, dest);
     }
 
     @Override
     public Figure copy(Cell dest) {
         return new BishopBlack(dest);
     }
+
+    private boolean isDiagonal(Cell source, Cell dest) {
+        return Math.abs(source.y - dest.y) == Math.abs(dest.x - source.x);
+    }
 }
+
