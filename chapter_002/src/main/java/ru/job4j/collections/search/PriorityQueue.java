@@ -13,13 +13,13 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        if (this.tasks.isEmpty()) {
-            tasks.add(task);
-            return;
-        }
-        for (Task task1 : tasks) {
-            if (task1.getPriority() > task.getPriority()) {
-                this.tasks.add(tasks.indexOf(task1), task);
+        for (int i = 0; i <= tasks.size(); i++) {
+            if (tasks.size() == i) {
+                tasks.add(task);
+                break;
+            }
+            if (tasks.get(i).getPriority() > task.getPriority()) {
+                this.tasks.add(i, task);
                 break;
             }
         }
