@@ -12,18 +12,16 @@ public class PriorityQueue {
      *
      * @param task задача
      */
+
     public void put(Task task) {
-        for (int i = 0; i <= tasks.size(); i++) {
-            if (tasks.size() == i) {
-                tasks.add(task);
-                break;
-            }
+        int index = tasks.size();
+        for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getPriority() > task.getPriority()) {
-                this.tasks.add(i, task);
+                index = i;
                 break;
             }
         }
-
+        tasks.add(index, task);
     }
 
     public Task take() {
