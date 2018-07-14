@@ -1,4 +1,4 @@
-package ru.job4j.collections.search.models;
+package ru.job4j.collections.models;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)

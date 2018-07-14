@@ -1,6 +1,6 @@
 package ru.job4j.collections.search;
 
-import ru.job4j.collections.search.models.Task;
+import ru.job4j.collections.models.Task;
 
 import java.util.LinkedList;
 

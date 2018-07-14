@@ -1,7 +1,8 @@
-package ru.job4j.collections.search;
+package ru.job4j.collections;
 
 import org.junit.Test;
-import ru.job4j.collections.search.models.Person;
+import ru.job4j.collections.models.Person;
+import ru.job4j.collections.search.PhoneDictionary;
 
 import java.util.List;
 

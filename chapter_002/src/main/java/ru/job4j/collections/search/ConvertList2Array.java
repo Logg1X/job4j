@@ -1,5 +1,6 @@
 package ru.job4j.collections.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,17 @@ public class ConvertList2Array {
             }
         }
         return array;
+    }
+
+    //task № [#10037]
+    public List<Integer> convert (List<int[]> list) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (int[] ints : list) {
+            for (int anInt : ints) {
+                result.add(anInt);
+            }
+        }
+        return result;
     }
 }
 
