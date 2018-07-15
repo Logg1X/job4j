@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -31,7 +32,7 @@ class DeleteItem extends BaseAction {
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[7];
+    private ArrayList<UserAction> actions = new ArrayList<>();
 
 
     public MenuTracker(Input input, Tracker tracker) {
@@ -40,18 +41,18 @@ public class MenuTracker {
     }
 
     public void fillActions(StartUI ui) {
-        this.actions[0] = new AddItem(0, "Add new Item       |");
-        this.actions[1] = new MenuTracker.ShowAllItems(1, "Show all items     |");
-        this.actions[2] = new EditItem(2, "Edit item          |");
-        this.actions[3] = new DeleteItem(3, "Delete Item        |");
-        this.actions[4] = new FindItemById(4, "Find item by Id    |");
-        this.actions[5] = new FindItemByName(5, "Find item by Name  |");
-        this.actions[6] = new ExitTracker(6, "EXIT               |", ui);
+        this.actions.add(new AddItem(0, "Add new Item       |"));
+        this.actions.add(new MenuTracker.ShowAllItems(1, "Show all items     |"));
+        this.actions.add(new EditItem(2, "Edit item          |"));
+        this.actions.add(new DeleteItem(3, "Delete Item        |"));
+        this.actions.add(new FindItemById(4, "Find item by Id    |"));
+        this.actions.add(new FindItemByName(5, "Find item by Name  |"));
+        this.actions.add(new ExitTracker(6, "EXIT               |", ui));
 
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     public void show() {
@@ -60,7 +61,7 @@ public class MenuTracker {
         }
     }
 
-    public UserAction[] getActions() {
+    public ArrayList<UserAction> getActions() {
         return this.actions;
     }
 
@@ -94,7 +95,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            if (tracker.findAll().length > 0) {
+            if (tracker.findAll().size() > 0) {
                 System.out.println("-------------- Список всех задач ---------------");
                 for (Item item : tracker.findAll()) {
                     System.out.println(item.toString());

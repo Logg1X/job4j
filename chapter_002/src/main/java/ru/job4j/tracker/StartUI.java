@@ -50,7 +50,8 @@ public class StartUI {
 
     private int[] fillingRange() {
         MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
-        this.range = new int[menuTracker.getActions().length];
+        menuTracker.fillActions(this);
+        this.range = new int[menuTracker.getActions().size()];
         for (int i = 0; i < range.length; i++) {
             range[i] = i;
         }

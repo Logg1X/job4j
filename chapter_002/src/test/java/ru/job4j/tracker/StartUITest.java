@@ -26,10 +26,10 @@ public class StartUITest {
                 "7"});
         new StartUI(input, this.tracker).init();
         Item item = new Item("TestName1", "TestDescription1");
-        item.setId(this.tracker.findAll()[1].getId());
-        assertThat(this.tracker.findAll()[1].getName(), is(item.getName()));
-        assertThat(this.tracker.findAll()[1].getDescription(), is(item.getDescription()));
-        assertThat(this.tracker.findAll()[1].getId(), is(item.getId()));
+        item.setId(this.tracker.findAll().get(1).getId());
+        assertThat(this.tracker.findAll().get(1).getName(), is(item.getName()));
+        assertThat(this.tracker.findAll().get(1).getDescription(), is(item.getDescription()));
+        assertThat(this.tracker.findAll().get(1).getId(), is(item.getId()));
 
     }
 
@@ -40,10 +40,10 @@ public class StartUITest {
         this.tracker.add(new Item("TestName2", "TestDescription2"));
         this.tracker.add(new Item("TestName3", "TestDescription3"));
         Input input = new StubInput(new String[]{
-                "3", this.tracker.findByName("TestName2")[0].getId(), "NameCHANGED", "DescCHANGED", "7"});
+                "3", this.tracker.findByName("TestName2").get(0).getId(), "NameCHANGED", "DescCHANGED", "7"});
         new StartUI(input, this.tracker).init();
-        assertThat(this.tracker.findAll()[1].getName(), is("NameCHANGED"));
-        assertThat(this.tracker.findAll()[1].getDescription(), is("DescCHANGED"));
+        assertThat(this.tracker.findAll().get(1).getName(), is("NameCHANGED"));
+        assertThat(this.tracker.findAll().get(1).getDescription(), is("DescCHANGED"));
     }
 
     @Test
@@ -53,9 +53,9 @@ public class StartUITest {
         this.tracker.add(new Item("TestName3", "TestDescription3"));
         this.tracker.add(new Item("TestName4", "TestDescription4"));
         Input input = new StubInput(new String[]{
-                "4", this.tracker.findByName("TestName3")[0].getId(), "7"});
+                "4", this.tracker.findByName("TestName3").get(0).getId(), "7"});
         new StartUI(input, this.tracker).init();
-        assertThat(this.tracker.findAll()[2], is(this.tracker.findByName("TestName4")[0]));
+        assertThat(this.tracker.findAll().get(2), is(this.tracker.findByName("TestName4").get(0)));
     }
 
 

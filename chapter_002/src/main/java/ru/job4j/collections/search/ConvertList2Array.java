@@ -27,7 +27,7 @@ public class ConvertList2Array {
     }
 
     //task № [#10037]
-    public List<Integer> convert (List<int[]> list) {
+    public List<Integer> convert(List<int[]> list) {
         List<Integer> result = new ArrayList<Integer>();
         for (int[] ints : list) {
             for (int anInt : ints) {

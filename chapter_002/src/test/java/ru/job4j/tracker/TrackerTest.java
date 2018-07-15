@@ -2,6 +2,8 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -20,9 +22,9 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item1);
         tracker.add(item2);
-        assertThat(tracker.findAll()[0], is(item));
-        assertThat(tracker.findAll()[1], is(item1));
-        assertThat(tracker.findAll()[2], is(item2));
+        assertThat(tracker.findAll().get(0), is(item));
+        assertThat(tracker.findAll().get(1), is(item1));
+        assertThat(tracker.findAll().get(2), is(item2));
     }
 
 
@@ -54,23 +56,26 @@ public class TrackerTest {
         tracker.add(item4);
         tracker.delete(item2.getId());
         tracker.delete(item3.getId());
-        assertThat(tracker.findAll()[1], is(item4));
+        assertThat(tracker.findAll().get(1), is(item4));
     }
 
     @Test
     public void whenInMassiveSeveralItemsWithTheSameNamesThenReturnThisDuplicates() {
         Tracker tracker = new Tracker();
-        Item item1 = new Item("test1", "1testDescription1", 1L);
-        Item item2 = new Item("test", "2testDescription2", 2L);
-        Item item3 = new Item("test3", "3testDescription3", 3L);
-        Item item4 = new Item("test", "4testDescription4", 4L);
-        Item item5 = new Item("test", "5testDescription4", 5L);
+        Item item1 = new Item("test1", "1testDescription1");
+        Item item2 = new Item("test", "2testDescription2");
+        Item item3 = new Item("test3", "3testDescription3");
+        Item item4 = new Item("test", "4testDescription4");
+        Item item5 = new Item("test", "5testDescription4");
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
         tracker.add(item4);
         tracker.add(item5);
-        Item[] result = {item2, item4, item5};
+        ArrayList<Item> result = new ArrayList<>();
+        result.add(item2);
+        result.add(item4);
+        result.add(item5);
         assertThat(result, is(tracker.findByName("test")));
     }
 }
