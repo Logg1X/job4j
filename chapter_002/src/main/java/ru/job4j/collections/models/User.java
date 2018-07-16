@@ -41,9 +41,9 @@ public class User implements Comparable<User> {
 
     @Override
     public String toString() {
-        return "Id: " + this.id + System.lineSeparator() +
-                "Age: " + this.age + System.lineSeparator() +
-                "Name: " + this.name + System.lineSeparator() +
-                "City: " + this.city + System.lineSeparator();
+        return "Id: " + this.id + System.lineSeparator()
+                + "Age: " + this.age + System.lineSeparator()
+                + "Name: " + this.name + System.lineSeparator()
+                + "City: " + this.city + System.lineSeparator();
     }
 }
