@@ -4,6 +4,11 @@ import ru.job4j.collections.models.Task;
 
 import java.util.LinkedList;
 
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @version $Id$
+ * @since 1.0
+ */
 public class PriorityQueue {
     private LinkedList<Task> tasks = new LinkedList<>();
 
