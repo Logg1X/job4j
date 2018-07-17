@@ -13,7 +13,7 @@ public class Counter {
      * @param finish конечное число.
      * @return Результат
      */
-    public int add(int start, int finish) {
+    public final int add(int start, final int finish) {
         int count = 0;
         while (start <= finish) {
             if (start % 2 == 0) {
@@ -23,6 +23,5 @@ public class Counter {
         }
         return count;
     }
-
-
 }
+

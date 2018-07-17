@@ -1,4 +1,5 @@
 package ru.job4j.array;
+
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
  * @version $Id$
@@ -7,9 +8,11 @@ package ru.job4j.array;
 public class Turn {
     /**
      * Переворачиваем массив.
+     *
      * @param array исходный массив.
-     * @return Перевернутый массив.*/
-    public int[] turn(int[] array) {
+     * @return Перевернутый массив.
+     */
+    public final int[] turn(final int[] array) {
         for (int i = 0; i < array.length / 2; i++) {
             int tmp = array[i];
             array[i] = array[array.length - i - 1];

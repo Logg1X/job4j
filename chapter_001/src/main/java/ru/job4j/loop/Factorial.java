@@ -12,15 +12,12 @@ public class Factorial {
      * @param n факториал числа n.
      * @return Факториал.
      */
-
-
-    public int calc(int n) {
+    public final int calc(final int n) {
         int calc = 1;
         for (int i = 1; i <= n; i++) {
             calc *= i;
         }
         return calc;
     }
-
-
 }
+

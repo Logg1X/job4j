@@ -4,7 +4,13 @@ package ru.job4j.converter;
  * Корвертор валюты.
  */
 public class Converter {
+    /**
+     * Курс Евро к Рублю.
+     */
     private final int oneEuroInRubles = 73;
+    /**
+     * Курс Доллора к Рублю.
+     */
     private final int oneDollarInRubles = 62;
 
     /**
@@ -13,7 +19,7 @@ public class Converter {
      * @param value рубли.
      * @return Евро.
      */
-    public int rubleToEuro(int value) {
+    public final int rubleToEuro(final int value) {
         return value / this.oneEuroInRubles;
     }
 
@@ -23,7 +29,7 @@ public class Converter {
      * @param value рубли.
      * @return Доллары
      */
-    public int rubleToDollar(int value) {
+    public final int rubleToDollar(final int value) {
         return value / this.oneDollarInRubles;
     }
 
@@ -33,7 +39,7 @@ public class Converter {
      * @param value евро.
      * @return Рубли.
      */
-    public int euroToRubles(int value) {
+    public final int euroToRubles(final int value) {
 
         return value * this.oneEuroInRubles;
     }
@@ -44,7 +50,7 @@ public class Converter {
      * @param value доллоры.
      * @return Рубли
      */
-    public int dollarToRubles(int value) {
+    public final int dollarToRubles(final int value) {
         return value * this.oneDollarInRubles;
     }
 

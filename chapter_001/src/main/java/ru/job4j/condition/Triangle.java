@@ -5,43 +5,60 @@ package ru.job4j.condition;
  */
 
 public class Triangle {
+    /**
+     * Вершина трейгольника №1.
+     */
+    private Point point1;
+    /**
+     * Вершина трейгольника №2.
+     */
+    private Point point2;
+    /**
+     * Вершина трейгольника №3.
+     */
+    private Point point3;
 
-    private Point a;
-    private Point b;
-    private Point c;
+    /**
+     * Конструктор класса.
+     *
+     * @param a вершина №1.
+     * @param b вершина №2.
+     * @param c вершина №3.
+     */
 
-    public Triangle(Point a, Point b, Point c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
+    public Triangle(final Point a, final Point b, final Point c) {
+        this.point1 = a;
+        this.point2 = b;
+        this.point3 = c;
     }
 
     /**
      * Метод вычисления полупериметра по длинам сторон.
-     * <p>
-     * Формула.
-     * <p>
      * (ab + ac + bc) / 2
      *
-     * @param ab расстояние между точками a b
-     * @param ac расстояние между точками a c
-     * @param bc расстояние между точками b c
+     * @param ab расстояние между точками point1 point2
+     * @param ac расстояние между точками point1 point3
+     * @param bc расстояние между точками point2 point3
      * @return Перимент.
      */
-    public double period(double ab, double ac, double bc) {
+    public final double period(final double ab,
+                               final double ac,
+                               final double bc) {
         return (ab + ac + bc) / 2;
     }
 
     /**
      * Метод должен вычислить площадь треугольника.
      *
-     * @return Вернуть прощадь, если треугольник существует или -1, если треугольника нет.
+     * @return Вернуть прощадь,
+     * если треугольник существует или -1,
+     * если треугольника нет.
      */
-    public double area() {
+    public final double area() {
         double rsl = -1;
-        double ab = this.a.distanceTo(this.b);
-        double ac = this.a.distanceTo(this.c);
-        double bc = this.b.distanceTo(this.c);
+        double ab = this.point1.distanceTo(this.point2);
+        double ac = this.point1.distanceTo(this.point3);
+        double bc = this.point2.distanceTo(this.point3);
         double p = this.period(ab, ac, bc);
         if (this.exist(ab, ac, bc)) {
             rsl = Math.sqrt(p * (p - ab) * (p - ac) * (p - bc));
@@ -49,7 +66,17 @@ public class Triangle {
         return rsl;
     }
 
-    private boolean exist(double ab, double ac, double bc) {
+    /**
+     * Проверка сущесвует ли треугольник.
+     *
+     * @param ab сторона №1.
+     * @param ac сторона №1.
+     * @param bc сторона №1.
+     * @return результат истина/лож
+     */
+    private boolean exist(final double ab,
+                          final double ac,
+                          final double bc) {
         return (ab + ac > bc || ab + bc > ac || bc + ac > ab);
     }
 }

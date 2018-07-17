@@ -1,18 +1,19 @@
 package ru.job4j.array;
 
 /**
- * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com).
  * @version $Id$
  * @since 0.1
  */
 public class BubbleSort {
+
     /**
-     * Сортировка "пузырьком"
+     * Сортировка "пузырьком".
      *
      * @param array массив, который будем сортировать.
      * @return Отсортированный массив.
      */
-    public int[] sort(int[] array) {
+    public final int[] sort(final int[] array) {
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (array[j] > array[j + 1]) {
@@ -24,6 +25,4 @@ public class BubbleSort {
         }
         return array;
     }
-
-
 }

@@ -10,6 +10,9 @@ package ru.job4j.calculator;
  */
 public class Calculator {
 
+    /**
+     * Результирующая переменная.
+     */
     private double result;
 
     /**
@@ -19,7 +22,7 @@ public class Calculator {
      * @param second - второй аргумент.
      */
 
-    public void add(double first, double second) {
+    public final void add(final double first, final double second) {
         this.result = first + second;
     }
 
@@ -30,7 +33,7 @@ public class Calculator {
      * @param second - второй аргумент.
      */
 
-    public void subtract(double first, double second) {
+    public final void subtract(final double first, final double second) {
         this.result = first - second;
     }
 
@@ -41,7 +44,7 @@ public class Calculator {
      * @param second - второй аргумент.
      */
 
-    public void div(double first, double second) {
+    public final void div(final double first, final double second) {
         this.result = first / second;
     }
 
@@ -52,13 +55,15 @@ public class Calculator {
      * @param second - второй аргумент.
      */
 
-    public void multiple(double first, double second) {
+    public final void multiple(final double first, final double second) {
         this.result = first * second;
     }
-    /**
-     * @return result Возвращеет результат операции. */
 
-    public double getResult() {
+    /**
+     * @return result Возвращеет результат операции.
+     */
+
+    public final double getResult() {
         return this.result;
     }
 }

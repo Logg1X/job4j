@@ -12,7 +12,7 @@ public class Square {
      * @param bound количество чисел в массиве.
      * @return массив
      */
-    public int[] calculate(int bound) {
+    public final int[] calculate(final int bound) {
         int[] rst = new int[bound];
         int temp = 1;
         for (int i = 0; i < rst.length; i++) {

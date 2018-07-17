@@ -16,13 +16,38 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+/**
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com).
+ * @version $Id$
+ * @since 1.0
+ */
 public class TicTacToe extends Application {
+    /**
+     * Заголовок окна.
+     */
     private static final String JOB4J = "Крестики-нолики www.job4j.ru";
+    /**
+     * Количество ячеек.
+     */
     private final int size = 3;
+    /**
+     * Поле размером size.
+     */
     private final Figure3T[][] cells = new Figure3T[size][size];
+    /**
+     * Класс логики.
+     */
     private final Logic3T logic = new Logic3T(cells);
 
-    private Figure3T buildRectangle(int x, int y, int size) {
+    /**
+     * Формирует ячейку.
+     *
+     * @param x    x
+     * @param y    y
+     * @param size size
+     * @return Приямоугольник
+     */
+    private Figure3T buildRectangle(final int x, final int y, final int size) {
         Figure3T rect = new Figure3T();
         rect.setX(x * size);
         rect.setY(y * size);
@@ -33,7 +58,15 @@ public class TicTacToe extends Application {
         return rect;
     }
 
-    private Group buildMarkO(double x, double y, int size) {
+    /**
+     * Отрисовывает О.
+     *
+     * @param x    х
+     * @param y    у
+     * @param size size
+     * @return O-Group
+     */
+    private Group buildMarkO(final double x, final double y, final int size) {
         Group group = new Group();
         int radius = size / 2;
         Circle circle = new Circle(x + radius, y + radius, radius - 10);
@@ -43,7 +76,12 @@ public class TicTacToe extends Application {
         return group;
     }
 
-    private void showAlert(String message) {
+    /**
+     * Отрисовывает всплывающее окно.
+     *
+     * @param message message
+     */
+    private void showAlert(final String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(JOB4J);
         alert.setHeaderText(null);
@@ -51,6 +89,11 @@ public class TicTacToe extends Application {
         alert.showAndWait();
     }
 
+    /**
+     * Проверяет доступные ходы.
+     *
+     * @return true/false если ходов больше не осталось.
+     */
     private boolean checkState() {
         boolean gap = this.logic.hasGap();
         if (!gap) {
@@ -60,6 +103,9 @@ public class TicTacToe extends Application {
         return gap;
     }
 
+    /**
+     * Проверяет побидетяля.
+     */
     private void checkWinner() {
         if (this.logic.isWinnerX()) {
             this.showAlert("Победили Крестики! Начните новую Игру!");
@@ -68,11 +114,19 @@ public class TicTacToe extends Application {
         }
     }
 
-    private Group buildMarkX(double x, double y, int size) {
+    /**
+     * Отрисовывает Х.
+     *
+     * @param x    x
+     * @param y    y
+     * @param size size
+     * @return X-Group
+     */
+    private Group buildMarkX(final double x, final double y, final int size) {
         Group group = new Group();
         group.getChildren().addAll(
                 new Line(
-                        x + 10, y  + 10,
+                        x + 10, y + 10,
                         x + size - 10, y + size - 10
                 ),
                 new Line(
@@ -83,7 +137,13 @@ public class TicTacToe extends Application {
         return group;
     }
 
-    private EventHandler<MouseEvent> buildMouseEvent(Group panel) {
+    /**
+     * Обработчик событий.
+     *
+     * @param panel panel
+     * @return checkState
+     */
+    private EventHandler<MouseEvent> buildMouseEvent(final Group panel) {
         return event -> {
             Figure3T rect = (Figure3T) event.getTarget();
             if (this.checkState()) {
@@ -103,6 +163,11 @@ public class TicTacToe extends Application {
         };
     }
 
+    /**
+     * Отрисовывает игровое окно.
+     *
+     * @return panel
+     */
     private Group buildGrid() {
         Group panel = new Group();
         for (int y = 0; y != this.size; y++) {
@@ -116,9 +181,13 @@ public class TicTacToe extends Application {
         return panel;
     }
 
-
+    /**
+     * Точка входа в программу.
+     *
+     * @param stage stage
+     */
     @Override
-    public void start(Stage stage) {
+    public final void start(final Stage stage) {
         BorderPane border = new BorderPane();
         HBox control = new HBox();
         control.setPrefHeight(40);

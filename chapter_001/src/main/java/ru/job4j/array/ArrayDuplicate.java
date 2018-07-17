@@ -11,7 +11,7 @@ public class ArrayDuplicate {
      * Удаляет дубликаты в массиве строк.
      * @param array Массив.
      * @return Массив без дубликатов.*/
-    public String[] remove(String[] array) {
+    public final String[] remove(final String[] array) {
         int dub = array.length;
         for (int i = 0; i < dub; i++) {
             for (int j = i + 1; j < dub; j++) {

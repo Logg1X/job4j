@@ -1,7 +1,7 @@
 package ru.job4j.array;
 
 /**
- * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
+ * @author Toporov Pavel (mailto:per4mancerror@gmail.com).
  * @version $Id$
  * @since 0.1
  */
@@ -13,7 +13,7 @@ public class FindLoop {
      * @param el   элемент поиска (в данном случае число).
      * @return индекс элемента.
      */
-    public int indexOf(int[] data, int el) {
+    public final int indexOf(final int[] data, final int el) {
         int rst = -1;
         for (int i = 0; i < data.length; i++) {
             if (data[i] == el) {
