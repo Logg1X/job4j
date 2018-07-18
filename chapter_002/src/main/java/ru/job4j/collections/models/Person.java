@@ -19,7 +19,7 @@ public class Person {
      */
     private String phone;
     /**
-     * Адресс
+     * Адресс.
      */
     private String address;
 
@@ -30,19 +30,23 @@ public class Person {
      * @param phone телефон
      * @param address фврес
      */
-    public Person(String name, String surname, String phone, String address) {
+    public Person(final String name, final String surname, final String phone, final String address) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.address = address;
     }
 
-    public String getSurname() {
+    /**
+     * Геттер Surname.
+     * @return Surname
+     */
+    public final String getSurname() {
         return surname;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Имя: " + name + System.lineSeparator()
                 + "Фамилия: " + surname + System.lineSeparator()
                 + "Тел.: " + phone + System.lineSeparator()
