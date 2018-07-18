@@ -24,7 +24,7 @@ public class PawnBlack implements Figure {
     @Override
     public Cell[] way(Cell source, Cell dest) {
 
-        if (source.x != dest.x || source.y < dest.y || source.y != dest.y + 1 && source.x != dest.x) {
+        if (source.y-dest.y > Math.abs(1) || source.x != dest.x || source.y < dest.y || source.y != dest.y + 1 && source.x != dest.x) {
             throw new ImpossibleMoveException("Фигура не может так пойти!");
         }
         return trace(source, dest);
