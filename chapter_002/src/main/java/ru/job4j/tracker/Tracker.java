@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
@@ -12,7 +13,7 @@ public class Tracker {
     /**
      * Массив для хранение заявок.
      */
-    private final ArrayList<Item> items = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
 
     /**
      * Метод реализаущий добавление заявки в хранилище
@@ -45,14 +46,14 @@ public class Tracker {
      * @param item на эту заяку меняем.
      */
     public boolean replace(String id, Item item) {
-        boolean result;
-        Item temp = this.findById(id);
-        if (temp != null) {
-            item.setId(temp.getId());
-            items.set(items.indexOf(temp), item);
-            result = true;
-        } else {
-            result = false;
+        boolean result = false;
+        for (int i = 0; i < this.items.size(); i++) {
+            if (id.equals(items.get(i).getId())) {
+                item.setId(items.get(i).getId());
+                this.items.set(i, item);
+                result = true;
+                break;
+            }
         }
         return result;
     }
@@ -63,7 +64,15 @@ public class Tracker {
      * @param id номер заявки, которую нужно удалить.
      */
     public boolean delete(String id) {
-        return items.remove(this.findById(id));
+        boolean result = false;
+        for (int i = 0; i < this.items.size(); i++) {
+            if (id.equals(this.items.get(i).getId())) {
+                items.remove(i);
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
 
@@ -72,7 +81,7 @@ public class Tracker {
      *
      * @return массив заявок.
      */
-    public ArrayList<Item> findAll() {
+    public List<Item> findAll() {
         return this.items;
     }
 
@@ -82,7 +91,7 @@ public class Tracker {
      * @param key Имя заявки для поиска.
      * @return массив дубликатов.
      */
-    public ArrayList<Item> findByName(String key) {
+    public List<Item> findByName(String key) {
         ArrayList<Item> result = new ArrayList<>();
         this.items.stream().filter(item -> item.getName().equals(key)).forEach(result::add);
         return result;
@@ -99,18 +108,9 @@ public class Tracker {
         for (Item item : items) {
             if (item.getId().equals(id)) {
                 result = item;
+                break;
             }
         }
         return result;
     }
-
-//    private int getIndexAsInt(String id) {
-//        int index = -1;
-//        for (int i = 0; i < this.position; i++) {
-//            if (items[i].getId().equals(id)) {
-//                index = i;
-//            }
-//        }
-//        return index;
-//    }
 }
