@@ -2,10 +2,7 @@ package ru.job4j.collections.sort;
 
 import ru.job4j.collections.models.User;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)

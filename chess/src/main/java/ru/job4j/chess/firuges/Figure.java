@@ -29,10 +29,9 @@ public interface Figure {
         int itX = source.x;
         int itY = source.y;
         for (int i = 0; itX != dest.x || itY != dest.y; i++) {
-            int stepX = itX + deltaX;
-            int stepY = itY + deltaY;
+            itX += deltaX;
             itY += deltaY;
-            steps[i] = Cell.getCellByValue(stepX, stepY);
+            steps[i] = Cell.getCellByValue(itX, itY);
         }
         return steps;
     }

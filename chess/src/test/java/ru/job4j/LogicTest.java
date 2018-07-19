@@ -3,7 +3,9 @@ package ru.job4j;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.chess.Logic;
+import ru.job4j.chess.exeption.FigureNotFoundException;
 import ru.job4j.chess.exeption.ImpossibleMoveException;
+import ru.job4j.chess.exeption.OccupiedWayException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.black.*;
 
@@ -47,6 +49,33 @@ public class LogicTest {
             boolean move = logic.move(Cell.D7, Cell.E3);
         } catch (ImpossibleMoveException ex) {
             assertThat(ex.getMessage(), is("Фигура не может так пойти!"));
+        }
+    }
+
+    @Test
+    public void whenStepBishopC8E6ThenOccupiedWayException() throws OccupiedWayException {
+        try {
+            boolean move = logic.move(Cell.C8, Cell.E6);
+        } catch (OccupiedWayException ex) {
+            assertThat(ex.getMessage(), is("Путь занят!"));
+        }
+    }
+
+    @Test
+    public void whenFigureNotFoundException() throws FigureNotFoundException {
+        try {
+            boolean move = logic.move(Cell.C6, Cell.E6);
+        } catch (FigureNotFoundException ex) {
+            assertThat(ex.getMessage(), is("Фигура не найдена"));
+        }
+    }
+
+    @Test
+    public void whenClean() throws FigureNotFoundException {
+        try {
+            boolean move = logic.move(Cell.C6, Cell.E6);
+        } catch (FigureNotFoundException ex) {
+            assertThat(ex.getMessage(), is("Фигура не найдена"));
         }
     }
 }
