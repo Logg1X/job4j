@@ -5,6 +5,7 @@ import org.junit.Test;
 import ru.job4j.bank.models.Accounts;
 import ru.job4j.bank.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -124,5 +125,15 @@ public class BankTest {
         assertThat(pashaAcc.getValue(), is(1000.0));
         assertThat(vikaAcc.getValue(), is(1200.5));
     }
+
+    @Test
+    public void whenGetUserAcc() {
+        bank.addUser(pasha);
+        bank.addAccountToUser("123456", pashaAcc);
+        List<Accounts> userAcc = bank.getUserAccounts("123456");
+        List<Accounts> assertAcc = new ArrayList<>();
+        assertAcc.add(pashaAcc);
+        assertThat(assertAcc, is(userAcc));
+     }
 }
 
