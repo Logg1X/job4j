@@ -20,7 +20,7 @@ public class BankTest {
     private Accounts pashaAcc;
     private Accounts vikaAcc;
     private Accounts dimaAcc;
-    Map<User, List<Accounts>> db;
+    private Map<User, List<Accounts>> db;
 
     @Before
 
