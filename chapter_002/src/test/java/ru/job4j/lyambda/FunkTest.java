@@ -29,7 +29,5 @@ public class FunkTest {
         assertThat(funk.logoriphmFunk(1, 2),
                 contains(0.0, 0.6931471805599453)
         );
-
     }
-
 }
