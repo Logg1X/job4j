@@ -30,9 +30,6 @@ public class User implements Comparable<User> {
         return name;
     }
 
-    public String getCity() {
-        return city;
-    }
 
     @Override
     public int compareTo(User o) {

@@ -45,19 +45,12 @@ public class Item {
         return name;
     }
 
-    public Item setName(String name) {
-        this.name = name;
-        return this;
-    }
 
     public String getDescription() {
         return description;
     }
 
-    public Item setDescription(String descripton) {
-        this.description = descripton;
-        return this;
-    }
+
 
     public Item setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
