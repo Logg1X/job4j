@@ -4,6 +4,7 @@ import ru.job4j.collections.models.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
@@ -25,13 +26,17 @@ public class PhoneDictionary {
      * @return Список подощедщих пользователей.
      */
     public List<Person> find(String key) {
-        List<Person> result = new ArrayList<>();
-        for (Person person : persons) {
-            if (person.toString().contains(key)) {
-                result.add(person);
-            }
-        }
-        return result;
+        return this.persons.stream()
+                .filter(person -> person.toString().contains(key))
+                .collect(Collectors.toList()
+                );
+//        List<Person> result = new ArrayList<>();
+//        for (Person person : persons) {
+//            if (person.toString().contains(key)) {
+//                result.add(person);
+//            }
+//        }
+//        return result;
     }
 }
 
