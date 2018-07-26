@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
@@ -40,13 +41,22 @@ public class Tracker {
     }
 
     /**
-     * Метод заменяет Item в массиве items.
+     * Метод заменяет Item в списке items.
      *
      * @param id   номер заявки, который нужно заменить.
      * @param item на эту заяку меняем.
      */
     public boolean replace(String id, Item item) {
+
         boolean result = false;
+
+//        items.forEach(item1 -> {
+//            if (item1.getId().equals(id)) {
+//                int index = items.indexOf(item1);
+//                item.setId(id);
+//                items.set(index, item);
+//                result.set(true);
+//            }});
         for (int i = 0; i < this.items.size(); i++) {
             if (items.get(i).getId().equals(id)) {
                 item.setId(id);
@@ -64,15 +74,16 @@ public class Tracker {
      * @param id номер заявки, которую нужно удалить.
      */
     public boolean delete(String id) {
-        boolean result = false;
-        for (int i = 0; i < this.items.size(); i++) {
-            if (id.equals(this.items.get(i).getId())) {
-                items.remove(i);
-                result = true;
-                break;
-            }
-        }
-        return result;
+        return items.removeIf(item -> item.getId().equals(id));
+//        boolean result = false;
+//        for (int i = 0; i < this.items.size(); i++) {
+//            if (this.items.get(i).getId().equals(id)) {
+//                items.remove(i);
+//                result = true;
+//                break;
+//            }
+//        }
+//        return
     }
 
 
@@ -93,7 +104,10 @@ public class Tracker {
      */
     public List<Item> findByName(String key) {
         ArrayList<Item> result = new ArrayList<>();
-        this.items.stream().filter(item -> item.getName().equals(key)).forEach(result::add);
+        this.items
+                .stream()
+                .filter(item -> item.getName().equals(key))
+                .forEach(result::add);
         return result;
     }
 
@@ -104,13 +118,18 @@ public class Tracker {
      * @return заявка.
      */
     public Item findById(String id) {
-        Item result = null;
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                result = item;
-                break;
-            }
-        }
-        return result;
+        return items
+                .stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+//        Item result = null;
+//        for (Item item : items) {
+//            if (item.getId().equals(id)) {
+//                result = item;
+//                break;
+//            }
+//        }
+//        return result;
     }
 }
