@@ -30,12 +30,5 @@ public enum Cell {
                 .filter(cell -> cell.x == x && cell.y == y)
                 .findFirst()
                 .orElse(null);
-//        for (Cell cell : Cell.values()) {
-//            if (cell.x == x && cell.y == y) {
-//                found = cell;
-//                break;
-//            }
-//        }
-//        return found;
     }
 }

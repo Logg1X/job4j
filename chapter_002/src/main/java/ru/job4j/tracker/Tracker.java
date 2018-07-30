@@ -47,16 +47,7 @@ public class Tracker {
      * @param item на эту заяку меняем.
      */
     public boolean replace(String id, Item item) {
-
         boolean result = false;
-
-//        items.forEach(item1 -> {
-//            if (item1.getId().equals(id)) {
-//                int index = items.indexOf(item1);
-//                item.setId(id);
-//                items.set(index, item);
-//                result.set(true);
-//            }});
         for (int i = 0; i < this.items.size(); i++) {
             if (items.get(i).getId().equals(id)) {
                 item.setId(id);
@@ -75,15 +66,6 @@ public class Tracker {
      */
     public boolean delete(String id) {
         return items.removeIf(item -> item.getId().equals(id));
-//        boolean result = false;
-//        for (int i = 0; i < this.items.size(); i++) {
-//            if (this.items.get(i).getId().equals(id)) {
-//                items.remove(i);
-//                result = true;
-//                break;
-//            }
-//        }
-//        return
     }
 
 
@@ -123,13 +105,5 @@ public class Tracker {
                 .filter(item -> item.getId().equals(id))
                 .findFirst()
                 .orElse(null);
-//        Item result = null;
-//        for (Item item : items) {
-//            if (item.getId().equals(id)) {
-//                result = item;
-//                break;
-//            }
-//        }
-//        return result;
     }
 }
