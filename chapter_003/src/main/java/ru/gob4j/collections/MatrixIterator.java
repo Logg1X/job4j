@@ -9,7 +9,7 @@ public class MatrixIterator implements Iterator<Integer> {
     private int positionY = 0;
     private int[][] arrays;
 
-    public MatrixIterator(int[][] arrays) {
+    public MatrixIterator(final int[][] arrays) {
         this.arrays = arrays;
     }
 
@@ -17,7 +17,7 @@ public class MatrixIterator implements Iterator<Integer> {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        if (positionX <= arrays.length && positionY < arrays.length) {
+        if (this.positionX <= this.arrays.length && this.positionY < this.arrays.length) {
             result = true;
         }
         return result;
@@ -29,9 +29,9 @@ public class MatrixIterator implements Iterator<Integer> {
             throw new NoSuchElementException("NoSuchElementException");
         }
         int result = this.arrays[positionY][positionX++];
-        if (positionX == arrays[positionY].length) {
-            positionY++;
-            positionX = 0;
+        if (this.positionX == this.arrays[positionY].length) {
+            this.positionY++;
+            this.positionX = 0;
         }
         return result;
     }
