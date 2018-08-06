@@ -4,6 +4,7 @@ package ru.job4j;
 import java.util.Arrays;
 
 public class CoffeeMachine {
+    final int[] coins = {10, 5, 2, 1};
 
 
     public int[] changes(int value, int price) {
@@ -11,23 +12,10 @@ public class CoffeeMachine {
         int position = 0;
         if (value != price && value > price) {
             int res = value - price;
-            for (int i = 0; res != 0; i++) {
-                if (res / 10 >= 1) {
-                    res -= 10;
-                    result[i] = 10;
-                    position++;
-                } else if (res / 5 >= 1) {
-                    res -= 5;
-                    result[i] = 5;
-                    position++;
-                } else if (res / 2 >= 1) {
-                    res -= 2;
-                    result[i] = 2;
-                    position++;
-                } else if (res >= 1) {
-                    res -= 1;
-                    result[i] = 1;
-                    position++;
+            for (int i : coins) {
+                while (res / i != 0) {
+                    res -= i;
+                    result[position++] = i;
                 }
             }
         }
