@@ -1,4 +1,4 @@
-package ru.gob4j;
+package ru.job4j;
 
 public class Test {
 }

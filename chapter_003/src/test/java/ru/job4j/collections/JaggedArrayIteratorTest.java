@@ -1,6 +1,7 @@
-package ru.job4j.collections;import org.junit.Before;
+package ru.job4j.collections;
+
+import org.junit.Before;
 import org.junit.Test;
-import ru.gob4j.collections.MatrixIterator;
 
 import java.util.Iterator;
 

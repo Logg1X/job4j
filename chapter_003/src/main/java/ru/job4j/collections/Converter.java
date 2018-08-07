@@ -1,11 +1,11 @@
-package ru.gob4j.collections;
+package ru.job4j.collections;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Converter {
 
-   public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
+    public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
 
             Iterator<Integer> inner = it.next();
@@ -13,7 +13,12 @@ public class Converter {
             @Override
             public boolean hasNext() {
                 if (!inner.hasNext() && it.hasNext()) {
-                    inner = it.next();
+                    while (!inner.hasNext()) {
+                        if (!it.hasNext()) {
+                            break;
+                        }
+                        inner = it.next();
+                    }
                 }
                 return inner.hasNext();
             }
@@ -28,3 +33,4 @@ public class Converter {
         };
     }
 }
+
