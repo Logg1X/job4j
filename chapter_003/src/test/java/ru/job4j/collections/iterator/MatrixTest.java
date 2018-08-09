@@ -1,7 +1,8 @@
-package ru.job4j.collections;
+package ru.job4j.collections.iterator;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.collections.iterator.MatrixIterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

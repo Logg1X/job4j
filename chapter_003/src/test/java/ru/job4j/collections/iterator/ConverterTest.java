@@ -1,4 +1,4 @@
-package ru.job4j.collections;
+package ru.job4j.collections.iterator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class IteratorOfIterators {
+public class ConverterTest {
     Iterator<Integer> it;
 
     @Before
