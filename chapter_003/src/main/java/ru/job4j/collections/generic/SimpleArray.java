@@ -8,17 +8,17 @@ public class SimpleArray<T> implements Iterable<T> {
     private Object[] array;
     private int fullSize;
     private int position = 0;
-    private int iterPosition = 0;
 
     public SimpleArray(final int size) {
         this.array = new Object[size];
         this.fullSize = size;
     }
 
+    public int getFullSize() {
+        return fullSize;
+    }
+
     public boolean add(T model) {
-        if (position > fullSize) {
-            throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBoundsException: " + position);
-        }
         array[position++] = model;
         return true;
     }
@@ -38,10 +38,11 @@ public class SimpleArray<T> implements Iterable<T> {
         return (T) array[index];
     }
 
-
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            int iterPosition;
+
             @Override
             public boolean hasNext() {
                 return iterPosition != fullSize && iterPosition < fullSize;

@@ -1,4 +1,4 @@
-package ru.job4j.collections.generic.store;
+package ru.job4j.collections.generic.store.model;
 
 public abstract class Base {
 

@@ -3,10 +3,11 @@ package ru.job4j.collections.generic;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class SimpleArrayTest {
     SimpleArray<Integer> array;
@@ -62,27 +63,31 @@ public class SimpleArrayTest {
 
     @Test
     public void whenIterateSimpleArray() {
-        assertThat(array.iterator().next(), is(1));
-        assertThat(array.iterator().next(), is(2));
-        assertThat(array.iterator().next(), is(3));
-        assertThat(array.iterator().next(), is(4));
-        assertThat(array.iterator().next(), is(5));
-        assertThat(array.iterator().hasNext(), is(false));
+        Iterator<Integer> simpleArrayIterator = array.iterator();
+        Iterator<Integer> itr2 = array.iterator();
+        assertThat(simpleArrayIterator.next(), is(1));
+        assertThat(simpleArrayIterator.next(), is(2));
+        assertThat(itr2.next(), is(1));
+        assertThat(simpleArrayIterator.next(), is(3));
+        assertThat(simpleArrayIterator.next(), is(4));
+        assertThat(simpleArrayIterator.next(), is(5));
+        assertThat(simpleArrayIterator.hasNext(), is(false));
     }
 
     @Test(expected = NoSuchElementException.class)
     public void whenIterateSimpleArrayWithNoSuchElementException() {
-        assertThat(array.iterator().hasNext(), is(true));
-        assertThat(array.iterator().next(), is(1));
-        assertThat(array.iterator().hasNext(), is(true));
-        assertThat(array.iterator().next(), is(2));
-        assertThat(array.iterator().hasNext(), is(true));
-        assertThat(array.iterator().next(), is(3));
-        assertThat(array.iterator().hasNext(), is(true));
-        assertThat(array.iterator().next(), is(4));
-        assertThat(array.iterator().hasNext(), is(true));
-        assertThat(array.iterator().next(), is(5));
-        assertThat(array.iterator().hasNext(), is(false));
-        array.iterator().next();
+        Iterator<Integer> simpleArrayIterator = array.iterator();
+        assertThat(simpleArrayIterator.hasNext(), is(true));
+        assertThat(simpleArrayIterator.next(), is(1));
+        assertThat(simpleArrayIterator.hasNext(), is(true));
+        assertThat(simpleArrayIterator.next(), is(2));
+        assertThat(simpleArrayIterator.hasNext(), is(true));
+        assertThat(simpleArrayIterator.next(), is(3));
+        assertThat(simpleArrayIterator.hasNext(), is(true));
+        assertThat(simpleArrayIterator.next(), is(4));
+        assertThat(simpleArrayIterator.hasNext(), is(true));
+        assertThat(simpleArrayIterator.next(), is(5));
+        assertThat(simpleArrayIterator.hasNext(), is(false));
+        simpleArrayIterator.next();
     }
 }

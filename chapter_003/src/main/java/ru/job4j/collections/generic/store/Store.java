@@ -1,8 +1,10 @@
 package ru.job4j.collections.generic.store;
 
-import ru.job4j.collections.generic.store.Base;
 
-public interface Stor<T extends Base> {
+import ru.job4j.collections.generic.store.model.Base;
+
+public interface Store<T extends Base> {
+
 
     boolean add(T model);
 
