@@ -16,7 +16,7 @@ public class ConvertMatrix2List {
         Arrays.stream(array)
                 .flatMapToInt(Arrays::stream)
                 .forEach(res::add);
-//                List<Integer> list = new ArrayList<>();
+//                list<Integer> list = new ArrayList<>();
 //        for (int[] ints : array) {
 //            for (int anInt : ints) {
 //                list.add(anInt);

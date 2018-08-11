@@ -30,7 +30,7 @@ public class PhoneDictionary {
                 .filter(person -> person.toString().contains(key))
                 .collect(Collectors.toList()
                 );
-//        List<Person> result = new ArrayList<>();
+//        list<Person> result = new ArrayList<>();
 //        for (Person person : persons) {
 //            if (person.toString().contains(key)) {
 //                result.add(person);
