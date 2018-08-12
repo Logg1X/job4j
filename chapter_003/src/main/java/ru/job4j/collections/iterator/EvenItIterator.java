@@ -15,23 +15,24 @@ public class EvenItIterator implements Iterator<Integer> {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        for (int co = this.position; co < this.numbers.length; co++) {
-            if (this.numbers[co] % 2 == 0) {
+        while (this.position < this.numbers.length) {
+            if (this.numbers[position] % 2 == 0) {
                 result = true;
                 break;
             }
+            position++;
         }
         return result;
     }
 
     @Override
     public Integer next() {
+        int result;
         if (!hasNext()) {
             throw new NoSuchElementException("NoSuchElementException");
+        } else {
+            result = this.numbers[this.position++];
         }
-        while (this.numbers[this.position] % 2 != 0) {
-            this.position++;
-        }
-        return this.numbers[this.position++];
+        return result;
     }
 }
