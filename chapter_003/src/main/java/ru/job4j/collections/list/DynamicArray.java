@@ -59,7 +59,6 @@ public class DynamicArray<E> implements Iterable<E> {
             @Override
             public E next() {
                 if (modCount != expectedModCount) {
-
                     throw new ConcurrentModificationException();
                 }
                 if (cursor >= fulSize) {
