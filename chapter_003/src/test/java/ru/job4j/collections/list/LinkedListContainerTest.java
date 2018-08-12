@@ -93,4 +93,24 @@ public class LinkedListContainerTest {
         assertThat(cont.get(0), is(1));
     }
 
+    @Test
+    public void whenDeleteFirstElementIntoContainer() {
+        assertThat(container.getSize(), is(5));
+        container.delete();
+        assertThat(container.getSize(), is(4));
+        assertThat(container.get(0), is(4));
+    }
+
+    @Test
+    public void whenDeleteLastElementIntoContainer() {
+        assertThat(container.getSize(), is(5));
+        container.deleteLast();
+        assertThat(container.getSize(), is(4));
+        assertThat(container.get(4), is(2));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void whenGetElementWithIndexOutOfBoundsException() {
+        container.get(55);
+    }
 }

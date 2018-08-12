@@ -49,7 +49,10 @@ public class LinkedListContainer<T> implements Iterable<T> {
     }
 
     public T get(int position) {
-        Node<T> result;
+        if (position > size) {
+            throw new IndexOutOfBoundsException("В контейнере меньше элементов чем: " + position);
+        }
+        Node<T> result = null;
         if (size / 2 > position) {
             result = this.first;
             for (int i = 0; i < position; i++) {
@@ -60,6 +63,36 @@ public class LinkedListContainer<T> implements Iterable<T> {
             for (int i = size - 1; i > position; i--) {
                 result = result.prev;
             }
+        }
+        return result.item;
+    }
+
+    public T delete() {
+        Node<T> result = this.first;
+        if (this.first.next != null) {
+            this.first = this.first.next;
+            this.first.prev = null;
+            size--;
+            modCount++;
+        } else {
+            this.first = null;
+            size--;
+            modCount++;
+        }
+        return result.item;
+    }
+
+    public T deleteLast() {
+        Node<T> result = this.last;
+        if (this.last.prev != null) {
+            this.last = this.last.prev;
+            this.last.next = null;
+            size--;
+            modCount++;
+        } else {
+            this.last = null;
+            size--;
+            modCount++;
         }
         return result.item;
     }
@@ -102,4 +135,5 @@ public class LinkedListContainer<T> implements Iterable<T> {
         }
     }
 }
+
 
