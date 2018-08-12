@@ -31,7 +31,7 @@ public interface Figure {
         for (int i = 0; itX != dest.x || itY != dest.y; i++) {
             itX += deltaX;
             itY += deltaY;
-            steps[i] = Cell.getCellByValue(itX, itY);
+            steps[i] = Cell.getCellByValue(itX, itY).get();
         }
         return steps;
     }
