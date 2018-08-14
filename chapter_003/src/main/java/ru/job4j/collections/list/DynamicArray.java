@@ -11,10 +11,6 @@ public class DynamicArray<E> implements Iterable<E> {
     private Object[] array;
     private int modCount;
 
-    public int getFulSize() {
-        return fulSize;
-    }
-
     public DynamicArray(int size) {
         this.array = new Object[size];
         this.fulSize = size;
@@ -27,9 +23,16 @@ public class DynamicArray<E> implements Iterable<E> {
         this.position = 0;
     }
 
+    public E get(int index) {
+        return (E) array[index];
+    }
+
+    public int getFulSize() {
+        return fulSize;
+    }
+
     public boolean add(E value) {
         if (position >= fulSize) {
-//            Object[] newArray = Arrays.copyOf(array, (fulSize *= 1.5));
             fulSize *= 1.5;
             Object[] newArray = new Object[fulSize];
             System.arraycopy(array, 0, newArray, 0, array.length);
@@ -38,10 +41,6 @@ public class DynamicArray<E> implements Iterable<E> {
         array[position++] = value;
         modCount++;
         return true;
-    }
-
-    public E get(int index) {
-        return (E) array[index];
     }
 
 

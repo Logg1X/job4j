@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.collections.generic.SimpleArray;
 import ru.job4j.collections.generic.store.model.Role;
+import ru.job4j.collections.generic.store.model.User;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 
 public class RoleStoreTest {
-    RoleStore<Role> roleStore;
+    RoleStore roleStore;
     Role aa;
     Role bb;
     Role cc;
@@ -20,7 +21,7 @@ public class RoleStoreTest {
 
     @Before
     public void setUp() throws Exception {
-        this.roleStore = new RoleStore<>(new SimpleArray<>(5));
+        this.roleStore = new RoleStore(new SimpleArray<>(5));
         aa = new Role("AA");
         bb = new Role("BB");
         cc = new Role("CC");

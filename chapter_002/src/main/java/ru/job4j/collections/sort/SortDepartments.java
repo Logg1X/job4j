@@ -30,11 +30,11 @@ public class SortDepartments {
     private Set<String> checkDep(List<String> array) {
         Set<String> result = new TreeSet<>();
         for (String s : array) {
-            int fromIndex = s.length();
-            while (fromIndex != -1) {
-                s = s.substring(0, fromIndex);
+            int index = s.length();
+            while (index != -1) {
+                s = s.substring(0, index);
                 result.add(s);
-                fromIndex = s.lastIndexOf("\\");
+                index = s.lastIndexOf("\\");
             }
         }
         return result;

@@ -2,15 +2,17 @@ package ru.job4j.collections.generic.store;
 
 import ru.job4j.collections.generic.SimpleArray;
 import ru.job4j.collections.generic.store.model.Base;
+import ru.job4j.collections.generic.store.model.Role;
+import ru.job4j.collections.generic.store.model.User;
 
-class RoleStore<Role extends Base> extends AbstractStore {
+class RoleStore extends AbstractStore<Role> {
 
     protected RoleStore(SimpleArray<Role> array) {
         super(array);
     }
 }
 
-class UserStore<User extends Base> extends AbstractStore<User> {
+class UserStore extends AbstractStore<User> {
 
     protected UserStore(SimpleArray<User> array) {
         super(array);

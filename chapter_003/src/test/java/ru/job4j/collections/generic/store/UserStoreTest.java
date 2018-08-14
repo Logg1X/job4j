@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class UserStoreTest {
 
-    UserStore<User> userStore;
+    UserStore userStore;
     User aa;
     User bb;
     User cc;
@@ -20,7 +20,7 @@ public class UserStoreTest {
 
     @Before
     public void setUp() throws Exception {
-        this.userStore = new UserStore<>(new SimpleArray<>(5));
+        this.userStore = new UserStore(new SimpleArray<>(5));
         aa = new User("AA");
         bb = new User("BB");
         cc = new User("CC");

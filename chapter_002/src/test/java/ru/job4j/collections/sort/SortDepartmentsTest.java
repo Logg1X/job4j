@@ -62,13 +62,40 @@ public class SortDepartmentsTest {
     @Test
     public void whenSortAscendingListWithOneLine() {
         List<String> depOneLine = new ArrayList<>();
-        depOneLine.add("K1\\SK1\\SSK1");
+        depOneLine.add("K1\\SK1\\SSK1\\SSSK2");
         Set<String> result = this.departments.sortAscending(depOneLine);
         Set<String> expect = new TreeSet<>();
         expect.add("K1");
         expect.add("K1\\SK1");
         expect.add("K1\\SK1\\SSK1");
+        expect.add("K1\\SK1\\SSK1\\SSSK2");
         assertThat(result, is(expect));
     }
+
+    @Test
+    public void when5Levels() {
+        List<String> depOneLine = new ArrayList<>();
+        depOneLine.add("K1\\SK1\\SSK2\\SSK3\\SSK4\\SSK5");
+        depOneLine.add("K2\\SK2\\SSK1");
+        depOneLine.add("K2\\SK1\\SSK2");
+        depOneLine.add("K2\\SK1\\SSK1\\SSK3");
+        Set<String> result = this.departments.sortDiminition(depOneLine);
+        Set<String> expect = new TreeSet<>();
+        expect.add("K2");
+        expect.add("K2\\SK2");
+        expect.add("K2\\SK2\\SSK1");
+        expect.add("K2\\SK1");
+        expect.add("K2\\SK1\\SSK2");
+        expect.add("K2\\SK1\\SSK1");
+        expect.add("K2\\SK1\\SSK1\\SSK3");
+        expect.add("K1");
+        expect.add("K1\\SK1");
+        expect.add("K1\\SK1\\SSK2");
+        expect.add("K1\\SK1\\SSK2\\SSK3");
+        expect.add("K1\\SK1\\SSK2\\SSK3\\SSK4");
+        expect.add("K1\\SK1\\SSK2\\SSK3\\SSK4\\SSK5");
+        assertThat(result, is(expect));
+    }
+
 
 }
