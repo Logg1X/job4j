@@ -3,10 +3,7 @@ package ru.job4j.collections.sort;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -46,17 +43,19 @@ public class SortDepartmentsTest {
     @Test
     public void whenSortDiminition() {
         Set<String> result = this.departments.sortDiminition(dep);
-        Set<String> expect = new TreeSet<>();
-        expect.add("K2");
-        expect.add("K2\\SK1");
-        expect.add("K2\\SK1\\SSK2");
-        expect.add("K2\\SK1\\SSK1");
-        expect.add("K1");
-        expect.add("K1\\SK2");
-        expect.add("K1\\SK1");
-        expect.add("K1\\SK1\\SSK2");
-        expect.add("K1\\SK1\\SSK1");
-        assertThat(result, is(expect));
+        List<String> expect = Arrays.asList(
+                "K2",
+                "K2\\SK1",
+                "K2\\SK1\\SSK2",
+                "K2\\SK1\\SSK1",
+                "K1",
+                "K1\\SK2",
+                "K1\\SK1",
+                "K1\\SK1\\SSK2",
+                "K1\\SK1\\SSK1"
+        );
+
+        assertThat(result.toString(), is(expect.toString()));
     }
 
     @Test
@@ -80,22 +79,22 @@ public class SortDepartmentsTest {
         depOneLine.add("K2\\SK1\\SSK2");
         depOneLine.add("K2\\SK1\\SSK1\\SSK3");
         Set<String> result = this.departments.sortDiminition(depOneLine);
-        Set<String> expect = new TreeSet<>();
-        expect.add("K2");
-        expect.add("K2\\SK2");
-        expect.add("K2\\SK2\\SSK1");
-        expect.add("K2\\SK1");
-        expect.add("K2\\SK1\\SSK2");
-        expect.add("K2\\SK1\\SSK1");
-        expect.add("K2\\SK1\\SSK1\\SSK3");
-        expect.add("K1");
-        expect.add("K1\\SK1");
-        expect.add("K1\\SK1\\SSK2");
-        expect.add("K1\\SK1\\SSK2\\SSK3");
-        expect.add("K1\\SK1\\SSK2\\SSK3\\SSK4");
-        expect.add("K1\\SK1\\SSK2\\SSK3\\SSK4\\SSK5");
-        assertThat(result, is(expect));
+        System.out.println(result);
+        List<String> expect = Arrays.asList(
+                "K2",
+                "K2\\SK2",
+                "K2\\SK2\\SSK1",
+                "K2\\SK1",
+                "K2\\SK1\\SSK2",
+                "K2\\SK1\\SSK1",
+                "K2\\SK1\\SSK1\\SSK3",
+                "K1",
+                "K1\\SK1",
+                "K1\\SK1\\SSK2",
+                "K1\\SK1\\SSK2\\SSK3",
+                "K1\\SK1\\SSK2\\SSK3\\SSK4",
+                "K1\\SK1\\SSK2\\SSK3\\SSK4\\SSK5");
+        System.out.println(expect.toString());
+        assertThat(result.toString(), is(expect.toString()));
     }
-
-
 }
