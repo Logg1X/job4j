@@ -6,16 +6,16 @@ import java.util.NoSuchElementException;
 public class SimpleArray<T> implements Iterable<T> {
 
     private Object[] array;
-    private int fullSize;
+    private int size;
     private int position = 0;
 
     public SimpleArray(final int size) {
         this.array = new Object[size];
-        this.fullSize = size;
+        this.size = size;
     }
 
-    public int getFullSize() {
-        return fullSize;
+    public int getSize() {
+        return size;
     }
 
     public boolean add(T model) {
@@ -45,7 +45,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return iterPosition != fullSize && iterPosition < fullSize;
+                return iterPosition != size && iterPosition < size;
             }
 
             @Override

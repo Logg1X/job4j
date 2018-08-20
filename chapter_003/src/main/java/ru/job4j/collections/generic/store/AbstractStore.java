@@ -66,7 +66,7 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
 
     private int getIndex(String id) {
         int index = -1;
-        for (int i = 0; i < array.getFullSize(); i++) {
+        for (int i = 0; i < array.getSize(); i++) {
             if (array.get(i).getId().equals(id)) {
                 index = i;
                 break;
