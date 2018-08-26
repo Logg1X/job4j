@@ -12,7 +12,7 @@ public class SimpleSetTest {
 
     @Before
     public void setUp() throws Exception {
-        set = new SimpleSet<>();
+        set = new SimpleSet<>(3);
         set.add("String1");
         set.add("String2");
         set.add("String3");
@@ -32,15 +32,6 @@ public class SimpleSetTest {
 
     @Test
     public void whenContainsString4() {
-        assertTrue(set.contains("String4"));
-        assertFalse(set.contains("String12"));
-    }
-
-    @Test
-    public void whenFirstElementIsNull() {
-        set.delete(0);
-        assertFalse(set.add("String3"));
-        assertTrue(set.add("String6"));
         assertTrue(set.contains("String4"));
         assertFalse(set.contains("String12"));
     }
