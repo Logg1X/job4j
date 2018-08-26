@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class SimpleSet<T> implements Iterable<T> {
 
-    DynamicArray<T> array;
+    private DynamicArray<T> array;
 
 
     public SimpleSet(int size) {
