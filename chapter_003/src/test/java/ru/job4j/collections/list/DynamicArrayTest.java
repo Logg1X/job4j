@@ -38,9 +38,9 @@ public class DynamicArrayTest {
     @Test
     public void whenAddElementMoreThenArraySize() {
         arra.add(11);
-        assertThat(arra.getFulSize(), is(15));
+        assertThat(arra.getSize(), is(15));
         arraSizef.add(6);
-        assertThat(arraSizef.getFulSize(), is(7));
+        assertThat(arraSizef.getSize(), is(7));
     }
 
     @Test
