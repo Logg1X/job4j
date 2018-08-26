@@ -15,18 +15,13 @@ public class Tree<E extends Comparable<E>>
     @Override
     public boolean add(E parent, E child) {
         boolean result = false;
-
         if (!findBy(child).isPresent()) {
-            Optional<Node<E>> e = this.findBy(parent);
-            result = e.isPresent();
-            if (result) {
-                e.get().add(new Node<>(child));
-                modCount++;
-            }
+            findBy(parent).get().add(new Node<>(child));
+            modCount++;
+            result = true;
         }
         return result;
     }
-
 
     @Override
     public Optional<Node<E>> findBy(E value) {
@@ -44,6 +39,19 @@ public class Tree<E extends Comparable<E>>
             }
         }
         return rsl;
+    }
+
+    public boolean isBinary() {
+        boolean result = true;
+        Iterator<E> it = this.iterator();
+        Optional<Node<E>> optional;
+        while (it.hasNext()) {
+            optional = this.findBy(it.next());
+            if (optional.isPresent() && optional.get().leaves().size() > 2) {
+                result = false;
+            }
+        }
+        return result;
     }
 
     @Override
@@ -80,5 +88,5 @@ public class Tree<E extends Comparable<E>>
             return result.getValue();
         }
     }
-
 }
+
