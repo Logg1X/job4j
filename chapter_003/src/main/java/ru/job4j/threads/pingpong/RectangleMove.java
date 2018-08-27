@@ -5,30 +5,33 @@ import javafx.scene.shape.Rectangle;
 
 public class RectangleMove implements Runnable {
     private final Rectangle rect;
+    private int drive;
+    private int speed;
 
     public RectangleMove(Rectangle rect) {
         this.rect = rect;
+        this.drive = 0;
+        this.speed = 10;
     }
 
     @Override
     public void run() {
-        int drive = 0;
         while (true) {
             if (this.rect.getX() < 300 && drive != -1) {
-                this.rect.setX(this.rect.getX() + 25);
-                if (this.rect.getX() == 300) {
+                this.rect.setX(this.rect.getX() + speed);
+                if (this.rect.getX() >= 300) {
                     drive = -1;
                 }
             } else if (drive == -1) {
-                this.rect.setX(this.rect.getX() - 25);
-                if (this.rect.getX() == 0) {
+                this.rect.setX(this.rect.getX() - speed);
+                if (this.rect.getX() <= 0) {
                     drive = 1;
                 }
             }
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return;
             }
         }
     }
