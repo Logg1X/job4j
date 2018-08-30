@@ -83,16 +83,13 @@ public class SimpleMap<K, V> implements Iterable<SimpleMap.Node> {
 
             @Override
             public Node next() {
-                Node result;
                 if (modCount != expectedModCount) {
                     throw new ConcurrentModificationException();
                 }
                 if (!hasNext()) {
                     throw new NoSuchElementException("NoSuchElementException");
                 }
-                result = map[this.cursor++];
-
-                return result;
+                return map[this.cursor++];
             }
         };
     }
