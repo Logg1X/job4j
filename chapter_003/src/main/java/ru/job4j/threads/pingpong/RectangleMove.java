@@ -16,7 +16,7 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.interrupted()) {
             if (this.rect.getX() < 300 && drive != -1) {
                 this.rect.setX(this.rect.getX() + speed);
                 if (this.rect.getX() >= 300) {
