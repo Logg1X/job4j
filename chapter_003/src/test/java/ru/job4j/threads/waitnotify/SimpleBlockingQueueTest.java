@@ -5,10 +5,11 @@ import org.junit.Test;
 public class SimpleBlockingQueueTest {
 
     @Test
-    public void whenProduserAndCustomer() throws InterruptedException {
+    public void whenTwoTreadProducerAndCustomer() throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(3);
         int iteration = 10;
-        Thread producer = new Thread(() -> {
+        Thread producer = new Thread(
+                () -> {
             for (int i = 0; i < iteration; i++) {
                 try {
                     queue.offer(i);
@@ -18,7 +19,8 @@ public class SimpleBlockingQueueTest {
             }
         });
 
-        Thread customer = new Thread(() -> {
+        Thread consumer = new Thread(
+                () -> {
             for (int i = 0; i < iteration; i++) {
                 try {
                     queue.poll();
@@ -28,8 +30,8 @@ public class SimpleBlockingQueueTest {
             }
         });
         producer.start();
-        customer.start();
+        consumer.start();
         producer.join();
-        customer.join();
+        consumer.join();
     }
 }
