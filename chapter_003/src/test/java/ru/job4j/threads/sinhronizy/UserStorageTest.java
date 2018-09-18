@@ -28,8 +28,8 @@ public class UserStorageTest {
         Thread threadA = new Thread(() -> storage.add(this.a));
         Thread threadB = new Thread(() -> storage.add(this.b));
         threadA.start();
-        threadB.start();
         threadA.join();
+        threadB.start();
         threadB.join();
         assertTrue(storage.transfer(1, 2, 100));
         assertThat(st.get(0).getAmount(), is(100));
