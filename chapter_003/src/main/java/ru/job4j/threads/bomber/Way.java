@@ -1,5 +1,5 @@
 package ru.job4j.threads.bomber;
 
-public enum  Way {
+public enum Way {
     LEFT, RIGHT, UP, DOWN
 }
