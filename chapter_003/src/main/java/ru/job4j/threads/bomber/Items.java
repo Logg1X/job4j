@@ -43,7 +43,6 @@ public class Items implements Runnable {
         while (!result) {
             Way way = getRundomWay();
             while (!result) {
-
                 switch (way) {
                     case LEFT:
                         result = wayLeft(x, y);
@@ -68,6 +67,8 @@ public class Items implements Runnable {
                         if (!result) {
                             break;
                         }
+                        break;
+                    default:
                         break;
                 }
                 break;

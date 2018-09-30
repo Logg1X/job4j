@@ -90,7 +90,7 @@ public class Bomber {
             return;
         }
         Cell cell = this.randomCell();
-        for (int i = 0; i < blockAmount; ) {
+        for (int i = 0; i < blockAmount;) {
             boolean isLocked = board[cell.getY()][cell.getX()].tryLock();
             if (isLocked) {
                 i++;
