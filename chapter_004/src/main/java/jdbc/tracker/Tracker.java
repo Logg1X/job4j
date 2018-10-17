@@ -65,8 +65,6 @@ public class Tracker {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        item.setId(this.generateId());
-//        this.items.add(item);
         return item;
     }
 
@@ -86,19 +84,28 @@ public class Tracker {
     /**
      * Метод заменяет Item в списке items.
      *
-     * @param id   номер заявки, который нужно заменить.
      * @param item на эту заяку меняем.
      */
-    public boolean replace(String id, Item item) {
+    public boolean replace(Item item) {
         boolean result = false;
-        for (int i = 0; i < this.items.size(); i++) {
-            if (items.get(i).getId().equals(id)) {
-                item.setId(id);
-                this.items.set(i, item);
-                result = true;
-                break;
-            }
+        try (PreparedStatement statement =this.connection.prepareStatement(Query.edit_item)) {
+            statement.setString(1,item.getName());
+            statement.setString(2,item.getDescription());
+            statement.setTimestamp(3, Timestamp.valueOf(item.getDateUpdate()));
+            statement.setInt(4, Integer.parseInt(item.getId()));
+            statement.executeUpdate();
+            result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+//        for (int i = 0; i < this.items.size(); i++) {
+//            if (items.get(i).getId().equals(id)) {
+//                item.setId(id);
+//                this.items.set(i, item);
+//                result = true;
+//                break;
+//            }
+//        }
         return result;
     }
 
@@ -143,10 +150,43 @@ public class Tracker {
      * @return заявка.
      */
     public Item findById(String id) {
-        return items
-                .stream()
-                .filter(item -> item.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        Item item = null;
+        try(final PreparedStatement statement = this.connection.prepareStatement(Query.find_by_id)) {
+            statement.setInt(1, Integer.parseInt(id));
+            try (final ResultSet set = statement.executeQuery()) {
+                this.formation(set);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (!items.isEmpty()) {
+            item = items.get(0);
+        }
+        return item;
+//                .stream()
+//                .filter(item -> item.getId().equals(id))
+//                .findFirst()
+//                .orElse(null);
+    }
+
+    /**
+     * Заполняет список заявок полученных из БД.
+     * @param resultSet результат запроса к БД.
+     */
+    private void formation(ResultSet resultSet) {
+        items.clear();
+        try {
+        while (resultSet.next()) {
+            Item item = new Item();
+            item.setId(resultSet.getString("id"));
+            item.setName(resultSet.getString("name"));
+            item.setDescription(resultSet.getString("description"));
+            item.setDateCreating(String.valueOf(resultSet.getTimestamp("create_date")));
+            item.setDateUpdate(String.valueOf(resultSet.getTimestamp("update_date")));
+            items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

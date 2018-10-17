@@ -14,4 +14,6 @@ public class Query {
             + "create_date,"+ System.lineSeparator()
             + "update_date"+ System.lineSeparator()
             + ") VALUES (?, ?, ?, ?)";
+    public static final String find_by_id = "SELECT * FROM tracker WHERE id=?";
+    public static final String edit_item = "UPDATE tracker SET name = ? , description = ?,update_date = ? where id = ?";
 }

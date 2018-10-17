@@ -32,6 +32,7 @@ public class Item {
         this.description = description;
         this.crate = crate;
     }
+    public Item() {}
 
     public String getId() {
         return id;
@@ -40,6 +41,22 @@ public class Item {
     public Item setId(String id) {
         this.id = id;
         return this;
+    }
+
+    public void setDateCreating(String dateCreating) {
+        this.dateCreating = dateCreating;
+    }
+
+    public String getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {

@@ -122,19 +122,31 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
+            Item item = null;
             System.out.println("------------ Изменение задачи  --------------");
-            String id = input.ask("Введите номер задачи :");
-            String newName = input.ask("Введите новое имя задачи :");
-            String newDesc = input.ask("Введите новое описание задачи :");
-            Item item = new Item(newName, newDesc);
-            item.setDateUpdate(new SimpleDateFormat("dd.MM.yyyy' в 'HH:mm").format(new Date()));
-            if (tracker.replace(id, item)) {
-                System.out.println("--------------Задача №: " + item.getId() + " обновлена.--------------");
-            } else {
-                System.out.println("-------Задачи с таким номером не существует!"
-                        + System.lineSeparator()
-                        + "Ознакомьтесь со списком задач, выбрав пункт '2'.");
+            while (item == null) {
+                String id = input.ask("Введите номер задачи :");
+                item = tracker.findById(id);
+                if (item == null) {
+                    System.out.println("-------Задачи с таким номером не существует!"
+                            + System.lineSeparator()
+                            + "Ознакомьтесь со списком задач, выбрав пункт '2'.");
+                    break;
+                }
+                item.setName(input.ask("Введите новое имя задачи :"));
+                item.setDescription(input.ask("Введите новое описание задачи :"));
+//            newName = input.ask("Введите новое имя задачи :");
+//            newDesc = input.ask("Введите новое описание задачи :");
+                item.setDateUpdate(new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(new Date()));
+                if (tracker.replace(item)) {
+                    System.out.println("--------------Задача №: " + item.getId() + " обновлена.--------------");
+                } else {
+                    System.out.println("-------Что-то пошло не так!"
+                            + System.lineSeparator()
+                            + "Измениь заявку не получилось.");
+                }
             }
+
         }
     }
 
