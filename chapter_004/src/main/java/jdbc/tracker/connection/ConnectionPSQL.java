@@ -29,12 +29,13 @@ public class ConnectionPSQL {
         try {
             connection = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     /**
      * Получаем соединение с БД.
+     *
      * @return соединение с БД.
      */
     public Connection getConnectionPSQL() {

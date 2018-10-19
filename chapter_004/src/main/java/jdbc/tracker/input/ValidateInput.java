@@ -1,7 +1,6 @@
 package jdbc.tracker.input;
 
 import jdbc.tracker.exception.MenuOutException;
-import jdbc.tracker.input.Input;
 
 public class ValidateInput implements Input {
 

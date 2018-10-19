@@ -5,9 +5,7 @@ import jdbc.tracker.action.UserAction;
 import jdbc.tracker.input.Input;
 import jdbc.tracker.models.Item;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Реализует удаление задачи из хранилища.
@@ -52,8 +50,9 @@ public class MenuTracker {
         this.actions.add(new DeleteItem(3, "Delete Item        |"));
         this.actions.add(new FindItemById(4, "Find item by Id    |"));
         this.actions.add(new FindItemByName(5, "Find item by Name  |"));
-        this.actions.add(new ExitTracker(6, "EXIT               |", ui));
-
+        this.actions.add(new AddComment(6, "Comment the item   |"));
+        this.actions.add(new DeleteComment(7, "Delete comment     |"));
+        this.actions.add(new ExitTracker(7, "EXIT               |", ui));
     }
 
     public void select(int key) {
@@ -135,10 +134,8 @@ public class MenuTracker {
                 }
                 item.setName(input.ask("Введите новое имя задачи :"));
                 item.setDescription(input.ask("Введите новое описание задачи :"));
-//            newName = input.ask("Введите новое имя задачи :");
-//            newDesc = input.ask("Введите новое описание задачи :");
-                item.setDateUpdate(new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(new Date()));
-                if (tracker.replace(item)) {
+                item.setDateUpdate(System.currentTimeMillis());
+                if (tracker.replace(previous.getId(), item)) {
                     System.out.println("--------------Задача №: " + item.getId() + " обновлена.--------------");
                 } else {
                     System.out.println("-------Что-то пошло не так!"
@@ -162,24 +159,30 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Введите номер задачи :");
-            if (tracker.findById(id) != null) {
-                System.out.println(tracker.findById(id).toString());
-            } else {
-                System.out.println("------Задачи с таким номером не существует!"
-                        + System.lineSeparator()
-                        + "Ознакомьтесь со списком задач, выбрав пункт '2'.");
+            Item item = null;
+            while (item == null) {
+                item = tracker.findById(id);
+                if (item != null) {
+                    System.out.println(item.toString());
+                } else {
+                    System.out.println("------Задачи с таким номером не существует!"
+                            + System.lineSeparator()
+                            + "Ознакомьтесь со списком задач, выбрав пункт '2'.");
+                    break;
+                }
+                String showComments = input.ask("Показать комментарии? Y/N");
+                if (showComments.equalsIgnoreCase("Y")) {
+                    System.out.println(System.lineSeparator()
+                            + "   ↓ ↓ ↓ ↓ ↓ КОММЕНТАРИИ К ЗАДАЧЕ ↓ ↓ ↓ ↓ ↓ ");
+                    tracker.getCommentsByItem(id).forEach(comments -> System.out.println(comments.toString()));
+                }
             }
-        }
-
-        @Override
-        public String info() {
-            return String.format("%s %s. %s%s%s", "|", this.key() + 1, "Find item by Id    |", System.lineSeparator(), "|_______________________|");
         }
     }
 
     /**
-     * Осуществляет поиск дубликатов задач в хранилище.
-     * Выводит дубликаты в консоль.
+     * Осуществляет поиск  задач в хранилище по имени.
+     * Выводит задачи в консоль.
      */
     private class FindItemByName extends BaseAction {
 
@@ -207,7 +210,7 @@ public class MenuTracker {
 
         @Override
         public int key() {
-            return 6;
+            return 8;
         }
 
         @Override
@@ -215,10 +218,51 @@ public class MenuTracker {
             System.out.println("Вы вышли из программы...");
             this.ui.stop();
         }
+    }
+
+    /**
+     * Осуществляет добавление комментариев к задаче.
+     */
+    private class AddComment extends BaseAction {
+
+        protected AddComment(int key, String name) {
+            super(key, name);
+        }
 
         @Override
-        public String info() {
-            return String.format("%s %s. %s%s%s", "|", this.key() + 1, "EXIT               |", System.lineSeparator(), "|_______________________|");
+        public void execute(Input input, Tracker tracker) {
+            Item item = null;
+            String idItem = input.ask("Введите № задачи в которой хотите оставить комментарий: ");
+            while (item == null) {
+                item = tracker.findById(idItem);
+                if (item == null) {
+                    System.out.println("-------Задачи с таким номером не существует!"
+                            + System.lineSeparator()
+                            + "Ознакомьтесь со списком задач, выбрав пункт '2'.");
+                    break;
+                }
+                String messge = input.ask("Введите сообщение:");
+                tracker.addComments(idItem, messge);
+            }
         }
     }
+
+    public class DeleteComment extends BaseAction {
+        protected DeleteComment(int key, String name) {
+            super(key, name);
+        }
+
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            String id = input.ask("Введите ID комментария, который хотите удалить");
+            if (tracker.deleteComment(id)) {
+                System.out.println(String.format("Комментарий c ID - %s удален.", id));
+            } else {
+                System.out.println("Удалить комментарий не удалось!" + System.lineSeparator()
+                        + "Возможно введен некорректный ID.");
+            }
+
+        }
+    }
+
 }

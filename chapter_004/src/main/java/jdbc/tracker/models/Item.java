@@ -1,9 +1,7 @@
 package jdbc.tracker.models;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
@@ -14,16 +12,15 @@ public class Item {
     private String id;
     private String name;
     private String description;
-    private String dateCreating;
-    private String dateUpdate;
+    private long dateCreating;
+    private long dateUpdate;
     private long crate;
     private String[] comments;
 
     public Item(String name, String description) {
         this.name = name;
         this.description = description;
-        this.dateCreating = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss")
-                .format(new Date());
+        this.dateCreating = System.currentTimeMillis();
         this.dateUpdate = this.dateCreating;
     }
 
@@ -32,7 +29,9 @@ public class Item {
         this.description = description;
         this.crate = crate;
     }
-    public Item() {}
+
+    public Item() {
+    }
 
     public String getId() {
         return id;
@@ -43,11 +42,11 @@ public class Item {
         return this;
     }
 
-    public void setDateCreating(String dateCreating) {
+    public void setDateCreating(long dateCreating) {
         this.dateCreating = dateCreating;
     }
 
-    public String getDateUpdate() {
+    public long getDateUpdate() {
         return dateUpdate;
     }
 
@@ -68,11 +67,11 @@ public class Item {
         return description;
     }
 
-    public String getDateCreating() {
+    public long getDateCreating() {
         return dateCreating;
     }
 
-    public Item setDateUpdate(String dateUpdate) {
+    public Item setDateUpdate(long dateUpdate) {
         this.dateUpdate = dateUpdate;
         return this;
     }
@@ -83,8 +82,10 @@ public class Item {
                 + "Задача №: " + this.id + "." + System.lineSeparator()
                 + "Имя: " + this.name + "." + System.lineSeparator()
                 + "Описание: " + this.description + "." + System.lineSeparator()
-                + "Дата создания: " + this.dateCreating + "." + System.lineSeparator()
-                + "Дата обновления: " + this.dateUpdate + "." + System.lineSeparator()
+                + "Дата создания: " + new SimpleDateFormat("YYYY-MM-dd HH:mm:ss")
+                .format(new Date(dateCreating)) + "." + System.lineSeparator()
+                + "Дата обновления: " + new SimpleDateFormat("YYYY-MM-dd HH:mm:ss")
+                .format(new Date(dateUpdate)) + "." + System.lineSeparator()
                 + "________________________________________________";
     }
 }

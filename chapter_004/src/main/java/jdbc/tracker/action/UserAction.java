@@ -1,7 +1,7 @@
 package jdbc.tracker.action;
 
-import jdbc.tracker.input.Input;
 import jdbc.tracker.Tracker;
+import jdbc.tracker.input.Input;
 
 public interface UserAction {
     int key();
