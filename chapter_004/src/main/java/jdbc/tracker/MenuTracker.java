@@ -135,7 +135,7 @@ public class MenuTracker {
                 item.setName(input.ask("Введите новое имя задачи :"));
                 item.setDescription(input.ask("Введите новое описание задачи :"));
                 item.setDateUpdate(System.currentTimeMillis());
-                if (tracker.replace(previous.getId(), item)) {
+                if (tracker.replace(item.getId(), item)) {
                     System.out.println("--------------Задача №: " + item.getId() + " обновлена.--------------");
                 } else {
                     System.out.println("-------Что-то пошло не так!"
