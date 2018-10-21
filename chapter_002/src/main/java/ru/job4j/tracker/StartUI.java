@@ -3,7 +3,6 @@ package ru.job4j.tracker;
 import ru.job4j.tracker.input.ConsoleInput;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.ValidateInput;
-import ru.job4j.tracker.models.Tracker;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)

@@ -1,4 +1,6 @@
-package ru.job4j.tracker.models;
+package ru.job4j.tracker;
+
+import ru.job4j.tracker.models.Item;
 
 import java.util.ArrayList;
 import java.util.Date;
