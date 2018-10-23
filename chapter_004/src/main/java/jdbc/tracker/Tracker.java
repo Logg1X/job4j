@@ -1,7 +1,5 @@
 package jdbc.tracker;
 
-import jdbc.tracker.connection.Query;
-import jdbc.tracker.input.Input;
 import jdbc.tracker.models.Comments;
 import jdbc.tracker.models.Item;
 
@@ -75,7 +73,6 @@ public class Tracker implements Closeable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(sql);
         return !sql.isEmpty();
     }
 
@@ -84,7 +81,6 @@ public class Tracker implements Closeable {
      */
     private void createTrackerTable() {
         try (final Statement statementTracker = this.connection.createStatement()) {
-            System.out.println(this.sql.getProperty("CREATE_TABLE_TRACKER"));
             statementTracker.executeUpdate(this.sql.getProperty("CREATE_TABLE_TRACKER"));
             try (final Statement statementComments = this.connection.createStatement()) {
                 statementComments.executeUpdate(this.sql.getProperty("CREATE_TABLE_COMMENTS"));
