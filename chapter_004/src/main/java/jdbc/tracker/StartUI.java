@@ -1,6 +1,6 @@
 package jdbc.tracker;
 
-import jdbc.tracker.connection.ConnectionPSQL;
+//import jdbc.tracker.connection.ConnectionPSQL;
 import jdbc.tracker.input.ConsoleInput;
 import jdbc.tracker.input.Input;
 import jdbc.tracker.input.ValidateInput;
@@ -69,6 +69,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker(new ConnectionPSQL())).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }

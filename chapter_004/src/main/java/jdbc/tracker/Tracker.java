@@ -1,21 +1,25 @@
 package jdbc.tracker;
 
-import jdbc.tracker.connection.ConnectionPSQL;
 import jdbc.tracker.connection.Query;
+import jdbc.tracker.input.Input;
 import jdbc.tracker.models.Comments;
 import jdbc.tracker.models.Item;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public class Tracker {
+public class Tracker implements Closeable {
     /**
      * Массив для хранение заявок.
      */
@@ -23,16 +27,45 @@ public class Tracker {
     /**
      * Соединение с БД.
      */
-    private final Connection connection;
+    private Connection connection;
+
+    private Properties sql = new Properties();
 
     /**
      * Коструктор класса.
      *
-     * @param connection Соединение с БД.
+//     * @param connection Соединение с БД.
      */
-    public Tracker(final ConnectionPSQL connection) {
-        this.connection = connection.getConnectionPSQL();
+    public Tracker() {
+        this.init();
+        this.initSql("query.sql");
         this.createTrackerTable();
+    }
+
+    public boolean init() {
+        try (InputStream in = Tracker.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            this.connection = DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+        return this.connection != null;
+    }
+
+    private Properties initSql(String name) {
+        InputStream stream = Tracker.class.getClassLoader().getResourceAsStream(name);
+        try {
+            this.sql.load(stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sql;
     }
 
     /**
@@ -93,7 +126,7 @@ public class Tracker {
      */
     public boolean replace(String id, final Item item) {
         boolean result = false;
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.EDIT_ITEM)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement(sql.getProperty("EDIT_ITEM"))) {
             statement.setString(1, item.getName());
             statement.setString(2, item.getDescription());
             statement.setTimestamp(3, new Timestamp(item.getDateUpdate()));
@@ -263,5 +296,14 @@ public class Tracker {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
