@@ -30,22 +30,28 @@ public class Tracker implements Closeable {
     private Connection connection;
 
     private Properties sql = new Properties();
+    private Properties config = new Properties();
 
     /**
-     * Коструктор класса.
-     *
-//     * @param connection Соединение с БД.
+     * Конструктор класса.
+     * @param pathQuery Путь к фаулу со скриптами, для работы с БД.
+     * @param pathConfigConnection Путь с параметрами подключения к БД.
      */
-    public Tracker() {
-        this.init();
-        this.initSql("query.sql");
+    public Tracker(String pathQuery,String pathConfigConnection) {
+        this.init(pathConfigConnection);
+        this.initSql(pathQuery);
         this.createTrackerTable();
     }
 
-    public boolean init() {
-        try (InputStream in = Tracker.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
+    /**
+     * Инициализация подключения к БД.
+     * @param pathConfig путь к парамерам подключения.
+     * @return true если соединение установлено, иначе false.
+     */
+
+    public boolean init(String pathConfig) {
+        try (InputStream in = Tracker.class.getClassLoader().getResourceAsStream(pathConfig)) {
+            this.config.load(in);
             Class.forName(config.getProperty("driver-class-name"));
             this.connection = DriverManager.getConnection(
                     config.getProperty("url"),
@@ -58,14 +64,19 @@ public class Tracker implements Closeable {
         return this.connection != null;
     }
 
-    private Properties initSql(String name) {
-        InputStream stream = Tracker.class.getClassLoader().getResourceAsStream(name);
-        try {
+    /**
+     * Получение данных из файла со скриптами, для работы с БД.
+     * @param pathSQL путь к файлу.
+     * @return true если данные получены. Иначе false.
+     */
+    private boolean initSql(String pathSQL) {
+        try (InputStream stream = Tracker.class.getClassLoader().getResourceAsStream(pathSQL)){
             this.sql.load(stream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sql;
+        System.out.println(sql);
+        return !sql.isEmpty();
     }
 
     /**
@@ -73,9 +84,10 @@ public class Tracker implements Closeable {
      */
     private void createTrackerTable() {
         try (final Statement statementTracker = this.connection.createStatement()) {
-            statementTracker.executeUpdate(Query.CREATE_TABLE_TRACKER);
-            try (final Statement statmentComments = this.connection.createStatement()) {
-                statmentComments.executeUpdate(Query.CREATE_TABLE_COMMENTS);
+            System.out.println(this.sql.getProperty("CREATE_TABLE_TRACKER"));
+            statementTracker.executeUpdate(this.sql.getProperty("CREATE_TABLE_TRACKER"));
+            try (final Statement statementComments = this.connection.createStatement()) {
+                statementComments.executeUpdate(this.sql.getProperty("CREATE_TABLE_COMMENTS"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,7 +100,7 @@ public class Tracker implements Closeable {
      * @param item новая заявка
      */
     public Item add(final Item item) {
-        try (PreparedStatement statement = this.connection.prepareStatement(Query.ADD_ITEM, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("ADD_ITEM"), PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
             statement.setString(2, item.getDescription());
             statement.setTimestamp(3, new Timestamp(item.getDateCreating()));
@@ -126,12 +138,12 @@ public class Tracker implements Closeable {
      */
     public boolean replace(String id, final Item item) {
         boolean result = false;
-        try (final PreparedStatement statement = this.connection.prepareStatement(sql.getProperty("EDIT_ITEM"))) {
-            statement.setString(1, item.getName());
-            statement.setString(2, item.getDescription());
-            statement.setTimestamp(3, new Timestamp(item.getDateUpdate()));
-            statement.setInt(4, Integer.parseInt(item.getId()));
-            statement.executeUpdate();
+        try (final PreparedStatement statementIt = this.connection.prepareStatement(this.sql.getProperty("EDIT_ITEM"))) {
+            statementIt.setString(1, item.getName());
+            statementIt.setString(2, item.getDescription());
+            statementIt.setTimestamp(3, new Timestamp(item.getDateUpdate()));
+            statementIt.setInt(4, Integer.parseInt(item.getId()));
+            statementIt.executeUpdate();
             result = true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,14 +158,18 @@ public class Tracker implements Closeable {
      */
     public boolean delete(final String id) {
         boolean result = false;
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.DELETE_ITEM)) {
-            Item item = this.findById(id);
-            if (item != null) {
-                statement.setInt(1, Integer.parseInt(id));
-                statement.executeUpdate();
-                result = true;
+        try (final PreparedStatement statementCom = this.connection.prepareStatement(this.sql.getProperty("DELETE_ALL_COMENTS_WITH_ITEM_ID"))) {
+            try (final PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("DELETE_ITEM"))) {
+                Item item = this.findById(id);
+                if (item != null) {
+                    statement.setInt(1, Integer.parseInt(id));
+                    statementCom.setInt(1, Integer.parseInt(id));
+                    statementCom.executeUpdate();
+                    statement.executeUpdate();
+                    result = true;
+                }
             }
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
@@ -167,7 +183,7 @@ public class Tracker implements Closeable {
      */
     public List<Item> findAll() {
         try (final Statement statement = connection.createStatement()) {
-            try (final ResultSet set = statement.executeQuery(Query.GET_ALL_ITEMS)) {
+            try (final ResultSet set = statement.executeQuery(this.sql.getProperty("GET_ALL_ITEMS"))) {
                 this.formation(set);
             }
         } catch (SQLException e) {
@@ -183,7 +199,7 @@ public class Tracker implements Closeable {
      * @return массив дубликатов.
      */
     public List<Item> findByName(String key) {
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.FIND_BY_NAME)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("FIND_BY_NAME"))) {
             statement.setString(1, "%" + key + "%");
             try (final ResultSet resultSet = statement.executeQuery()) {
                 this.formation(resultSet);
@@ -202,7 +218,7 @@ public class Tracker implements Closeable {
      */
     public Item findById(final String id) {
         Item item = null;
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.FIND_BY_ID)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("FIND_BY_ID"))) {
             statement.setInt(1, Integer.parseInt(id));
             try (final ResultSet set = statement.executeQuery()) {
                 this.formation(set);
@@ -248,7 +264,7 @@ public class Tracker implements Closeable {
     public boolean addComments(final String id, final String message) {
         Comments comment = new Comments(message);
         boolean result = false;
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.ADD_COMMENT)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("ADD_COMMENT"))) {
             statement.setString(1, message);
             statement.setTimestamp(2, new Timestamp(comment.getDateCreating()));
             statement.setInt(3, Integer.parseInt(id));
@@ -269,7 +285,7 @@ public class Tracker implements Closeable {
 
     public List<Comments> getCommentsByItem(final String id) {
         List<Comments> comments = new ArrayList<>();
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.GET_ALL_COMMENTS)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("GET_ALL_COMMENTS"))) {
             statement.setInt(1, Integer.parseInt(id));
             try (final ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -288,7 +304,7 @@ public class Tracker implements Closeable {
 
     public boolean deleteComment(final String idComment) {
         boolean result = false;
-        try (final PreparedStatement statement = this.connection.prepareStatement(Query.DELETE_COMMENT)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement(this.sql.getProperty("DELETE_COMMENT"))) {
             statement.setInt(1, Integer.parseInt(idComment));
             statement.executeUpdate();
             result = true;

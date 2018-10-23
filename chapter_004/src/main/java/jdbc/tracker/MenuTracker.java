@@ -3,9 +3,11 @@ package jdbc.tracker;
 import jdbc.tracker.action.BaseAction;
 import jdbc.tracker.action.UserAction;
 import jdbc.tracker.input.Input;
+import jdbc.tracker.models.Comments;
 import jdbc.tracker.models.Item;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Реализует удаление задачи из хранилища.
@@ -172,9 +174,14 @@ public class MenuTracker {
                 }
                 String showComments = input.ask("Показать комментарии? Y/N");
                 if (showComments.equalsIgnoreCase("Y")) {
-                    System.out.println(System.lineSeparator()
-                            + "   ↓ ↓ ↓ ↓ ↓ КОММЕНТАРИИ К ЗАДАЧЕ ↓ ↓ ↓ ↓ ↓ ");
-                    tracker.getCommentsByItem(id).forEach(comments -> System.out.println(comments.toString()));
+                    List<Comments> list = tracker.getCommentsByItem(id);
+                    if (list.isEmpty()) {
+                        System.out.println("--------Комментариев к задаче пока нет.-------");
+                    } else {
+                        System.out.println(System.lineSeparator()
+                                + "   ↓ ↓ ↓ ↓ ↓ КОММЕНТАРИИ К ЗАДАЧЕ ↓ ↓ ↓ ↓ ↓ ");
+                        list.forEach(comments -> System.out.println(comments.toString()));
+                    }
                 }
             }
         }
