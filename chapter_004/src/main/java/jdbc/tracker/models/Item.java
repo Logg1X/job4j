@@ -42,38 +42,37 @@ public class Item {
         return this;
     }
 
-    public void setDateCreating(long dateCreating) {
-        this.dateCreating = dateCreating;
-    }
-
     public long getDateUpdate() {
         return dateUpdate;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public Item setDateUpdate(long dateUpdate) {
+        this.dateUpdate = dateUpdate;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public long getDateCreating() {
         return dateCreating;
     }
 
-    public Item setDateUpdate(long dateUpdate) {
-        this.dateUpdate = dateUpdate;
-        return this;
+    public void setDateCreating(long dateCreating) {
+        this.dateCreating = dateCreating;
     }
 
     @Override

@@ -32,10 +32,11 @@ public class Tracker implements Closeable {
 
     /**
      * Конструктор класса.
-     * @param pathQuery Путь к фаулу со скриптами, для работы с БД.
+     *
+     * @param pathQuery            Путь к фаулу со скриптами, для работы с БД.
      * @param pathConfigConnection Путь с параметрами подключения к БД.
      */
-    public Tracker(String pathQuery,String pathConfigConnection) {
+    public Tracker(String pathQuery, String pathConfigConnection) {
         this.init(pathConfigConnection);
         this.initSql(pathQuery);
         this.createTrackerTable();
@@ -43,6 +44,7 @@ public class Tracker implements Closeable {
 
     /**
      * Инициализация подключения к БД.
+     *
      * @param pathConfig путь к парамерам подключения.
      * @return true если соединение установлено, иначе false.
      */
@@ -64,11 +66,12 @@ public class Tracker implements Closeable {
 
     /**
      * Получение данных из файла со скриптами, для работы с БД.
+     *
      * @param pathSQL путь к файлу.
      * @return true если данные получены. Иначе false.
      */
     private boolean initSql(String pathSQL) {
-        try (InputStream stream = Tracker.class.getClassLoader().getResourceAsStream(pathSQL)){
+        try (InputStream stream = Tracker.class.getClassLoader().getResourceAsStream(pathSQL)) {
             this.sql.load(stream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -165,7 +168,7 @@ public class Tracker implements Closeable {
                     result = true;
                 }
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;

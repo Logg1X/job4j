@@ -72,25 +72,6 @@ public class MenuTracker {
     }
 
     /**
-     * Реализует добавленяи новый задачи в хранилище.
-     */
-    private class AddItem extends BaseAction {
-        protected AddItem(int key, String name) {
-            super(key, name);
-        }
-
-        @Override
-        public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Добавление новой задачи --------------");
-            String name = input.ask("Введите имя задачи :");
-            String desc = input.ask("Введите описание задачи :");
-            Item item = new Item(name, desc);
-            tracker.add(item);
-            System.out.println("---- Новая задача с номером : " + item.getId() + " добавлена. ----");
-        }
-    }
-
-    /**
      * Выводит в консоль список всех задач.
      */
     private static class ShowAllItems extends BaseAction {
@@ -109,6 +90,25 @@ public class MenuTracker {
             } else {
                 System.out.println("-------------- Список задач пуст ---------------");
             }
+        }
+    }
+
+    /**
+     * Реализует добавленяи новый задачи в хранилище.
+     */
+    private class AddItem extends BaseAction {
+        protected AddItem(int key, String name) {
+            super(key, name);
+        }
+
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            System.out.println("------------ Добавление новой задачи --------------");
+            String name = input.ask("Введите имя задачи :");
+            String desc = input.ask("Введите описание задачи :");
+            Item item = new Item(name, desc);
+            tracker.add(item);
+            System.out.println("---- Новая задача с номером : " + item.getId() + " добавлена. ----");
         }
     }
 

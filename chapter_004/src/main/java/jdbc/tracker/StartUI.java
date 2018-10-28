@@ -1,6 +1,7 @@
 package jdbc.tracker;
 
 //import jdbc.tracker.connection.ConnectionPSQL;
+
 import jdbc.tracker.input.ConsoleInput;
 import jdbc.tracker.input.Input;
 import jdbc.tracker.input.ValidateInput;
@@ -37,6 +38,15 @@ public class StartUI {
     }
 
     /**
+     * Запускт программы.
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker("query.sql", "app.properties")).init();
+    }
+
+    /**
      * Основой цикл программы.
      */
     public void init() {
@@ -61,14 +71,5 @@ public class StartUI {
             range[i] = i;
         }
         return range;
-    }
-
-    /**
-     * Запускт программы.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker("query.sql","app.properties")).init();
     }
 }
