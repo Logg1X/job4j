@@ -8,10 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -19,16 +18,21 @@ public class StoreSQL {
 
     private final static Logger LOG = LoggerFactory.getLogger(StoreSQL.class);
     private Connection connection;
+    private XmlUsage.Entry entries;
+
+    public StoreSQL(String configConnection) {
+        this.connection = setConnection(configConnection);
+    }
+
 
     public static void main(String[] args) {
-        StoreSQL sql = new StoreSQL();
-        sql.setConnection("config.propertie");
-        sql.createTable();
+        StoreSQL sql = new StoreSQL("config.properties");
+        sql.generateData(10);
 
 
     }
 
-    public void setConnection(String config) {
+    public Connection setConnection(String config) {
         Properties properties = new Properties();
         try (InputStream loadFile = StoreSQL.class.getClassLoader().getResourceAsStream(config)) {
             properties.load(loadFile);
@@ -37,6 +41,7 @@ public class StoreSQL {
         } catch (IOException | ClassNotFoundException | SQLException e) {
             LOG.error(e.getMessage(), e);
         }
+        return connection;
     }
 
     public void setConnection(File file) {
@@ -50,7 +55,7 @@ public class StoreSQL {
         }
     }
 
-    public void createTable() {
+    private void createTable() {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS entry");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS entry(field INTEGER )");
@@ -61,9 +66,10 @@ public class StoreSQL {
 
     public void generateData(int n) {
         try (Statement statement = this.connection.createStatement()) {
+            this.createTable();
             connection.setAutoCommit(false);
             for (int i = 1; i < n; i++) {
-                statement.executeUpdate(String.format("INSERT INTO entry VALUES (%s)", n));
+                statement.executeUpdate(String.format("INSERT INTO entry VALUES (%s)", i));
             }
             connection.commit();
         } catch (SQLException e) {
@@ -75,5 +81,19 @@ public class StoreSQL {
                 LOG.error(e1.getMessage(), e1);
             }
         }
+    }
+
+    public List<XmlUsage.Field> selectData() {
+        List<XmlUsage.Field> list = new ArrayList<>();
+        try (Statement statement = this.connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM entry")) {
+            while (resultSet.next()) {
+                list.add(new XmlUsage.Field(resultSet.getInt("field")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
