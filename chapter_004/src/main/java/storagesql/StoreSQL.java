@@ -18,7 +18,7 @@ public class StoreSQL {
 
     private final static Logger LOG = LoggerFactory.getLogger(StoreSQL.class);
     private Connection connection;
-    private XmlUsage.Entry entries;
+    private XmlUsage.Entries entries;
 
     public StoreSQL(String configConnection) {
         this.connection = setConnection(configConnection);
@@ -68,7 +68,7 @@ public class StoreSQL {
         try (Statement statement = this.connection.createStatement()) {
             this.createTable();
             connection.setAutoCommit(false);
-            for (int i = 1; i < n; i++) {
+            for (int i = 1; i <= n; i++) {
                 statement.executeUpdate(String.format("INSERT INTO entry VALUES (%s)", i));
             }
             connection.commit();

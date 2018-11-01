@@ -3,22 +3,23 @@ package storagesql;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class XmlUsage {
 
-    @XmlRootElement(name = "Entries")
-    public static class Entry {
+    @XmlRootElement
+    public static class Entries {
         private List<Field> entry;
 
-        public Entry() {
-
+        public Entries() {
         }
 
-        public Entry(List<Field> fields) {
+        public Entries(List<Field> fields) {
             this.entry = fields;
         }
 
@@ -26,17 +27,16 @@ public class XmlUsage {
             return entry;
         }
 
-        public Entry setEntry(List<Field> entry) {
+        public Entries setEntry(List<Field> entry) {
             this.entry = entry;
             return this;
         }
     }
-
+@XmlRootElement
     public static class Field {
         private int field;
 
         public Field() {
-
         }
 
         public Field(int field) {
@@ -68,33 +68,47 @@ public class XmlUsage {
         public int hashCode() {
             return Objects.hash(field);
         }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "field=" + field +
+                '}';
     }
+}
 
-    private void saveXML(List<Field> fields) {
-
+    public void saveXML(List<Field> fields) {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Entry.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Entries.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(new Entry(fields), new File("test.xml"));
+            marshaller.marshal(new Entries(fields), new File("test.xml"));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
 
+    public Entries unmarshalXML(File file) {
+        Entries entries = null;
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Entries.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            entries = (Entries) unmarshaller.unmarshal(file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return entries;
+    }
+
     public static void main(String[] args) throws JAXBException {
-//        sql = new StoreSQL("config.properties");
-//
-//        sql.generateData(10);
-//        List<Field> entries = new Entry(sql.selectData()).getEntries();
-//        JAXBContext jaxbContext = JAXBContext.newInstance(XmlUsage.Entry.class);
-//        Marshaller marshaller = jaxbContext.createMarshaller();
-//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//        marshaller.marshal(entries, new File("test.xml"));
         StoreSQL sql = new StoreSQL("config.properties");
+        sql.generateData(10);
         XmlUsage xmlUsage = new XmlUsage();
         xmlUsage.saveXML(sql.selectData());
-
+        Entries entries = xmlUsage.unmarshalXML(new File("test.xml"));
+        for (Field field : entries.getEntry()) {
+            System.out.println(field.getField());
+        }
 
     }
 }
