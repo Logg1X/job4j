@@ -34,7 +34,7 @@ public class ConvertXSQTTest {
         assertTrue(sql.connectionIsClose());
         converter.convert(new File("stor.xml"), new File("ConvertingXml.xml"), new File("scheme.xsl"));
         List<String> result = Files.readAllLines(Paths.get("ConvertingXML.xml"));
-        List<String> expected = Files.readAllLines(Paths.get("ConvertingXMLForTest.xml"));
+        List<String> expected = Files.readAllLines(Paths.get("ConvertingXmlForTest.xml"));
         assertThat(result, is(expected));
     }
 }
