@@ -16,16 +16,9 @@ public class ConvertXSQT {
             Transformer transformer = factory.newTransformer(new StreamSource(scheme));
             transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.transform(new StreamSource(source),new StreamResult(dest));
+            transformer.transform(new StreamSource(source), new StreamResult(dest));
         } catch (TransformerException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        new ConvertXSQT().convert(
-                new File("test.xml"),
-                new File("dest.xml"),
-                new File("scheme.xsl"));
     }
 }

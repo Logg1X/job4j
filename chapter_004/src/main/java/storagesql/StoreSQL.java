@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 
-public class StoreSQL {
+public class StoreSQL implements AutoCloseable {
 
     private final static Logger LOG = LoggerFactory.getLogger(StoreSQL.class);
     private Connection connection;
@@ -25,14 +25,7 @@ public class StoreSQL {
     }
 
 
-    public static void main(String[] args) {
-        StoreSQL sql = new StoreSQL("config.properties");
-        sql.generateData(10);
-
-
-    }
-
-    public Connection setConnection(String config) {
+    private Connection setConnection(String config) {
         Properties properties = new Properties();
         try (InputStream loadFile = StoreSQL.class.getClassLoader().getResourceAsStream(config)) {
             properties.load(loadFile);
@@ -44,7 +37,7 @@ public class StoreSQL {
         return connection;
     }
 
-    public void setConnection(File file) {
+    private void setConnection(File file) {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(file));
@@ -95,5 +88,22 @@ public class StoreSQL {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public boolean connectionIsClose() {
+        boolean result = false;
+        try {
+            if (this.connection.isClosed()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.connection.close();
     }
 }
