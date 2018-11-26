@@ -22,11 +22,11 @@ public class StoreSQLTest {
     @Test
     public void whenGenerateEntriesThen10entry() throws Exception {
         StoreSQL sql = new StoreSQL("config.properties");
-        sql.generateData(10);
+        sql.generateData(5);
         List<XmlUsage.Field> result = sql.selectData();
         sql.close();
         List<XmlUsage.Field> expected = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 5; i++) {
             XmlUsage.Field field = new XmlUsage.Field();
             field.setField(i);
             expected.add(field);
