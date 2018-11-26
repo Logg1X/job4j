@@ -1,6 +1,5 @@
 package storagesql;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.nio.file.Files;
@@ -12,18 +11,11 @@ import static org.junit.Assert.assertThat;
 
 public class XmlUsageTest {
 
-    StoreSQL sql;
-    XmlUsage xmlUsage;
-
-    @Before
-    public void setUp() throws Exception {
-        sql = new StoreSQL("config.properties");
-        sql.generateData(5);
-        xmlUsage = new XmlUsage();
-    }
-
     @Test
     public void whenSaveXMLWithDataInFile() throws Exception {
+        StoreSQL sql = new StoreSQL("config.properties");
+        sql.generateData(5);
+        XmlUsage xmlUsage = new XmlUsage();
         xmlUsage.saveXML(sql.selectData(), "stor.xml");
         sql.close();
         List<String> result = Files.readAllLines(Paths.get("stor.xml"));

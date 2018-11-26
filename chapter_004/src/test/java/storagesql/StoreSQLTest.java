@@ -10,22 +10,18 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class StoreSQLTest {
-    private StoreSQL sql;
-
-    @Before
-    public void init() {
-        sql = new StoreSQL("config.properties");
-    }
 
     @Test
     public void whenCheckConnection() throws Exception {
-        assertFalse(this.sql.connectionIsClose());
-        this.sql.close();
-        assertTrue(this.sql.connectionIsClose());
+        StoreSQL sql = new StoreSQL("config.properties");
+        assertFalse(sql.connectionIsClose());
+        sql.close();
+        assertTrue(sql.connectionIsClose());
     }
 
     @Test
     public void whenGenerateEntriesThen10entry() throws Exception {
+        StoreSQL sql = new StoreSQL("config.properties");
         sql.generateData(10);
         List<XmlUsage.Field> result = sql.selectData();
         sql.close();

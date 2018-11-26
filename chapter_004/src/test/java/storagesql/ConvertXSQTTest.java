@@ -14,23 +14,15 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class ConvertXSQTTest {
-    StoreSQL sql;
-    XmlUsage xmlUsage;
-    ConvertXSQT converter;
-
-
-    @Before
-    public void setUp() throws Exception {
-        converter = new ConvertXSQT();
-        sql = new StoreSQL("config.properties");
-        sql.generateData(5);
-        xmlUsage = new XmlUsage();
-        xmlUsage.saveXML(sql.selectData(), "stor.xml");
-        sql.close();
-    }
 
     @Test
-    public void whenConvertXMLWithXSL() throws IOException {
+    public void whenConvertXMLWithXSL() throws Exception {
+        ConvertXSQT converter = new ConvertXSQT();
+        StoreSQL sql = new StoreSQL("config.properties");
+        sql.generateData(5);
+        XmlUsage xmlUsage = new XmlUsage();
+        xmlUsage.saveXML(sql.selectData(), "stor.xml");
+        sql.close();
         assertTrue(sql.connectionIsClose());
         converter.convert(new File("stor.xml"), new File("ConvertingXml.xml"), new File("scheme.xsl"));
         List<String> result = Files.readAllLines(Paths.get("ConvertingXML.xml"));
