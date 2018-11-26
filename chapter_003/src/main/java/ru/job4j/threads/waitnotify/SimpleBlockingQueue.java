@@ -34,22 +34,20 @@ public class SimpleBlockingQueue<T> {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(3);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(10);
         final Thread consumer = new Thread(
                 () -> {
-                    while (true) {
+                    while (!Thread.currentThread().isInterrupted()) {
                         try {
                             System.out.println(queue.poll());
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            Thread.currentThread().interrupt();
+                            break;
                         }
                     }
                 }
         );
-        consumer.setDaemon(true);
         consumer.start();
-        new Thread(
+        Thread prod = new Thread(
                 () -> {
                     for (int index = 0; index != 10; index++) {
                         try {
@@ -65,8 +63,14 @@ public class SimpleBlockingQueue<T> {
                     }
                 }
 
-        ).start();
+        );
+        prod.start();
+        prod.join();
+        if (prod.getState().equals(Thread.State.TERMINATED)) {
+            consumer.interrupt();
+        }
     }
+
 
     public boolean isEmpty() {
         return queue.isEmpty();
