@@ -20,9 +20,8 @@ import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 
 public class ParserHTML {
 
-    private final Set<Vacancy> vacancies = new HashSet<>();
-    private static final Logger LOG = LogManager.getLogger(ParserHTML.class.getName());
     private static final String URL = "https://www.sql.ru/forum/job-offers/";
+    private static final Logger LOG = LogManager.getLogger(ParserHTML.class.getName());
     private static final String TABLE_FORUMTABLE = "table.forumTable";
     private static final String TR_TAG = "tr";
     private static final String TD_POSTLISTTOPIC = "td.postslisttopic";
@@ -37,6 +36,23 @@ public class ParserHTML {
     private static final String DATE_FORMAT = "d MMM yy, HH:mm";
     private static final String DATE_TIME_FORMAT = "dd LLLL yyyy, HH:mm";
     private static final String TIME_FORMAT = "HH:mm";
+    private final Set<Vacancy> vacancies = new HashSet<>();
+
+    public static String getDateTimeFormat() {
+        return DATE_TIME_FORMAT;
+    }
+
+    public static String getURL() {
+        return URL;
+    }
+
+    public static void main(String[] args) {
+        ParserHTML parser = new ParserHTML();
+        parser.getAllPage(URL);
+
+        parser.parser(URL, LocalDateTime.now().minusDays(1).minusHours(5));
+        System.out.println(LocalDateTime.now().with(firstDayOfYear()));
+    }
 
     private int getAllPage(String url) {
         int result = 0;
@@ -78,18 +94,17 @@ public class ParserHTML {
                     dateCol = element.select(TD_ALTCOL).last().text();
                     date = convertingStringToDateFormat(dateCol);
                     LOG.info(date.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
-                    if (dateUpdate != null && date.compareTo(dateUpdate) < 0||!isCurrentYear(dateUpdate)) {
+                    if (dateUpdate != null && date.compareTo(dateUpdate) < 0 || !isCurrentYear(dateUpdate)) {
                         LOG.error("ВЫХОД");
                         point = false;
                         break;
                     }
-                        link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
-                        LOG.info(String.format("Link: %s",link));
-                        author = element.select(TD_ALTCOL).first().text();
-                        LOG.info(String.format("Author: %s",author));
-                        LOG.info("------------------------------------------------------");
-                        result.add(new Vacancy(title[0], link, author, date));
-
+                    link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
+                    LOG.info(String.format("Link: %s", link));
+                    author = element.select(TD_ALTCOL).first().text();
+                    LOG.info(String.format("Author: %s", author));
+                    LOG.info("------------------------------------------------------");
+                    result.add(new Vacancy(title[0], link, author, date));
                 }
             }
             countPage++;
@@ -138,13 +153,5 @@ public class ParserHTML {
             result = true;
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        ParserHTML parser = new ParserHTML();
-        parser.getAllPage(URL);
-
-        parser.parser(URL, LocalDateTime.now().with(firstDayOfYear()));
-        System.out.println(LocalDateTime.now().with(firstDayOfYear()));
     }
 }

@@ -1,16 +1,16 @@
 package parser.vacancy;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class Vacancy {
 
-    private int id;
     private final String title;
     private final String link;
     private final String author;
     private final LocalDateTime date;
+    private int id;
+
 
     public Vacancy(int id, String title, String link, String author, LocalDateTime date) {
         this.id = id;
@@ -69,12 +69,12 @@ public class Vacancy {
 
     @Override
     public String toString() {
-        return "Vacancy{"
-                + "id=" + id
-                + ", title='" + title + '\''
-                + ", link='" + link + '\''
-                + ", author='" + author + '\''
-                + ", date=" + date
-                + '}';
+        return "_______Id:"
+                + id + "__________" + System.lineSeparator()
+                + "Title: " + title + System.lineSeparator()
+                + "Link: " + link + System.lineSeparator()
+                + "Author: " + author + System.lineSeparator()
+                + "Date: " + date + System.lineSeparator()
+                + "_______________________";
     }
 }

@@ -1,0 +1,10 @@
+CREATE_TABLE_VACANCY=CREATE TABLE IF NOT EXISTS vacancy(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,title text,author text,date_create text ,link text);
+INSERT_VACANSY_IN_TABLE=INSERT  INTO vacancy(title,author,date_create,link) VALUES (?,?,?,?);
+GET_VACANCYES_FOR_THE_DAY=SELECT * FROM vacancy WHERE date_create like ?;
+GET_ALL_VACANCYES=SELECT * from vacancy;
+TRUNCATE_TABLE=DELETE FROM vacancy;
+DELETE_BY_ID=DELETE FROM vacancy WHERE id = ?;
+CREATE_TABLE_UPDATE_DATE=CREATE TABLE  IF NOT EXISTS update_date(date_last_update text );
+UPDATE_DATE_UPDATE=UPDATE update_date SET date_last_update = ?;
+INSERT_DATE_UPDATE=INSERT INTO update_date values(?);
+GET_LAST_UPDATE=SELECT * FROM update_date;
