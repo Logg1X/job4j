@@ -26,23 +26,6 @@ public class Dao {
         this.createTableDateUpdate();
     }
 
-    public static void main(String[] args) {
-        ParserHTML parserHTML = new ParserHTML();
-        Dao dao = new Dao("connectionSQLite.properties","query.sql");
-//        dao.insertVacancyInDB(parserHTML.parser("https://www.sql.ru/forum/job-offers/", LocalDateTime.now().with(firstDayOfYear())));
-//        List<Vacancy> vacancies = dao.getVacancyForTheDay(LocalDateTime.now().minusDays(1));
-        dao.insertDateUpdate();
-
-//        for (Vacancy vacancy : vacancies) {
-//            System.out.println(vacancy);
-//        }
-//        dao.deleteVacansyById(2);
-//        dao.deletAllVacancy();
-//                for (Vacancy vacancy : dao.getAllVacancy()) {
-//            System.out.println(vacancy);
-//        }
-    }
-
     private Connection setConnection(String config) {
         Properties properties = new Properties();
         Connection connection = null;

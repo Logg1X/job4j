@@ -77,7 +77,7 @@ public class ParserHTML {
 
     public Set<Vacancy> parser(String url, LocalDateTime dateUpdate) {
         Set<Vacancy> result = new HashSet<>();
-        String link = "";
+        String link;
         String author;
         String dateCol;
         LocalDateTime date;

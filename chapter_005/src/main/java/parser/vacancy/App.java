@@ -38,7 +38,6 @@ public class App implements Job {
             firstStart(dao, parserHTML);
         } else {
             nextStart(dao, parserHTML);
-            System.out.println("gjdnjhyjt dsgjkytybt");
         }
     }
 
@@ -53,12 +52,23 @@ public class App implements Job {
         .parser(getURL(),oneDay));
     }
 
+    public static void main(String[] args) throws SchedulerException {
+        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        Scheduler scheduler = schedulerFactory.getScheduler();
+        JobDetail job = newJob(App.class).build();
+        SimpleTrigger trigger = newTrigger()
+                .withSchedule(simpleSchedule()
+                        .withIntervalInSeconds(30)
+                        .repeatForever())
+                .startNow()
+                .forJob(job)
+                .build();
+        scheduler.start();
+        scheduler.scheduleJob(job, trigger);
+    }
 
     @Override
-public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-    System.out.println("sdfgdfgsdfhdfgjdfghjskdjvhjdashjgvsghjfdghjfvdgjdfds");
-        App app = new App("connectionSQLite.properties"
-                , "query.sql");
-        app.start();
-}
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+       LOG.info("Start");
+    }
 }
