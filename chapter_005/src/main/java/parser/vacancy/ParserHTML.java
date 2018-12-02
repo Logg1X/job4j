@@ -73,12 +73,14 @@ public class ParserHTML {
         if (date.contains(TODAY) || date.contains(YESTERDAY)) {
             String[] pointOnDay = date.split(", ");
             if (pointOnDay[0].equalsIgnoreCase(TODAY)) {
-                result = LocalDateTime.of(now
-                        , LocalTime.parse(pointOnDay[1], timeFormatter)
+                result = LocalDateTime.of(now,
+                        LocalTime.parse(pointOnDay[1],
+                                timeFormatter)
                 );
             } else if (pointOnDay[0].equalsIgnoreCase(YESTERDAY)) {
-                result = LocalDateTime.of(now.minusDays(1)
-                        , LocalTime.parse(pointOnDay[1], timeFormatter)
+                result = LocalDateTime.of(now.minusDays(1),
+                        LocalTime.parse(pointOnDay[1],
+                                timeFormatter)
                 );
             }
         } else {

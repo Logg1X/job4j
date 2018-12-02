@@ -59,7 +59,7 @@ public class Dao {
                 statement.addBatch();
                 vacansyCount++;
             }
-            LOG.info(String.format("Добавлено задач в БД по запросу %s : %s! %s.",queryName, vacansyCount, statement.toString()));
+            LOG.info(String.format("Добавлено задач в БД по запросу %s : %s! %s.", queryName, vacansyCount, statement.toString()));
             statement.executeBatch();
         } catch (SQLException e) {
             try {

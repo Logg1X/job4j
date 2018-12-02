@@ -77,24 +77,24 @@ public class App {
 
     private void firstStart(Dao dao, ParserHTML parserHTML, ParserHH parserHH) {
         dao.insertVacancyInDB(
-                parserHTML.parser(allYear)
-                , "INSERT_VACANSY_IN_TABLE_SQL_RU"
+                parserHTML.parser(allYear),
+                "INSERT_VACANSY_IN_TABLE_SQL_RU"
         );
         dao.insertVacancyInDB(
-                parserHH.parser(allYear)
-                , "INSERT_VACANSY_IN_TABLE_HH_RU"
+                parserHH.parser(allYear),
+                "INSERT_VACANSY_IN_TABLE_HH_RU"
         );
         dao.insertDateUpdate();
     }
 
     private void nextStart(Dao dao, ParserHTML parserHTML, ParserHH parserHH) {
         dao.insertVacancyInDB(
-                parserHTML.parser(lastUpdate)
-                , "INSERT_VACANSY_IN_TABLE_SQL_RU"
+                parserHTML.parser(lastUpdate),
+                "INSERT_VACANSY_IN_TABLE_SQL_RU"
         );
         dao.insertVacancyInDB(
-                parserHH.parser(lastUpdate)
-                , "INSERT_VACANSY_IN_TABLE_HH_RU"
+                parserHH.parser(lastUpdate),
+                "INSERT_VACANSY_IN_TABLE_HH_RU"
         );
         dao.updateDateUpdate();
     }
