@@ -5,57 +5,53 @@ import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.Properties;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
-import static parser.vacancy.ParserHTML.getURL;
 
-public class App implements Job {
+public class App {
+    private static final Logger LOG = LogManager.getLogger(App.class.getName());
     private Dao dao;
     private ParserHTML parserHTML;
+    private ParserHH parserHH;
     private LocalDateTime allYear = LocalDateTime.now().with(firstDayOfYear());
-    private LocalDateTime oneDay = LocalDateTime.now().minusDays(1);
-    private String connectionPropertyPath = "connectionSQLite.properties";
-    private String queryPropertyPath = "query.sql";
-    private static final Logger LOG = LogManager.getLogger(App.class.getName());
+    private LocalDateTime lastUpdate;
+
 
     public App(String connectionPropertyPath, String queryPropertyPath) {
-        this.connectionPropertyPath = connectionPropertyPath;
-        this.queryPropertyPath = queryPropertyPath;
-        this.dao = new Dao(this.connectionPropertyPath,this.queryPropertyPath);
+        this.dao = new Dao(connectionPropertyPath, queryPropertyPath);
         this.parserHTML = new ParserHTML();
-    }
-
-    private boolean checkFirstStart() {
-        return dao.getDateUpdate().isEmpty();
-    }
-
-    private void start() {
-        if (checkFirstStart()) {
-            firstStart(dao, parserHTML);
+        this.parserHH = new ParserHH();
+        if (this.checkFirstStart()) {
+            this.lastUpdate = allYear;
         } else {
-            nextStart(dao, parserHTML);
+            this.lastUpdate = LocalDateTime.parse(dao.getDateUpdate().get(0).getDate());
         }
     }
 
-    private void firstStart(Dao dao, ParserHTML parserHTML) {
-        dao.insertVacancyInDB(parserHTML
-                .parser(getURL(),allYear)
-        );
-        dao.insertDateUpdate();
-    }
-    private void nextStart(Dao dao, ParserHTML parserHTML) {
-        dao.insertVacancyInDB(parserHTML
-        .parser(getURL(),oneDay));
-    }
-
     public static void main(String[] args) throws SchedulerException {
+        Properties prop = new Properties();
+        try (InputStream in = App.class.getClassLoader().getResourceAsStream("config.properties")) {
+            prop.load(in);
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
         Scheduler scheduler = schedulerFactory.getScheduler();
-        JobDetail job = newJob(App.class).build();
+        JobDetail job = newJob(MyJob.class).build();
+
+//        CronTrigger trigger = newTrigger()
+//                .withSchedule(cronSchedule(prop.getProperty("cron.time")))
+//                .forJob(job)
+//                .startNow()
+//                .build();
+
         SimpleTrigger trigger = newTrigger()
                 .withSchedule(simpleSchedule()
                         .withIntervalInSeconds(30)
@@ -67,8 +63,39 @@ public class App implements Job {
         scheduler.scheduleJob(job, trigger);
     }
 
-    @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-       LOG.info("Start");
+    private boolean checkFirstStart() {
+        return dao.getDateUpdate().isEmpty();
+    }
+
+    public void start() {
+        if (checkFirstStart()) {
+            firstStart(dao, parserHTML, parserHH);
+        } else {
+            nextStart(dao, parserHTML, parserHH);
+        }
+    }
+
+    private void firstStart(Dao dao, ParserHTML parserHTML, ParserHH parserHH) {
+        dao.insertVacancyInDB(
+                parserHTML.parser(allYear)
+                , "INSERT_VACANSY_IN_TABLE_SQL_RU"
+        );
+        dao.insertVacancyInDB(
+                parserHH.parser(allYear)
+                , "INSERT_VACANSY_IN_TABLE_HH_RU"
+        );
+        dao.insertDateUpdate();
+    }
+
+    private void nextStart(Dao dao, ParserHTML parserHTML, ParserHH parserHH) {
+        dao.insertVacancyInDB(
+                parserHTML.parser(lastUpdate)
+                , "INSERT_VACANSY_IN_TABLE_SQL_RU"
+        );
+        dao.insertVacancyInDB(
+                parserHH.parser(lastUpdate)
+                , "INSERT_VACANSY_IN_TABLE_HH_RU"
+        );
+        dao.updateDateUpdate();
     }
 }

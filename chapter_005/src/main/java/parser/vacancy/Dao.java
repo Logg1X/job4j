@@ -43,12 +43,12 @@ public class Dao {
         try (InputStream in = Dao.class.getClassLoader().getResourceAsStream(sqlQueryPropPath)) {
             sqlQueryProp.load(in);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
-    public void insertVacancyInDB(Set<Vacancy> vacancies) {
-        try (PreparedStatement statement = connection.prepareStatement(sqlQueryProp.getProperty("INSERT_VACANSY_IN_TABLE"))) {
+    public void insertVacancyInDB(Set<Vacancy> vacancies, String queryName) {
+        try (PreparedStatement statement = connection.prepareStatement(sqlQueryProp.getProperty(queryName))) {
             connection.setAutoCommit(false);
             int vacansyCount = 0;
             for (Vacancy vacancy : vacancies) {
@@ -59,7 +59,7 @@ public class Dao {
                 statement.addBatch();
                 vacansyCount++;
             }
-            LOG.info(String.format("insert set vacancies amount: %s! %s.", vacansyCount, statement.toString()));
+            LOG.info(String.format("Добавлено задач в БД по запросу %s : %s! %s.",queryName, vacansyCount, statement.toString()));
             statement.executeBatch();
         } catch (SQLException e) {
             try {
@@ -77,31 +77,6 @@ public class Dao {
         }
     }
 
-    public List<Vacancy> getVacancyForTheDay(LocalDateTime dateTime) {
-        List<Vacancy> result = new ArrayList<>();
-        String[] datetime = dateTime.toString().split("T");
-        try (PreparedStatement statement = connection.prepareStatement(sqlQueryProp.getProperty("GET_VACANCYES_FOR_THE_DAY"))) {
-            statement.setString(1, "%" + datetime[0] + "%");
-            try (ResultSet rs = statement.executeQuery()) {
-                getVacasyListWithResultSet(rs, result);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public List<Vacancy> getAllVacancy() {
-        List<Vacancy> result = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sqlQueryProp.getProperty("GET_ALL_VACANCYES"))) {
-            getVacasyListWithResultSet(resultSet, result);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     private void getVacasyListWithResultSet(ResultSet rs, List<Vacancy> resultList) throws SQLException {
         while (rs.next()) {
             int vacancyId = rs.getInt("id");
@@ -116,9 +91,10 @@ public class Dao {
 
     private void createTableVacancy() {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY"));
+            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY_SQL_RU"));
+            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY_HH_RU"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -134,26 +110,9 @@ public class Dao {
         try (PreparedStatement statement = connection.prepareStatement(sqlQueryProp.getProperty("INSERT_DATE_UPDATE"))) {
             statement.setString(1, LocalDateTime.now().toString());
             statement.executeUpdate();
-            LOG.info(String.format("Date update^ %s", LocalDateTime.now().toString()));
+            LOG.info(String.format("Дата обновления: %s", LocalDateTime.now().toString()));
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteVacansyById(int id) {
-        try (PreparedStatement statement = connection.prepareStatement(sqlQueryProp.getProperty("DELETE_BY_ID"))) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deletAllVacancy() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sqlQueryProp.getProperty("TRUNCATE_TABLE"));
-        } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -162,7 +121,7 @@ public class Dao {
             statement.setString(1, LocalDateTime.now().toString());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -177,13 +136,13 @@ public class Dao {
             }
             resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return result;
     }
 
     public static class DateUpdate {
-        public final String date;
+        private final String date;
 
         public DateUpdate(String date) {
             this.date = date;
