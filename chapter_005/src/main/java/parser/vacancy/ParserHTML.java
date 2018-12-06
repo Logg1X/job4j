@@ -36,10 +36,6 @@ public class ParserHTML {
 
     public Set<Vacancy> parser(LocalDateTime dateUpdate) {
         Set<Vacancy> result = new HashSet<>();
-        String link;
-        String author;
-        String dateCol;
-        LocalDateTime date;
         int countPage = 1;
         boolean point = true;
         while (point) {
@@ -48,15 +44,15 @@ public class ParserHTML {
             for (Element element : elements) {
                 String[] title = element.select(TD_POSTLISTTOPIC).select(A_TAG).text().split("\\[");
                 if (Pattern.matches(REGEX, title[0])) {
-                    dateCol = element.select(TD_ALTCOL).last().text();
-                    date = convertingStringToDateFormat(dateCol);
+                   String dateCol = element.select(TD_ALTCOL).last().text();
+                    LocalDateTime date = convertingStringToDateFormat(dateCol);
                     if (dateUpdate != null && date.compareTo(dateUpdate) < 0 || !isCurrentYear(dateUpdate)) {
                         LOG.info("Выход за диапозон даты.....STOP.....");
                         point = false;
                         break;
                     }
-                    link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
-                    author = element.select(TD_ALTCOL).first().text();
+                   String link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
+                    String author = element.select(TD_ALTCOL).first().text();
                     result.add(new Vacancy(title[0], link, author, date));
                 }
             }
