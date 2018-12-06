@@ -12,20 +12,20 @@ public class User {
     private LocalDateTime createDate;
 
 
-    public User(int id, String name, String login, String mail, LocalDateTime createDate) {
+    public User(int id, String name, String login, String mail) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.mail = mail;
-        this.createDate = createDate;
+        this.createDate = LocalDateTime.now();
     }
 
-    public User(String name, String login, String mail, LocalDateTime createDate) {
-        this(new Random().nextInt(Integer.MAX_VALUE), name, login, mail, createDate);
+    public User(String name, String login, String mail) {
+        this(new Random().nextInt(Integer.MAX_VALUE), name, login, mail);
     }
 
     public User(User user) {
-        this(user.getId(), user.getName(), user.getLogin(), user.getMail(), user.getCreateDate());
+        this(user.getId(), user.getName(), user.getLogin(), user.getMail());
     }
 
     public int getId() {
@@ -70,14 +70,19 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return id == user.id &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(mail, user.mail) &&
-                Objects.equals(createDate, user.createDate);
+        return id == user.id
+                && Objects.equals(name, user.name)
+                && Objects.equals(login, user.login)
+                && Objects.equals(mail, user.mail)
+                && Objects.equals(createDate, user.createDate);
     }
 
     @Override
@@ -87,12 +92,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", login='" + login + '\'' +
-                ", mail='" + mail + '\'' +
-                ", createDate=" + createDate +
-                '}';
+        return "User{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", login='" + login + '\''
+                + ", mail='" + mail + '\''
+                + ", createDate=" + createDate
+                + '}';
     }
 }

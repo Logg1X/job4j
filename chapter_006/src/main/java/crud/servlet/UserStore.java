@@ -8,6 +8,9 @@ public class UserStore implements Store {
     private static UserStore instance = new UserStore();
     private final ConcurrentHashMap<Integer, User> userStore = new ConcurrentHashMap<>();
 
+    private UserStore() {
+    }
+
     public static UserStore getInstance() {
         return instance;
     }
