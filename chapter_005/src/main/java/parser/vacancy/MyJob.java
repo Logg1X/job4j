@@ -8,7 +8,7 @@ import org.quartz.JobExecutionException;
 public class MyJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        var app = new App("config.properties", "query.sql");
+        App app = new App("config.properties", "query.sql");
         app.start();
     }
 

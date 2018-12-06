@@ -30,11 +30,16 @@ public class ParserHTML {
     private static final String TODAY = "сегодня";
     private static final String YESTERDAY = "вчера";
     private static final String DATE_FORMAT = "d MMM yy, HH:mm";
+    private static final String DATE_TIME_FORMAT = "dd LLLL yyyy, HH:mm";
     private static final String TIME_FORMAT = "HH:mm";
 
 
     public Set<Vacancy> parser(LocalDateTime dateUpdate) {
         Set<Vacancy> result = new HashSet<>();
+        String link;
+        String author;
+        String dateCol;
+        LocalDateTime date;
         int countPage = 1;
         boolean point = true;
         while (point) {
@@ -43,15 +48,15 @@ public class ParserHTML {
             for (Element element : elements) {
                 String[] title = element.select(TD_POSTLISTTOPIC).select(A_TAG).text().split("\\[");
                 if (Pattern.matches(REGEX, title[0])) {
-                    var dateCol = element.select(TD_ALTCOL).last().text();
-                     var date = convertingStringToDateFormat(dateCol);
+                    dateCol = element.select(TD_ALTCOL).last().text();
+                    date = convertingStringToDateFormat(dateCol);
                     if (dateUpdate != null && date.compareTo(dateUpdate) < 0 || !isCurrentYear(dateUpdate)) {
                         LOG.info("Выход за диапозон даты.....STOP.....");
                         point = false;
                         break;
                     }
-                    var link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
-                    var author = element.select(TD_ALTCOL).first().text();
+                    link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
+                    author = element.select(TD_ALTCOL).first().text();
                     result.add(new Vacancy(title[0], link, author, date));
                 }
             }
@@ -64,20 +69,18 @@ public class ParserHTML {
     private LocalDateTime convertingStringToDateFormat(String date) {
         LocalDateTime result = null;
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TIME_FORMAT);
-        var now = LocalDate.now();
+        LocalDate now = LocalDate.now();
         if (date.contains(TODAY) || date.contains(YESTERDAY)) {
             String[] pointOnDay = date.split(", ");
             if (pointOnDay[0].equalsIgnoreCase(TODAY)) {
                 result = LocalDateTime.of(now,
                         LocalTime.parse(pointOnDay[1],
-                                timeFormatter
-                        )
+                                timeFormatter)
                 );
             } else if (pointOnDay[0].equalsIgnoreCase(YESTERDAY)) {
                 result = LocalDateTime.of(now.minusDays(1),
                         LocalTime.parse(pointOnDay[1],
-                                timeFormatter
-                        )
+                                timeFormatter)
                 );
             }
         } else {
