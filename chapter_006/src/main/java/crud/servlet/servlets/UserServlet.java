@@ -57,12 +57,7 @@ public class UserServlet extends HttpServlet {
             dispatch.put(
                     "update",
                     stringMap -> {
-                        logic.update(new User(
-                                Integer.parseInt(stringMap.get("id")[0]),
-                                stringMap.get("name")[0],
-                                stringMap.get("login")[0],
-                                stringMap.get("email")[0]
-                        ));
+                        logic.update(stringMap);
                         return "User updated!";
                     }
             );

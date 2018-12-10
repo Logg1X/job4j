@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class ValidateService implements Validate {
 
     private static ValidateService logic = new ValidateService();
-    private final Store store = UserStore.getInstance();
+    private final UserStore store = UserStore.getInstance();
 
     private ValidateService() {
     }
@@ -23,18 +23,24 @@ public class ValidateService implements Validate {
                 param.get("login")[0],
                 param.get("email")[0]
         );
-        int id = user.getId();
-        this.userIsExist(id);
+        user.setId(store.generateUserId());
+        this.userIsExist(user.getId());
         this.validateMailAddres(user.getMail());
         this.mailIsExist(user.getMail(), user.getId());
         store.add(user);
-        return id;
+        return user.getId();
     }
 
     @Override
-    public User update(User user) {
-        int id = user.getId();
+    public User update(Map<String, String[]> param) {
+        int id = Integer.valueOf(param.get("id")[0]);
         this.userIsNotExist(id);
+        User user = new User(
+                id,
+                param.get("name")[0],
+                param.get("login")[0],
+                param.get("email")[0]
+        );
         this.validateMailAddres(user.getMail());
         this.mailIsExist(user.getMail(), user.getId());
         User replaced = store.findById(id);
@@ -60,7 +66,8 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(Map<String, String[]> param) {
+        var id = Integer.valueOf(param.get("id")[0]);
         this.userIsNotExist(id);
         return store.findById(id);
     }

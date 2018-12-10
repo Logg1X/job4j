@@ -79,8 +79,9 @@ public class UserTableServlet extends HttpServlet {
                         "<td>" + user.getLogin() + "</td>" +
                         "<td>" + user.getMail() + "</td>" +
                         "<td>" +
-                        "<form action='" + req.getContextPath() + "/usersTable' method='get'>" +
-                        "<input type='submit' value=''>" +
+                        "<form action='" + req.getContextPath() + "/edit?id=' method='get'>" +
+                        "<input type='hidden' name='id' value="+user.getId()+">"+
+                        "<input type='submit' value='Edit'>" +
                         "</form>"+
                         "</td>"+
                         "<td>" +

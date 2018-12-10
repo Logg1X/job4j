@@ -6,11 +6,11 @@ import java.util.Map;
 public interface Validate {
     int add(Map<String, String[]> param);
 
-    User update(User user);
+    User update(Map<String, String[]> user);
 
     User delete(int id);
 
     List<User> findAll();
 
-    User findById(int id);
+    User findById(Map<String, String[]> id);
 }

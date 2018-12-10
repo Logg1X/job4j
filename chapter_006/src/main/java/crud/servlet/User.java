@@ -21,7 +21,9 @@ public class User {
     }
 
     public User(String name, String login, String mail) {
-        this(new Random().nextInt(Integer.MAX_VALUE), name, login, mail);
+        this.name = name;
+        this.login = login;
+        this.mail = mail;
     }
 
     public User(User user) {

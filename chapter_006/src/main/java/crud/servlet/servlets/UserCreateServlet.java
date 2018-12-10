@@ -16,34 +16,34 @@ public class UserCreateServlet extends HttpServlet {
     private final Validate logic = ValidateService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String html = "<!DOCTYPE html>\n" +
-               "<html lang=\"en\">\n" +
-               "<head>\n" +
-               "    <meta charset=\"UTF-8\">\n" +
-               "    <title>Title</title>\n" +
-               "    <style type=\"text/css\">" +
-               "table {\n" +
-               "     border-collapse: collapse;\n" +  /* Отображать двойные линии как одинарные */
-               "    }\n" +
-               "    th {\n" +
-               "     background: #ccc; \n" + /* Цвет фона */
-               "     text-align: left; \n" + /* Выравнивание по левому краю */
-               "    }\n" +
-               "    td, th {\n" +
-               "     border: 1px solid #800; \n" + /* Параметры границы */
-               "     padding: 4px;\n" +  /* Поля в ячейках */
-               "    }" +
-               " </style> " +
-               "</head>\n" +
-               "<body>\n" +
-               "<form action='"+req.getContextPath()+"/createUser' method='post'>" +
-               "Login : <input type='text' name='login'/>" +
-               "Name : <input type='text' name='name'/>" +
-               "Email : <input type='text' name='email'/>" +
-               "<input type='submit' value='create'>" +
-               "</form>" +
-               "</body>\n" +
-               "</html>";
+       String html = "<!DOCTYPE html>\n"
+               +"<html lang=\"en\">\n"
+               +"<head>\n"
+               +"    <meta charset=\"UTF-8\">\n"
+               +"    <title>Title</title>\n"
+               +"    <style type=\"text/css\">"
+               +"table {\n"
+               +"     border-collapse: collapse;\n" /* Отображать двойные линии как одинарные */
+               + "    }\n"
+               +"    th {\n"
+               +"     background: #ccc; \n" /* Цвет фона */
+               + "text-align: left; \n" /* Выравнивание по левому краю */
+               + "}\n"
+               + "    td, th {\n"
+               +"     border: 1px solid #800; \n" /* Параметры границы */
+               + "     padding: 4px;\n" /* Поля в ячейках */
+               + "}"
+               +" </style> "
+               +"</head>\n"
+               +"<body>\n"
+               +"<form action='"+req.getContextPath()+"/createUser' method='post'>"
+               +"Name : <input type='text' name='name'/>"
+               +"Login : <input type='text' name='login'/>"
+               +"Email : <input type='text' name='email'/>"
+               +"<input type='submit' value='create'>"
+               +"</form>"
+               +"</body>\n"
+               +"</html>";
         PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
         printWriter.append(html);
         printWriter.flush();

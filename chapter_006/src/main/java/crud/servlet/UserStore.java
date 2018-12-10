@@ -2,6 +2,7 @@ package crud.servlet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserStore implements Store {
@@ -17,9 +18,9 @@ public class UserStore implements Store {
 
     @Override
     public int add(User user) {
-        int id = user.getId();
-        userStore.put(id, user);
-        return id;
+        user.setId(this.generateUserId());
+        userStore.put(user.getId(), user);
+        return user.getId();
     }
 
     @Override
@@ -41,4 +42,9 @@ public class UserStore implements Store {
     public User findById(int id) {
         return userStore.get(id);
     }
+
+    public int generateUserId() {
+        return new Random().nextInt(Integer.MAX_VALUE);
+    }
+
 }

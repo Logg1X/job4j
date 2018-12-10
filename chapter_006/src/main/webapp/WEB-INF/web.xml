@@ -36,4 +36,12 @@
         <servlet-name>UserCreateServlet</servlet-name>
         <url-pattern>/createUser</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <servlet-class>crud.servlet.servlets.UserUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
 </web-app>
