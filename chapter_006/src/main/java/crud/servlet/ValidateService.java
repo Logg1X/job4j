@@ -1,6 +1,7 @@
 package crud.servlet;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ValidateService implements Validate {
@@ -16,7 +17,12 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public int add(User user) {
+    public int add(Map<String, String[]> param) {
+        User user = new User(
+                param.get("name")[0],
+                param.get("login")[0],
+                param.get("email")[0]
+        );
         int id = user.getId();
         this.userIsExist(id);
         this.validateMailAddres(user.getMail());

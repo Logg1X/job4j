@@ -50,11 +50,7 @@ public class UserServlet extends HttpServlet {
         private DispatchActions() {
             dispatch.put(
                     "add", stringMap -> {
-                        logic.add(new User(
-                                stringMap.get("name")[0],
-                                stringMap.get("login")[0],
-                                stringMap.get("email")[0]
-                        ));
+                        logic.add(stringMap);
                         return "User added!";
                     }
             );

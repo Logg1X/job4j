@@ -20,4 +20,20 @@
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/users</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UserTableServlet</servlet-name>
+        <servlet-class>crud.servlet.servlets.UserTableServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserTableServlet</servlet-name>
+        <url-pattern>/usersTable</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <servlet-class>crud.servlet.servlets.UserCreateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <url-pattern>/createUser</url-pattern>
+    </servlet-mapping>
 </web-app>

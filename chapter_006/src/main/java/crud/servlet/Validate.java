@@ -1,9 +1,10 @@
 package crud.servlet;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Validate {
-    int add(User user);
+    int add(Map<String, String[]> param);
 
     User update(User user);
 
