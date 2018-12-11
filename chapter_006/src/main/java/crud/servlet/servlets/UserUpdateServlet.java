@@ -1,5 +1,6 @@
 package crud.servlet.servlets;
 
+import crud.servlet.StoresException;
 import crud.servlet.User;
 import crud.servlet.Validate;
 import crud.servlet.ValidateService;
@@ -19,7 +20,7 @@ public class UserUpdateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var user = logic.findById(req.getParameterMap());
         if (user != null) {
-            var html = this.hetHtml(
+            var html = this.getHtml(
                     "",
                     "<form action='" + req.getContextPath() + "/edit' method='post'>"
                             + "<input name='id' type='hidden' value='" + user.getId() + "'/>"
@@ -37,19 +38,30 @@ public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String[]> param = req.getParameterMap();
-        User user = logic.update(param);
-        var html = this.hetHtml(
-                "update successfule !",
-                "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
-                        + "<input type='submit' value='OK'>"
-                        + "</form>"
-        );
+        String html;
+        try {
+            User user = logic.update(param);
+            html = this.getHtml(
+                    "update successfule !",
+                    "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
+                            + "<input type='submit' value='OK'>"
+                            + "</form>"
+            );
+        } catch (StoresException e) {
+            html = this.getHtml(
+                    e.getMessage(),
+                    "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
+                            + "<input type='submit' value='OK'>"
+                            + "</form>"
+            );
+        }
+
         PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
         printWriter.append(html);
         printWriter.flush();
     }
 
-    private String hetHtml(String message, String form) {
+    private String getHtml(String message, String form) {
         return "<!DOCTYPE html>"
                 + "<html lang=\"en\">"
                 + "<head>"

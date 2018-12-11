@@ -23,10 +23,9 @@ public class ValidateService implements Validate {
                 param.get("login")[0],
                 param.get("email")[0]
         );
-        user.setId(store.generateUserId());
-        this.userIsExist(user.getId());
+        this.loginIsExist(user.getLogin());
         this.validateMailAddres(user.getMail());
-        this.mailIsExist(user.getMail(), user.getId());
+        this.mailIsExist(user.getMail());
         store.add(user);
         return user.getId();
     }
@@ -42,7 +41,7 @@ public class ValidateService implements Validate {
                 param.get("email")[0]
         );
         this.validateMailAddres(user.getMail());
-        this.mailIsExist(user.getMail(), user.getId());
+        this.mailIsExist(user.getMail());
         User replaced = store.findById(id);
         if (replaced != null) {
             replaced = store.update(user);
@@ -61,7 +60,7 @@ public class ValidateService implements Validate {
     public List<User> findAll() {
         List<User> result = store.findAll();
         if (result == null) {
-            throw new StoresException("Users list ois empty");
+            throw new StoresException("Users list is empty");
         }
         return result;
     }
@@ -73,10 +72,12 @@ public class ValidateService implements Validate {
         return store.findById(id);
     }
 
-    private void userIsExist(int id) {
-        User user = store.findById(id);
-        if (user != null && store.findAll().contains(user)) {
-            throw new StoresException("such user exists!");
+    private void loginIsExist(String login) {
+        boolean res = store.findAll().stream().anyMatch(user -> user.getLogin().equals(login));
+        if (store.findAll()
+                .stream()
+                .anyMatch(user -> user.getLogin().equals(login))) {
+            throw new StoresException("login already exists!");
         }
     }
 
@@ -93,11 +94,11 @@ public class ValidateService implements Validate {
         }
     }
 
-    private void mailIsExist(String mail, int id) {
-        for (User user : store.findAll()) {
-            if (user.getMail().equalsIgnoreCase(mail) && user.getId() != id) {
-                throw new StoresException("A user with this email exists!");
-            }
+    private void mailIsExist(String mail) {
+        if (store.findAll()
+                .stream()
+                .anyMatch(user -> user.getMail().equalsIgnoreCase(mail))) {
+            throw new StoresException("A user with this email exists!");
         }
     }
 }
