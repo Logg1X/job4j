@@ -8,9 +8,9 @@ public interface Validate {
 
     User update(Map<String, String[]> user);
 
-    User delete(int id);
+    User delete(Map<String, String[]> param);
 
     List<User> findAll();
 
-    User findById(Map<String, String[]> id);
+    User findById(Map<String, String[]> param);
 }

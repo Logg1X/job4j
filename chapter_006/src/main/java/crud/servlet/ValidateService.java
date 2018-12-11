@@ -51,7 +51,8 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public User delete(int id) {
+    public User delete(Map<String, String[]> param) {
+        var id = Integer.valueOf(param.get("id")[0]);
         this.userIsNotExist(id);
         return store.delete(id);
     }
@@ -59,7 +60,7 @@ public class ValidateService implements Validate {
     @Override
     public List<User> findAll() {
         List<User> result = store.findAll();
-        if (result.isEmpty()) {
+        if (result == null) {
             throw new StoresException("Users list ois empty");
         }
         return result;

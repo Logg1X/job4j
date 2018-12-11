@@ -1,7 +1,6 @@
 package crud.servlet.servlets;
 
 import crud.servlet.StoresException;
-import crud.servlet.User;
 import crud.servlet.Validate;
 import crud.servlet.ValidateService;
 
@@ -40,8 +39,26 @@ public class UserServlet extends HttpServlet {
             result = e.getMessage();
         }
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(result);
+        writer.append(this.getHtml(
+                result,
+                "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
+                        + "<input type='submit' value='OK'>"
+                        + "</form>"));
         writer.flush();
+    }
+
+    private String getHtml(String message, String form) {
+        return "<!DOCTYPE html>"
+                + "<html lang=\"en\">"
+                + "<head>"
+                + "<meta charset=\"UTF-8\">"
+                + "<title>Edit User</title>"
+                + "</head>"
+                + "<body>"
+                + message
+                + form
+                + "</body>"
+                + "</html>";
     }
 
     private class DispatchActions {
@@ -64,9 +81,7 @@ public class UserServlet extends HttpServlet {
             dispatch.put(
                     "delete",
                     stringMap -> {
-                        logic.delete(
-                                Integer.parseInt(stringMap.get("id")[0])
-                        );
+                        logic.delete(stringMap);
                         return String.format("User with ID %s deleted!", stringMap.get("id")[0]);
                     }
             );

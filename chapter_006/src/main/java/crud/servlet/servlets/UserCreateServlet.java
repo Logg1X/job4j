@@ -14,37 +14,20 @@ import java.util.Map;
 
 public class UserCreateServlet extends HttpServlet {
     private final Validate logic = ValidateService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String html = "<!DOCTYPE html>\n"
-               +"<html lang=\"en\">\n"
-               +"<head>\n"
-               +"    <meta charset=\"UTF-8\">\n"
-               +"    <title>Title</title>\n"
-               +"    <style type=\"text/css\">"
-               +"table {\n"
-               +"     border-collapse: collapse;\n" /* Отображать двойные линии как одинарные */
-               + "    }\n"
-               +"    th {\n"
-               +"     background: #ccc; \n" /* Цвет фона */
-               + "text-align: left; \n" /* Выравнивание по левому краю */
-               + "}\n"
-               + "    td, th {\n"
-               +"     border: 1px solid #800; \n" /* Параметры границы */
-               + "     padding: 4px;\n" /* Поля в ячейках */
-               + "}"
-               +" </style> "
-               +"</head>\n"
-               +"<body>\n"
-               +"<form action='"+req.getContextPath()+"/createUser' method='post'>"
-               +"Name : <input type='text' name='name'/>"
-               +"Login : <input type='text' name='login'/>"
-               +"Email : <input type='text' name='email'/>"
-               +"<input type='submit' value='create'>"
-               +"</form>"
-               +"</body>\n"
-               +"</html>";
         PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
+        var html = this.getHtml(
+                "",
+                "<form action='" + req.getContextPath() + "/createUser' method='post'>"
+                        + "Name : <input type='text' name='name'/>"
+                        + "Login : <input type='text' name='login'/>"
+                        + "Email : <input type='text' name='email'/>"
+                        + "<input type='submit' value='create'>"
+                        + "</form>",
+                ""
+        );
         printWriter.append(html);
         printWriter.flush();
     }
@@ -54,7 +37,14 @@ public class UserCreateServlet extends HttpServlet {
         Map<String, String[]> param = req.getParameterMap();
         String result;
         try {
-            result = "completed successfully!" + logic.add(param);
+
+            result = this.getHtml(
+                    "User added successfully with ID: !",
+                    String.format("%s", logic.add(param)),
+                    "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
+                            + "<input type='submit' value='OK'>"
+                            + "</form>"
+            );
         } catch (NullPointerException e) {
             result = "error: incorrect request";
         } catch (StoresException e) {
@@ -63,5 +53,20 @@ public class UserCreateServlet extends HttpServlet {
         PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
         printWriter.append(result);
         printWriter.flush();
+    }
+
+    private String getHtml(String message, String method, String form) {
+        return "<!DOCTYPE html>"
+                + "<html lang=\"en\">"
+                + "<head>"
+                + "    <meta charset=\"UTF-8\">"
+                + "    <title>Create User</title>"
+                + "</head>"
+                + "<body>"
+                + message
+                + method
+                + form
+                + "</body>"
+                + "</html>";
     }
 }

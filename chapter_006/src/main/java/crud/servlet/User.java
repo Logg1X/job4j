@@ -2,7 +2,6 @@ package crud.servlet;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Random;
 
 public class User {
     private int id;
