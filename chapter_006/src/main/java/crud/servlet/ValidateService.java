@@ -41,7 +41,8 @@ public class ValidateService implements Validate {
                 param.get("email")[0]
         );
         this.validateMailAddres(user.getMail());
-        this.mailIsExist(user.getMail());
+        this.mailIsExist(user.getMail(), user.getId());
+        this.loginIsExist(user.getLogin(), user.getId());
         User replaced = store.findById(id);
         if (replaced != null) {
             replaced = store.update(user);
@@ -73,10 +74,17 @@ public class ValidateService implements Validate {
     }
 
     private void loginIsExist(String login) {
-        boolean res = store.findAll().stream().anyMatch(user -> user.getLogin().equals(login));
         if (store.findAll()
                 .stream()
-                .anyMatch(user -> user.getLogin().equals(login))) {
+                .anyMatch(user -> user.getLogin().equalsIgnoreCase(login))) {
+            throw new StoresException("login already exists!");
+        }
+    }
+
+    private void loginIsExist(String login, int id) {
+        if (store.findAll()
+                .stream()
+                .anyMatch(user -> user.getLogin().equalsIgnoreCase(login) && user.getId() != id)) {
             throw new StoresException("login already exists!");
         }
     }
@@ -91,6 +99,14 @@ public class ValidateService implements Validate {
         Pattern pattern = Pattern.compile("(?!(.*[А-Яа-я].*)).*@.*\\..*$");
         if (!pattern.matcher(mail).matches()) {
             throw new StoresException("email is incorrect!");
+        }
+    }
+
+    private void mailIsExist(String mail, int id) {
+        if (store.findAll()
+                .stream()
+                .anyMatch(user -> user.getMail().equalsIgnoreCase(mail) && user.getId() != id)) {
+            throw new StoresException("A user with this email exists!");
         }
     }
 

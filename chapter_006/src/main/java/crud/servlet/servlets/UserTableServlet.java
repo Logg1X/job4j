@@ -18,41 +18,41 @@ public class UserTableServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        List<User> users = null;
-        try {
-            users = logic.findAll();
-        } catch (StoresException e) {
-            e.printStackTrace();
-        }
-//        users = logic.findAll();
-        String html = "<!DOCTYPE html>"
-                + "<html lang=\"en\">"
-                + "  <head>"
-                + "    <meta charset=\"UTF-8\">"
-                + "      <title>Users List</title>"
-                + "        <style type=\"text/css\">"
-                + "           table {"
-                + "           border-collapse: collapse;" /* Отображать двойные линии как одинарные */
-                + "           }"
-                + "           th {"
-                + "           background: #ccc;" /* Цвет фона */
-                + "           text-align: left;" /* Выравнивание по левому краю */
-                + "           }"
-                + "           td, th {"
-                + "           border: 1px solid #800;" /* Параметры границы */
-                + "           padding: 4px;" /* Поля в ячейках */
-                + "           }"
-                + "       </style> "
-                + "  </head>"
-                + "    <body>"
-                + createPage(users, req)
-                + "    </body>"
-                + "</html>";
-        PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
-        printWriter.append(html);
-        printWriter.flush();
-
+//        resp.setContentType("text/html");
+//        List<User> users = null;
+//        try {
+//            users = logic.findAll();
+//        } catch (StoresException e) {
+//            e.printStackTrace();
+//        }
+//        String html = "<!DOCTYPE html>"
+//                + "<html lang=\"en\">"
+//                + "  <head>"
+//                + "    <meta charset=\"UTF-8\">"
+//                + "      <title>Users List</title>"
+//                + "        <style type=\"text/css\">"
+//                + "           table {"
+//                + "           border-collapse: collapse;" /* Отображать двойные линии как одинарные */
+//                + "           }"
+//                + "           th {"
+//                + "           background: #ccc;" /* Цвет фона */
+//                + "           text-align: left;" /* Выравнивание по левому краю */
+//                + "           }"
+//                + "           td, th {"
+//                + "           border: 1px solid #800;" /* Параметры границы */
+//                + "           padding: 4px;" /* Поля в ячейках */
+//                + "           }"
+//                + "       </style> "
+//                + "  </head>"
+//                + "    <body>"
+//                + createPage(users, req)
+//                + "    </body>"
+//                + "</html>";
+//        PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
+//        printWriter.append(html);
+//        printWriter.flush();
+//        resp.sendRedirect(String.format("%s/WEB-INF/UserTable.jsp", req.getContextPath()));
+        req.getRequestDispatcher("WEB-INF/UserTable.jsp").forward(req, resp);
     }
 
     @Override
