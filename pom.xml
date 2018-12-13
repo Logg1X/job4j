@@ -136,21 +136,63 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.21.0</version>
+            </plugin>
+
+
+            <!-- the jacoco plugin, we are going to use 2 goals provided by this plugin -->
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.2</version>
+
                 <executions>
+
+                    <!--  (1)  Prepare agent runs in the init phase, it setups the jacocoProperty,  so we can insert this to the maven sure fire argLine and get to run jacoco as agent -->
                     <execution>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>jacocoArgLine</propertyName>
+                            <includes>
+                                <include>com.choudhury.codecoverage.*</include>
+                            </includes>
+                        </configuration>
                     </execution>
+
+                    <!--  (3) the check goal by default runs in the verify phase, we want to fail the build if mimimum code coverage checks aren't met -->
                     <execution>
-                        <id>report</id>
-                        <phase>test</phase>
+                        <id>check</id>
                         <goals>
-                            <goal>report</goal>
+                            <goal>check</goal>
                         </goals>
+                        <configuration>
+                            <rules>
+                                <!-- All classes must have 80% line and branch coverage . Note we use 2 d.p so that we get can any check failure messages reported to 2 d.p  -->
+                                <rule >
+                                    <element>CLASS</element>
+                                    <limits>
+                                        <limit >
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                        <limit >
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                    <excludes>
+                                        <exclude>com.choudhury.codecoverage.Bye</exclude>
+                                    </excludes>
+                                </rule>
+                            </rules>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
