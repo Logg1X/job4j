@@ -54,7 +54,7 @@
     </form>
     </td>
     <td>
-    <form action="<%=request.getContextPath()%>/users?action=<%="action"%>id=<%="id"%>" method="post">
+    <form action="<%=request.getContextPath()%>/users?action=<%=request.getHeader("delete")%>id=<%=request.getHeader("id")%>" method="post">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="id" value="<%=user.getId()%>">
     <input type="submit" value="Delete">

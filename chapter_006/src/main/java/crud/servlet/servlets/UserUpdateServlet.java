@@ -18,60 +18,33 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var user = logic.findById(req.getParameterMap());
-        if (user != null) {
-            var html = this.getHtml(
-                    "",
-                    "<form action='" + req.getContextPath() + "/edit' method='post'>"
-                            + "<input name='id' type='hidden' value='" + user.getId() + "'/>"
-                            + "Name : <input type='text' name='name' value='" + user.getName() + "'>"
-                            + "Login : <input type='text' name='login' value='" + user.getLogin() + "'>"
-                            + "Email : <input type='text' name='email' value='" + user.getMail() + "'>"
-                            + "<input type='submit' name='edit'></input>");
-            PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
-            printWriter.append(html);
-            printWriter.flush();
-        }
 
+        String result = "";
+        User user = null;
+        try {
+            user = logic.findById(req.getParameterMap());
+        } catch (StoresException e) {
+            result = e.getMessage();
+        }
+        req.setAttribute("result", result);
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("/WEB-INF/UpdateUserPage.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Map<String, String[]> param = req.getParameterMap();
-        String html;
+        String result;
+        User user = null;
         try {
-            User user = logic.update(param);
-            html = this.getHtml(
-                    "update successfule !",
-                    "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
-                            + "<input type='submit' value='OK'>"
-                            + "</form>"
-            );
-        } catch (StoresException e) {
-            html = this.getHtml(
-                    e.getMessage(),
-                    "<form action='" + req.getContextPath() + "/usersTable' method='get'>"
-                            + "<input type='submit' value='OK'>"
-                            + "</form>"
-            );
+            user = logic.update(param);
+            result = "Update successfuly";
+        } catch (StoresException | NullPointerException e) {
+            result = e.getMessage();
         }
-
-        PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
-        printWriter.append(html);
-        printWriter.flush();
-    }
-
-    private String getHtml(String message, String form) {
-        return "<!DOCTYPE html>"
-                + "<html lang=\"en\">"
-                + "<head>"
-                + "<meta charset=\"UTF-8\">"
-                + "<title>Edit User</title>"
-                + "</head>"
-                + "<body>"
-                + message
-                + form
-                + "</body>"
-                + "</html>";
+        req.setAttribute("user", user);
+        req.setAttribute("result",result);
+        req.getRequestDispatcher("/WEB-INF/UpdateUserPage.jsp").forward(req, resp);
     }
 }
