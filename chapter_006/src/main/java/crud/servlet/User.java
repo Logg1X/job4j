@@ -11,13 +11,11 @@ public class User {
     private LocalDateTime createDate;
 
 
-
     public User(int id, String name, String login, String mail) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.mail = mail;
-        this.createDate = LocalDateTime.now();
     }
 
     public User(String name, String login, String mail) {

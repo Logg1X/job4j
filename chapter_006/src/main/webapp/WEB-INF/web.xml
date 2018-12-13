@@ -44,4 +44,12 @@
         <servlet-name>UserUpdateServlet</servlet-name>
         <url-pattern>/edit</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>StartServlet</servlet-name>
+        <servlet-class>crud.servlet.servlets.StartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StartServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>

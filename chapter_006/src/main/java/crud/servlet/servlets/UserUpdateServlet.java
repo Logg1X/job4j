@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 public class UserUpdateServlet extends HttpServlet {
@@ -39,12 +38,12 @@ public class UserUpdateServlet extends HttpServlet {
         User user = null;
         try {
             user = logic.update(param);
-            result = "Update successfuly";
+            result = "Update successfully!";
         } catch (StoresException | NullPointerException e) {
             result = e.getMessage();
         }
         req.setAttribute("user", user);
-        req.setAttribute("result",result);
-        req.getRequestDispatcher("/WEB-INF/UpdateUserPage.jsp").forward(req, resp);
+        req.setAttribute("result", result);
+        req.getRequestDispatcher("/WEB-INF/Status.jsp").forward(req, resp);
     }
 }

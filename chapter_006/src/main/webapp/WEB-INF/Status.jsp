@@ -12,8 +12,10 @@
 </head>
 <body>
 <%=request.getAttribute("result")%>
+<form action="<%=request.getContextPath()%>/usersTable" method="get">
+<input type="submit" value="<--Home.">
+</form>
 
-<%%>
 <%--<%response.sendRedirect(request.getContextPath()+"/WEB-INF/UserTable.jsp");%>--%>
 </body>
 </html>

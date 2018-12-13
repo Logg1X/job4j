@@ -1,7 +1,6 @@
 <%@ page import="crud.servlet.User" %>
-<%@ page import="crud.servlet.Validate" %>
-<%@ page import="crud.servlet.ValidateService" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%--
   Created by IntelliJ IDEA.
   User: p.toporov
   Date: 12.12.2018
@@ -12,8 +11,7 @@
 <html>
 <body>
 <table>
-    <%!private final Validate logic = ValidateService.getInstance();%>
-    <%List<User> users = logic.findAll();%>
+    <%List<User> users = (List<User>) request.getAttribute("user");%>
     <%if (users != null && !users.isEmpty()) {%>
     <tr>
         <th>
@@ -38,28 +36,27 @@
     <%}%>
     <%for (User user : users) {%>
     <tr>
-    <td><%=user.getId()%>
-
-    </td>
-    <td><%=user.getName()%>
-    </td>
-    <td><%=user.getLogin()%>
-    </td>
-    <td><%=user.getMail()%>
-    </td>
-    <td>
-    <form action="<%=request.getContextPath()%>/edit?id=<%="id"%>" method="get">
-    <input type="hidden" name="id" value="<%=user.getId()%>">
-    <input type="submit" value="Edit">
-    </form>
-    </td>
-    <td>
-    <form action="<%=request.getContextPath()%>/users?action=<%=request.getHeader("delete")%>id=<%=request.getHeader("id")%>" method="post">
-    <input type="hidden" name="action" value="delete">
-    <input type="hidden" name="id" value="<%=user.getId()%>">
-    <input type="submit" value="Delete">
-    </form>
-    </td>
+        <td><%=user.getId()%>
+        </td>
+        <td><%=user.getName()%>
+        </td>
+        <td><%=user.getLogin()%>
+        </td>
+        <td><%=user.getMail()%>
+        </td>
+        <td>
+            <form action="<%=request.getContextPath()%>/edit?id=<%="id"%>" method="get">
+                <input type="hidden" name="id" value="<%=user.getId()%>">
+                <input type="submit" value="Edit">
+            </form>
+        </td>
+        <td>
+            <form action="<%=request.getContextPath()%>/users" method="post">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="<%=user.getId()%>">
+                <input type="submit" value="Delete">
+            </form>
+        </td>
     </tr>
     <%}%>
 </table>
@@ -77,9 +74,17 @@
         }
 
         td, th {
-            border: 1px solid #252421;
-            padding: 4px;
+            border: 2px solid #252421;
+            padding: 6px;
         }
+
+        input {
+            height: 30px;
+            width: 90px;
+            top: 50%;
+            left: 50%;
+        }
+
     </style>
 </head>
 </html>

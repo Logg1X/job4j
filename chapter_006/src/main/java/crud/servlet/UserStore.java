@@ -1,5 +1,6 @@
 package crud.servlet;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,6 +20,7 @@ public class UserStore implements Store {
     @Override
     public int add(User user) {
         user.setId(this.generateUserId());
+        user.setCreateDate(LocalDateTime.now());
         userStore.put(user.getId(), user);
         return user.getId();
     }

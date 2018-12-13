@@ -26,7 +26,6 @@
     <input type="submit" name="edit">
 </form>
     <%}%>
-
     <%=request.getAttribute("result")%>
 <%--<form action="<%=request.getContextPath()%>/usersTable" method="get">--%>
     <%--<input type="submit" value="<----">--%>
