@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class ValidateService implements Validate {
 
     private static ValidateService logic = new ValidateService();
-    private final UserStore store = UserStore.getInstance();
+    private final Store store = DBStore.getInstance();
 
     private ValidateService() {
     }

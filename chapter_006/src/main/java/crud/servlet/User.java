@@ -3,6 +3,8 @@ package crud.servlet;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static java.time.LocalDateTime.*;
+
 public class User {
     private int id;
     private String name;
@@ -11,21 +13,35 @@ public class User {
     private LocalDateTime createDate;
 
 
+    public User(String name, String login, String mail, LocalDateTime createDate) {
+        this.name = name;
+        this.login = login;
+        this.mail = mail;
+        this.createDate = createDate;
+    }
+
+    public User(String name, String login, String mail) {
+        this(name, login, mail, now());
+    }
+
+    public User(int id, String name, String login, String mail, LocalDateTime createDate ) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.mail = mail;
+        this.createDate = createDate;
+
+    }
     public User(int id, String name, String login, String mail) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.mail = mail;
-    }
-
-    public User(String name, String login, String mail) {
-        this.name = name;
-        this.login = login;
-        this.mail = mail;
+        this.createDate = now();
     }
 
     public User(User user) {
-        this(user.getId(), user.getName(), user.getLogin(), user.getMail());
+        this(user.getId(), user.getName(), user.getLogin(), user.getMail(),user.getCreateDate());
     }
 
     public int getId() {
