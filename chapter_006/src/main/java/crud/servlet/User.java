@@ -3,7 +3,7 @@ package crud.servlet;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static java.time.LocalDateTime.*;
+import static java.time.LocalDateTime.now;
 
 public class User {
     private int id;
@@ -24,7 +24,7 @@ public class User {
         this(name, login, mail, now());
     }
 
-    public User(int id, String name, String login, String mail, LocalDateTime createDate ) {
+    public User(int id, String name, String login, String mail, LocalDateTime createDate) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -32,6 +32,7 @@ public class User {
         this.createDate = createDate;
 
     }
+
     public User(int id, String name, String login, String mail) {
         this.id = id;
         this.name = name;
@@ -41,7 +42,7 @@ public class User {
     }
 
     public User(User user) {
-        this(user.getId(), user.getName(), user.getLogin(), user.getMail(),user.getCreateDate());
+        this(user.getId(), user.getName(), user.getLogin(), user.getMail(), user.getCreateDate());
     }
 
     public int getId() {
