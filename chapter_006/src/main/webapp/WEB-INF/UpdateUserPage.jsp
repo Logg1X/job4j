@@ -1,34 +1,20 @@
-<%@ page import="crud.servlet.StoresException" %>
-<%@ page import="crud.servlet.User" %>
-<%@ page import="crud.servlet.Validate" %>
-<%@ page import="crud.servlet.ValidateService" %>
-<%@ page import="java.util.Map" %><%--
-  Created by IntelliJ IDEA.
-  User: p.toporov
-  Date: 13.12.2018
-  Time: 9:00
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Update User</title>
 </head>
-<%!private final Validate logic = ValidateService.getInstance();%>
 <body>
-<%User user = (User) request.getAttribute("user");%>
-<%if (user != null) {%>
-<form action="<%=request.getContextPath()%>/edit" method="post">
-    <input name="id" type="hidden" value="<%=user.getId()%>"/>
-    Name : <input type="text" name="name" value="<%=user.getName()%>">
-    Login : <input type="text" name="login" value="<%=user.getLogin()%>">
-    Email : <input type="text" name="email" value="<%=user.getMail()%>">
-    <input type="submit" name="edit">
-</form>
-    <%}%>
-    <%=request.getAttribute("result")%>
-<%--<form action="<%=request.getContextPath()%>/usersTable" method="get">--%>
-    <%--<input type="submit" value="<----">--%>
-<%--</form>--%>
+
+<c:if test="${user != null}">
+    <form action="${pageContext.servletContext.contextPath}/edit" method="post">
+        <input name="id" type="hidden" value="${user.id}"/>
+        Name : <input type="text" name="name" value="${user.name}">
+        Login : <input type="text" name="login" value="${user.login}">
+        Email : <input type="text" name="email" value="${user.mail}">
+        <input type="submit" name="edit">
+    </form>
+</c:if>
+<c:out value="${result}"/>
 </body>
 </html>

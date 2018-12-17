@@ -17,13 +17,8 @@ public class UserTableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = logic.findAll();
-        req.setAttribute("user", users);
+        req.setAttribute("users", users);
 
         req.getRequestDispatcher("WEB-INF/UserTable.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 }
