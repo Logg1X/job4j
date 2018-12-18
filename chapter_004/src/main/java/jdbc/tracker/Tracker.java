@@ -42,6 +42,13 @@ public class Tracker implements Closeable {
         this.createTrackerTable();
     }
 
+    public Tracker(Connection connection, String pathQuery) {
+        this.connection = connection;
+        this.initSql(pathQuery);
+        this.createTrackerTable();
+
+    }
+
     /**
      * Инициализация подключения к БД.
      *
@@ -107,7 +114,7 @@ public class Tracker implements Closeable {
             statement.executeUpdate();
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 while (resultSet.next()) {
-                    item.setId(String.valueOf(resultSet.getInt("id")));
+                    item.setId(String.valueOf(resultSet.getInt(1)));
                 }
             }
         } catch (SQLException e) {
@@ -241,11 +248,11 @@ public class Tracker implements Closeable {
         try {
             while (resultSet.next()) {
                 Item item = new Item();
-                item.setId(resultSet.getString("id"));
-                item.setName(resultSet.getString("name"));
-                item.setDescription(resultSet.getString("description"));
-                item.setDateCreating(resultSet.getTimestamp("create_date").getTime());
-                item.setDateUpdate(resultSet.getTimestamp("update_date").getTime());
+                item.setId(resultSet.getString(1));
+                item.setName(resultSet.getString(2));
+                item.setDescription(resultSet.getString(3));
+                item.setDateCreating(resultSet.getTimestamp(4).getTime());
+                item.setDateUpdate(resultSet.getTimestamp(5).getTime());
                 items.add(item);
             }
         } catch (SQLException e) {
