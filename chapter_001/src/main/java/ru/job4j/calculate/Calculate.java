@@ -9,16 +9,6 @@ package ru.job4j.calculate;
  */
 public class Calculate {
     /**
-     * Method echo.
-     *
-     * @param name Your name.
-     * @return Echo plus your name.
-     */
-    public final String echo(final String name) {
-        return "Echo, echo, echo : " + name;
-    }
-
-    /**
      * main - Точка входа в программу.
      * Вывод строки в консоль.
      *
@@ -26,5 +16,15 @@ public class Calculate {
      */
     public static void main(final String[] args) {
         System.out.println("Hello World");
+    }
+
+    /**
+     * Method echo.
+     *
+     * @param name Your name.
+     * @return Echo plus your name.
+     */
+    public final String echo(final String name) {
+        return "Echo, echo, echo : " + name;
     }
 }

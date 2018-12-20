@@ -22,6 +22,7 @@ public class ConverterTest {
         int result = converter.rubleToDollar(124);
         assertThat(result, is(2));
     }
+
     /**
      * Test rubleToEuro.
      */
@@ -31,6 +32,7 @@ public class ConverterTest {
         int result = converter.rubleToEuro(146);
         assertThat(result, is(2));
     }
+
     /**
      * Test euroToRubles.
      */
@@ -40,6 +42,7 @@ public class ConverterTest {
         int result = converter.euroToRubles(2);
         assertThat(result, is(146));
     }
+
     /**
      * Test dollarToRubles.
      */

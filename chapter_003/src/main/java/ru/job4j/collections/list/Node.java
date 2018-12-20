@@ -10,10 +10,6 @@ public class Node<E> {
         this.value = value;
     }
 
-    public void setNext(Node<E> next) {
-        this.next = next;
-    }
-
     public static boolean hasCycle(Node first) {
         boolean result = false;
         Node one = first;
@@ -27,5 +23,9 @@ public class Node<E> {
             }
         }
         return result;
+    }
+
+    public void setNext(Node<E> next) {
+        this.next = next;
     }
 }

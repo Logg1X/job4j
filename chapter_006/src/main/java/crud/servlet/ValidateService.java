@@ -52,7 +52,7 @@ public class ValidateService implements Validate {
 
     @Override
     public User delete(Map<String, String[]> param) {
-        var id = Integer.valueOf(param.get("id")[0]);
+        int id = Integer.valueOf(param.get("id")[0]);
         this.userIsNotExist(id);
         return store.delete(id);
     }
@@ -68,7 +68,7 @@ public class ValidateService implements Validate {
 
     @Override
     public User findById(Map<String, String[]> param) {
-        var id = Integer.valueOf(param.get("id")[0]);
+        int id = Integer.valueOf(param.get("id")[0]);
         this.userIsNotExist(id);
         return store.findById(id);
     }

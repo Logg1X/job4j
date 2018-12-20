@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.job4j</groupId>
@@ -11,9 +11,24 @@
     <url>http://job4j.ru/</url>
     <profiles>
         <profile>
-            <id>test</id>
+            <id>travis</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
+                <db.url>jdbc:postgresql://localhost/tops</db.url>
+                <db.username>postgres</db.username>
+                <db.password></db.password>
+                <db.driver>org.postgresql.Driver</db.driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/tops</db.url>
                 <db.username>postgres</db.username>
                 <db.password>505132580</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -22,7 +37,7 @@
         <profile>
             <id>production</id>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/tracker</db.url>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/tops</db.url>
                 <db.username>postgres</db.username>
                 <db.password>505132580</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -99,7 +114,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
-            </dependency>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -120,8 +135,6 @@
             <version>1.2.17</version>
         </dependency>
     </dependencies>
-
-
     <modules>
         <module>chapter_001</module>
         <module>chapter_002</module>
@@ -130,6 +143,7 @@
         <module>chapter_004</module>
         <module>chapter_005</module>
         <module>chapter_006</module>
+        <module>liquibase</module>
     </modules>
     <build>
         <plugins>
@@ -197,15 +211,15 @@
                         <configuration>
                             <rules>
                                 <!-- All classes must have 80% line and branch coverage . Note we use 2 d.p so that we get can any check failure messages reported to 2 d.p  -->
-                                <rule >
+                                <rule>
                                     <element>CLASS</element>
                                     <limits>
-                                        <limit >
+                                        <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
                                             <minimum>0.80</minimum>
                                         </limit>
-                                        <limit >
+                                        <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
                                             <minimum>0.80</minimum>
@@ -222,5 +236,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

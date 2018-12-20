@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Function;
 
 
-
 public class Funk {
 
     private List<Double> diaposon(int start, int and, Function<Integer, Double> funk) {

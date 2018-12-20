@@ -50,7 +50,6 @@ public class Item {
     }
 
 
-
     public Item setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
         return this;

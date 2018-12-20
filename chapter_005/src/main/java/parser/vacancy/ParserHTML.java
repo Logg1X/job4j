@@ -44,14 +44,14 @@ public class ParserHTML {
             for (Element element : elements) {
                 String[] title = element.select(TD_POSTLISTTOPIC).select(A_TAG).text().split("\\[");
                 if (Pattern.matches(REGEX, title[0])) {
-                   String dateCol = element.select(TD_ALTCOL).last().text();
+                    String dateCol = element.select(TD_ALTCOL).last().text();
                     LocalDateTime date = convertingStringToDateFormat(dateCol);
                     if (dateUpdate != null && date.compareTo(dateUpdate) < 0 || !isCurrentYear(dateUpdate)) {
                         LOG.info("Выход за диапозон даты.....STOP.....");
                         point = false;
                         break;
                     }
-                   String link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
+                    String link = element.select(TD_POSTLISTTOPIC).select(A_TAG).attr(HREF_ATTRIBUTE);
                     String author = element.select(TD_ALTCOL).first().text();
                     result.add(new Vacancy(title[0], link, author, date));
                 }

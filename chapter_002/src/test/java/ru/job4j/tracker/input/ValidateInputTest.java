@@ -1,9 +1,8 @@
 package ru.job4j.tracker.input;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.tracker.input.StubInput;
-import ru.job4j.tracker.input.ValidateInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -35,9 +34,9 @@ public class ValidateInputTest {
     @Test
     public void whenInvalidInput() {
         ValidateInput input = new ValidateInput(
-                new StubInput(new String[] {"invalid", "1"})
+                new StubInput(new String[]{"invalid", "1"})
         );
-        input.ask("Enter", new int[] {0});
+        input.ask("Enter", new int[]{0});
         assertThat(
                 this.mem.toString(),
                 is(

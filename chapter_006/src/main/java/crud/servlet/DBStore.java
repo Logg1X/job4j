@@ -1,48 +1,40 @@
 package crud.servlet;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class DBStore implements Store {
+    private static final Logger LOG = LogManager.getLogger(DBStore.class.getName());
     private static final BasicDataSource SOURCE = new BasicDataSource();
-    private static final DBStore INSTANCE = new DBStore();
+
 
     private DBStore() {
-        SOURCE.setUrl("jdbc:postgresql://127.0.0.1:5432/users");
-        SOURCE.setUsername("postgres");
-        SOURCE.setPassword("505132580");
-        SOURCE.setDriverClassName("org.postgresql.Driver");
+        Properties props = PropsLoader
+                .getPropsLoader()
+                .load(DBStore.class, "app.properties");
+        SOURCE.setUrl(props.getProperty("url"));
+        SOURCE.setUsername(props.getProperty("username"));
+        SOURCE.setPassword(props.getProperty("password"));
+        SOURCE.setDriverClassName(props.getProperty("driver-class-name"));
         SOURCE.setMinIdle(5);
         SOURCE.setMaxIdle(10);
         SOURCE.setMaxOpenPreparedStatements(100);
-        this.createTableUSers();
     }
 
+    //Создание схемы производится через модуль liquibase.
     public static DBStore getInstance() {
-        return INSTANCE;
+        return DBStoreHolder.INSTANCE;
     }
-
-    private void createTableUSers() {
-        try (Connection connection = SOURCE.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users("
-                    + "ID_USER serial PRIMARY KEY NOT NULL,"
-                    + "NAME_USER VARCHAR(100),"
-                    + "LOGIN_USER VARCHAR (100),"
-                    + "EMAIL_USER VARCHAR (50),"
-                    + "DATE_CREATE timestamp )");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Override
     public int add(User user) {
-        var id = user.getId();
+        int id = user.getId();
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO users(name_user,login_user,email_user,date_create)"
@@ -52,9 +44,10 @@ public class DBStore implements Store {
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getMail());
             statement.setTimestamp(4, Timestamp.valueOf(user.getCreateDate()));
-            statement.execute();
+            id = statement.executeUpdate();
+            LOG.info(String.format("User with id: %s added in DB", id));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return id;
     }
@@ -71,8 +64,9 @@ public class DBStore implements Store {
             statement.setString(3, user.getMail());
             statement.setInt(4, user.getId());
             statement.executeUpdate();
+            LOG.info(String.format("User with id: %s Updated!", previous.getId()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             previous = null;
         }
         return previous;
@@ -80,37 +74,33 @@ public class DBStore implements Store {
 
     @Override
     public User delete(int id) {
-        var deleted = this.findById(id);
+        User deleted = this.findById(id);
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      "DELETE FROM users WHERE ID_USER = ?"
              )) {
             statement.setInt(1, id);
             statement.execute();
+            LOG.info(String.format("User: %s \n has been deleted!", deleted.toString()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return deleted;
     }
 
     @Override
     public List<User> findAll() {
-        var allUsers = new ArrayList();
+        List<User> allUsers = new ArrayList();
         try (Connection connection = SOURCE.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(
                      "SELECT * from users"
              )) {
             while (resultSet.next()) {
-                allUsers.add(new User(
-                        resultSet.getInt("ID_USER"),
-                        resultSet.getString("NAME_USER"),
-                        resultSet.getString("LOGIN_USER"),
-                        resultSet.getString("EMAIL_USER"),
-                        resultSet.getTimestamp("DATE_CREATE").toLocalDateTime()));
+                allUsers.add(this.getByResultSet(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return allUsers;
     }
@@ -125,15 +115,25 @@ public class DBStore implements Store {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
-                result = new User(resultSet.getInt("ID_USER"),
-                        resultSet.getString("NAME_USER"),
-                        resultSet.getString("LOGIN_USER"),
-                        resultSet.getString("EMAIL_USER"),
-                        resultSet.getTimestamp("DATE_CREATE").toLocalDateTime());
+                result = getByResultSet(resultSet);
             }
+            LOG.info(String.format("getting user by id: %s", result.toString()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return result;
+    }
+
+    private final User getByResultSet(ResultSet set) throws SQLException {
+        return new User(
+                set.getInt("ID_USER"),
+                set.getString("NAME_USER"),
+                set.getString("LOGIN_USER"),
+                set.getString("EMAIL_USER"),
+                set.getTimestamp("DATE_CREATE").toLocalDateTime());
+    }
+
+    private static class DBStoreHolder {
+        private static final DBStore INSTANCE = new DBStore();
     }
 }

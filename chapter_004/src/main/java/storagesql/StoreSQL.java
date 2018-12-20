@@ -15,10 +15,10 @@ import java.util.Properties;
 
 
 public class StoreSQL implements AutoCloseable {
-
     private final static Logger LOG = LoggerFactory.getLogger(StoreSQL.class);
     private Connection connection;
     private XmlUsage.Entries entries;
+
 
     public StoreSQL(String configConnection) {
         this.connection = setConnection(configConnection);
@@ -27,10 +27,13 @@ public class StoreSQL implements AutoCloseable {
 
     private Connection setConnection(String config) {
         Properties properties = new Properties();
-        try (InputStream loadFile = StoreSQL.class.getClassLoader().getResourceAsStream(config)) {
-            properties.load(loadFile);
+        try (InputStream in = StoreSQL.class.getClassLoader().getResourceAsStream(config)) {
+            properties.load(in);
             Class.forName(properties.getProperty("driver-class-name"));
-            connection = DriverManager.getConnection(properties.getProperty("url"));
+            connection = DriverManager.getConnection(
+                    properties.getProperty("url"),
+                    properties.getProperty("username"),
+                    properties.getProperty("password"));
         } catch (IOException | ClassNotFoundException | SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -50,8 +53,8 @@ public class StoreSQL implements AutoCloseable {
 
     private void createTable() {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE IF EXISTS entry");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS entry(field INTEGER )");
+            statement.executeUpdate("TRUNCATE entry");
+//            statement.executeUpdate("CREATE TABLE IF NOT EXISTS entry(field INTEGER )");
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }

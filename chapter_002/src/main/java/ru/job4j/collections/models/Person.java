@@ -25,9 +25,10 @@ public class Person {
 
     /**
      * Конструктор класса.
-     * @param name имя
+     *
+     * @param name    имя
      * @param surname фамилия
-     * @param phone телефон
+     * @param phone   телефон
      * @param address фврес
      */
     public Person(final String name, final String surname, final String phone, final String address) {
@@ -39,6 +40,7 @@ public class Person {
 
     /**
      * Геттер Surname.
+     *
      * @return Surname
      */
     public final String getSurname() {

@@ -18,47 +18,6 @@ public class SimpleMapTest {
     private User sasha;
     private User yulya;
 
-
-    private class User {
-        private String firstName;
-        private int age;
-
-        public User(String firstName, int age) {
-            this.firstName = firstName;
-            this.age = age;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-
-                return false;
-            }
-            User user = (User) o;
-            return age == user.age
-                    && Objects.equals(firstName, user.firstName);
-        }
-
-        @Override
-        public int hashCode() {
-
-            return Objects.hash(firstName, age);
-        }
-
-        @Override
-        public String toString() {
-            return firstName
-                    + " "
-                    + age
-                    + " лет.";
-        }
-    }
-
-
     @Before
     public void setUp() throws Exception {
         pasha = new User("Pasha", 26);
@@ -145,5 +104,44 @@ public class SimpleMapTest {
         iterator.next();
         assertTrue(map.delete(pasha));
         iterator.next();
+    }
+
+    private class User {
+        private String firstName;
+        private int age;
+
+        public User(String firstName, int age) {
+            this.firstName = firstName;
+            this.age = age;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+
+                return false;
+            }
+            User user = (User) o;
+            return age == user.age
+                    && Objects.equals(firstName, user.firstName);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(firstName, age);
+        }
+
+        @Override
+        public String toString() {
+            return firstName
+                    + " "
+                    + age
+                    + " лет.";
+        }
     }
 }

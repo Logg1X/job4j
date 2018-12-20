@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.collections.generic.SimpleArray;
 import ru.job4j.collections.generic.store.model.Role;
-import ru.job4j.collections.generic.store.model.User;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

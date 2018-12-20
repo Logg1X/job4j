@@ -17,22 +17,6 @@ public class SimpleBlockingQueue<T> {
         queue = new LinkedList<>();
     }
 
-    public synchronized void offer(final T value) throws InterruptedException {
-        while (this.queue.size() >= this.maxSize) {
-            wait();
-        }
-        notify();
-        queue.offer(value);
-    }
-
-    public synchronized final T poll() throws InterruptedException {
-        while (this.queue.size() == 0) {
-            wait();
-        }
-        notify();
-        return queue.poll();
-    }
-
     public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(10);
         final Thread consumer = new Thread(
@@ -71,6 +55,21 @@ public class SimpleBlockingQueue<T> {
         }
     }
 
+    public synchronized void offer(final T value) throws InterruptedException {
+        while (this.queue.size() >= this.maxSize) {
+            wait();
+        }
+        notify();
+        queue.offer(value);
+    }
+
+    public synchronized final T poll() throws InterruptedException {
+        while (this.queue.size() == 0) {
+            wait();
+        }
+        notify();
+        return queue.poll();
+    }
 
     public boolean isEmpty() {
         return queue.isEmpty();

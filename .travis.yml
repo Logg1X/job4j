@@ -2,25 +2,25 @@
 language: java
 
 jdk: openjdk11
-script:
-- # do stuff with OpenJDK 10
-  #jdk_switcher use openjdk10
-- # do stuff with open OpenJDK 11
-- export JAVA_HOME=$HOME/openjdk11
-#$TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false
 
+services:
+- postgresql
+
+before_install:
+- psql -c 'create database tops;' -U postgres
+
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
 
 # Отправлять уведомление на почту mailto:youremail@smtp.ru если сборка упала
 notifications:
   email:
     recipients:
-      - mailto:per4mancerror@gmail.com
+    - mailto:per4mancerror@gmail.com
     on_success: never # default: change
     on_failure: always # default: always

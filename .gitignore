@@ -22,6 +22,10 @@
 #Target Package#
 target
 
+#temp file
+ConvertingXml.xml
+stor.xml
+
 #Idea Files#
 .idea/*
 *.iml

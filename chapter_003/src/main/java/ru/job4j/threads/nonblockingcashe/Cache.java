@@ -2,6 +2,7 @@ package ru.job4j.threads.nonblockingcashe;
 
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
+
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,9 +10,38 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Cache {
 
 
+    @GuardedBy("this")
+    private final ConcurrentHashMap<Integer, Base> cache;
+
+    public Cache() {
+        this.cache = new ConcurrentHashMap<>();
+    }
+
+    public boolean add(Base model) {
+        return cache.putIfAbsent(model.id, model) == null;
+    }
+
+    public boolean update(Base model) {
+        this.cache.computeIfPresent(model.id,
+                (integer, base) -> {
+                    if (base.version != model.version) {
+                        throw new OptimisticException("В изменении отказанно!");
+                    }
+                    base.setName(model.getName());
+                    base.setVersion(base.getVersion() + 1);
+                    return base;
+
+                });
+        return true;
+    }
+
+    public Base delete(Base model) {
+        return this.cache.remove(model.id);
+    }
+
     public static class Base {
         private int id = 0;
-        private  int version;
+        private int version;
         private String name;
 
         public Base(int id, String name) {
@@ -62,36 +92,6 @@ public class Cache {
                     + ", name='" + name + '\''
                     + '}';
         }
-    }
-
-    @GuardedBy("this")
-    private final ConcurrentHashMap<Integer, Base> cache;
-
-    public Cache() {
-        this.cache = new ConcurrentHashMap<>();
-    }
-
-    public boolean add(Base model) {
-        return cache.putIfAbsent(model.id, model) == null;
-    }
-
-    public boolean update(Base model) {
-        this.cache.computeIfPresent(model.id,
-                (integer, base) -> {
-                    if (base.version != model.version) {
-                        throw new OptimisticException("В изменении отказанно!");
-                    }
-                    base.setName(model.getName());
-                    base.setVersion(base.getVersion() + 1);
-                    return base;
-
-        });
-        return true;
-    }
-
-
-    public Base delete(Base model) {
-        return this.cache.remove(model.id);
     }
 
 }

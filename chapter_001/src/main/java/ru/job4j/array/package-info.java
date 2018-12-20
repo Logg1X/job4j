@@ -1,4 +1,3 @@
-
 /**
  * training package for working with arrays.
  *

@@ -13,7 +13,7 @@ public class Matrix {
      * @param size Размерность таблицы (например 10х10)
      * @return Таблица умножения.
      */
-   public final int[][] multiple(final int size) {
+    public final int[][] multiple(final int size) {
         int[][] table = new int[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

@@ -1,4 +1,3 @@
-
 /**
  * Models for collections tasks.
  *

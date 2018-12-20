@@ -27,18 +27,6 @@ public class Point {
     }
 
     /**
-     * Method dinstanceTo - calculate of distance between points.
-     *
-     * @param that - point at which the distance is calculated
-     * @return Result.
-     */
-    public final double distanceTo(final Point that) {
-        return Math.sqrt(Math.pow(this.osX - that.osX, 2)
-                + Math.pow(this.osY - that.osY, 2)
-        );
-    }
-
-    /**
      * Точка входа в программу.
      * Тестирование программы.
      *
@@ -53,6 +41,18 @@ public class Point {
                 + "y2 = " + b.osY);
         System.out.println("Расстояние между точками А и В : "
                 + a.distanceTo(b)
+        );
+    }
+
+    /**
+     * Method dinstanceTo - calculate of distance between points.
+     *
+     * @param that - point at which the distance is calculated
+     * @return Result.
+     */
+    public final double distanceTo(final Point that) {
+        return Math.sqrt(Math.pow(this.osX - that.osX, 2)
+                + Math.pow(this.osY - that.osY, 2)
         );
     }
 }

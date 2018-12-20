@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.Iterator;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ConcurrentArrayTest {
 
@@ -35,7 +35,7 @@ public class ConcurrentArrayTest {
             for (int i = 0; i < 5; i++) {
                 assertThat(iter1.next(), is(i));
             }
-            });
+        });
         threadB.start();
         threadB.join();
     }

@@ -13,6 +13,7 @@ public class SquareTest {
         int[] rst = square.calculate(bound);
         assertThat(rst, is(new int[]{1, 4, 9}));
     }
+
     @Test
     public void wenBound1Then1() {
         int bound = 1;
@@ -20,6 +21,7 @@ public class SquareTest {
         int[] rst = square.calculate(bound);
         assertThat(rst, is(new int[]{1}));
     }
+
     @Test
     public void wen() {
         int bound = 0;
@@ -27,11 +29,12 @@ public class SquareTest {
         int[] rst = square.calculate(bound);
         assertThat(rst, is(new int[]{}));
     }
-   @Test(expected = NegativeArraySizeException.class)
+
+    @Test(expected = NegativeArraySizeException.class)
     public void wenOne() {
         int bound = -1;
-       Square square = new Square();
-       int[] rst = square.calculate(bound);
+        Square square = new Square();
+        int[] rst = square.calculate(bound);
     }
 
 }

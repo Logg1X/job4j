@@ -134,6 +134,6 @@ public class BankTest {
         List<Accounts> assertAcc = new ArrayList<>();
         assertAcc.add(pashaAcc);
         assertThat(assertAcc, is(userAcc));
-     }
+    }
 }
 

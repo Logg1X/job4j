@@ -1,5 +1,4 @@
 /**
- *
  * Simple bank transfers.
  *
  * @author Pavel Toporov (per4mancerror@gmail.com).

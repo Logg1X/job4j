@@ -23,7 +23,7 @@ public enum Cell {
         this.y = y;
     }
 
-    public static  Optional<Cell> getCellByValue(int x, int y) {
+    public static Optional<Cell> getCellByValue(int x, int y) {
         Cell found = null;
         List<Cell> ctlls = Arrays.asList(Cell.values());
         return ctlls

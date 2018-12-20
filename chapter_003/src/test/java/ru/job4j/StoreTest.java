@@ -62,5 +62,5 @@ public class StoreTest {
         current.set(0, new Store.User(3333, "Yuadadliya"));
         current.set(1, new Store.User(4444, "GGGJHGJ"));
         assertThat(store.diff(previoues, current).toString(), is("New: 2, Deleted: 2, Changed: 2"));
-        }
     }
+}

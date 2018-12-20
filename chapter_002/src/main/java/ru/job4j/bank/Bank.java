@@ -16,6 +16,7 @@ public class Bank {
 
     /**
      * Добавление пользователей в базу.
+     *
      * @param user пользователь.
      */
     public void addUser(User user) {
@@ -24,6 +25,7 @@ public class Bank {
 
     /**
      * Удаление пользователя.
+     *
      * @param user пользователь.
      */
     public void deleteUser(User user) {
@@ -33,8 +35,9 @@ public class Bank {
 
     /**
      * Добавление счета для пользователя.
+     *
      * @param passport паспортные данные пользователя.
-     * @param account счет.
+     * @param account  счет.
      */
     public void addAccountToUser(String passport, Accounts account) {
         List<Accounts> userAcc = this.db.get(findUserByPassport(passport));
@@ -45,8 +48,9 @@ public class Bank {
 
     /**
      * Удаление счета пользователя.
+     *
      * @param passport паспортные данные пользователя.
-     * @param account счет пользователя.
+     * @param account  счет пользователя.
      */
     public void deleteAccountFromUser(String passport, Accounts account) {
         List<Accounts> userAcc = this.db.get(findUserByPassport(passport));
@@ -57,6 +61,7 @@ public class Bank {
 
     /**
      * Получение списка счетов пользователя.
+     *
      * @param passport паспортные данные пользователя.
      * @return список счетов.
      */
@@ -66,11 +71,12 @@ public class Bank {
 
     /**
      * Перевод средств.
-     * @param srcPassport паспортные данные отправителя.
-     * @param srcRequisite реквизиты счета отправителя.
-     * @param destPassport паспортные данные получателя.
+     *
+     * @param srcPassport   паспортные данные отправителя.
+     * @param srcRequisite  реквизиты счета отправителя.
+     * @param destPassport  паспортные данные получателя.
      * @param destRequisite реквизиты счета получателя.
-     * @param amount количество средств.
+     * @param amount        количество средств.
      * @return true, если перевод прошел успешно. Иначе false.
      */
     public boolean transferMoney(String srcPassport,
@@ -98,6 +104,7 @@ public class Bank {
 
     /**
      * Поиск пользователоя по паспортным данным.
+     *
      * @param passport паспортные данные.
      * @return пользователь.
      */
@@ -114,7 +121,8 @@ public class Bank {
 
     /**
      * Получение счета пользователя по паспортным данным и реквизитам.
-     * @param passport паспортные данные.
+     *
+     * @param passport  паспортные данные.
      * @param requisite реквизиты счета.
      * @return счет пользователя.
      */

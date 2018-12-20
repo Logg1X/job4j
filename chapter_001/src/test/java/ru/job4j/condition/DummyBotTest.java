@@ -23,6 +23,7 @@ public class DummyBotTest {
                 is("До скорой встречи.")
         );
     }
+
     @Test
     public void wenUnknownBot() {
         DummyBot bot = new DummyBot();

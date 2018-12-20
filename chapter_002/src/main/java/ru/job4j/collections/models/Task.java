@@ -18,8 +18,8 @@ public class Task {
     /**
      * Конструктор класса.
      *
-     * @param description     desc
-     * @param prt priority
+     * @param description desc
+     * @param prt         priority
      */
     public Task(final String description, final int prt) {
         this.desc = description;

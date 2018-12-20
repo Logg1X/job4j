@@ -3,7 +3,6 @@ package ru.job4j.collections.search;
 import ru.job4j.collections.models.Task;
 
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Toporov Pavel (mailto:per4mancerror@gmail.com)

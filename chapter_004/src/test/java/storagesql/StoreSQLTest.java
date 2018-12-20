@@ -1,6 +1,5 @@
 package storagesql;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class StoreSQLTest {
 
     @Test
     public void whenCheckConnection() throws Exception {
-        StoreSQL sql = new StoreSQL("config.properties");
+        StoreSQL sql = new StoreSQL("app.properties");
         assertFalse(sql.connectionIsClose());
         sql.close();
         assertTrue(sql.connectionIsClose());
@@ -21,7 +20,7 @@ public class StoreSQLTest {
 
     @Test
     public void whenGenerateEntriesThen10entry() throws Exception {
-        StoreSQL sql = new StoreSQL("config.properties");
+        StoreSQL sql = new StoreSQL("app.properties");
         sql.generateData(5);
         List<XmlUsage.Field> result = sql.selectData();
         sql.close();
