@@ -1,4 +1,4 @@
-package crud.servlet;
+package crud.servlet.models;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -9,40 +9,42 @@ public class User {
     private int id;
     private String name;
     private String login;
+    private String password;
+    private Role role;
     private String mail;
     private LocalDateTime createDate;
 
 
-    public User(String name, String login, String mail, LocalDateTime createDate) {
+    public User(String name, String login, String mail, String password, LocalDateTime createDate) {
         this.name = name;
         this.login = login;
+        this.mail = mail;
+        this.password = password;
+        this.createDate = createDate;
+    }
+
+    public User(String name, String login, String password, String mail) {
+        this(name, login, mail, password, now());
+    }
+
+    public User(int id, String name, String login, String mail, String password, Role role, LocalDateTime createDate) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.role = role;
         this.mail = mail;
         this.createDate = createDate;
     }
 
-    public User(String name, String login, String mail) {
-        this(name, login, mail, now());
-    }
-
-    public User(int id, String name, String login, String mail, LocalDateTime createDate) {
+    public User(int id, String name, String login, String mail, String password, String role) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.mail = mail;
-        this.createDate = createDate;
-
-    }
-
-    public User(int id, String name, String login, String mail) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.mail = mail;
+        this.password = password;
+        this.role = Role.valueOf(role);
         this.createDate = now();
-    }
-
-    public User(User user) {
-        this(user.getId(), user.getName(), user.getLogin(), user.getMail(), user.getCreateDate());
     }
 
     public int getId() {
@@ -79,6 +81,24 @@ public class User {
 
     public LocalDateTime getCreateDate() {
         return createDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public User setRole(Role role) {
+        this.role = role;
+        return this;
     }
 
     public void setCreateDate(LocalDateTime createDate) {

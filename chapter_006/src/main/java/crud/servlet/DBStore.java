@@ -1,11 +1,14 @@
 package crud.servlet;
 
+import crud.servlet.models.Role;
+import crud.servlet.models.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,6 +28,7 @@ public class DBStore implements Store {
         SOURCE.setMinIdle(5);
         SOURCE.setMaxIdle(10);
         SOURCE.setMaxOpenPreparedStatements(100);
+        this.createAllRole(Arrays.asList(Role.values()));
     }
 
     //Создание схемы производится через модуль liquibase.
@@ -37,15 +41,34 @@ public class DBStore implements Store {
         int id = user.getId();
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO users(name_user,login_user,email_user,date_create)"
-                             + "VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS
-             )) {
+                     "INSERT INTO users(name_user,email_user,date_create,id_role)"
+                             + "VALUES(?,?,?,?) RETURNING id_user", Statement.RETURN_GENERATED_KEYS
+             );
+             PreparedStatement st = connection.prepareStatement(
+                     "INSERT INTO credentional(login,password,id_user) VALUES (?,?,?)"
+             )
+        ) {
+            connection.setAutoCommit(false);
+            var idRole = this.getRoleId("USER");
             statement.setString(1, user.getName());
-            statement.setString(2, user.getLogin());
-            statement.setString(3, user.getMail());
-            statement.setTimestamp(4, Timestamp.valueOf(user.getCreateDate()));
-            id = statement.executeUpdate();
-            LOG.info(String.format("User with id: %s added in DB", id));
+            statement.setString(2, user.getMail());
+            statement.setTimestamp(3, Timestamp.valueOf(user.getCreateDate()));
+            statement.setInt(4, idRole);
+            statement.execute();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+            rs.close();
+            st.setString(1, user.getLogin());
+            st.setString(2, user.getPassword());
+            st.setInt(3, id);
+            st.executeUpdate();
+            try {
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                LOG.error(e.getMessage(), e);
+            }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -56,15 +79,29 @@ public class DBStore implements Store {
     public User update(User user) {
         User previous = this.findById(user.getId());
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "UPDATE users SET name_user= ?, login_user=?,email_user = ? where id_user = ?"
+             PreparedStatement userStat = connection.prepareStatement(
+                     "UPDATE users SET name_user= ?,email_user = ?,id_role=? where id_user = ?"
+             );
+             PreparedStatement credStat = connection.prepareStatement(
+                     "UPDATE credentional SET login=?,password=? where id_user = ?"
              )) {
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getLogin());
-            statement.setString(3, user.getMail());
-            statement.setInt(4, user.getId());
-            statement.executeUpdate();
-            LOG.info(String.format("User with id: %s Updated!", previous.getId()));
+            connection.setAutoCommit(false);
+            userStat.setString(1, user.getName());
+            userStat.setString(2, user.getMail());
+            userStat.setInt(3, this.getRoleId(user.getRole().toString()));
+            userStat.setInt(4, user.getId());
+            credStat.setString(1, user.getLogin());
+            credStat.setString(2, user.getPassword());
+            credStat.setInt(3, user.getId());
+            userStat.executeUpdate();
+            credStat.executeUpdate();
+            try {
+                connection.commit();
+                LOG.info(String.format("User with id: %s Updated!", previous.getId()));
+            } catch (SQLException e) {
+                connection.rollback();
+                LOG.error(e.getMessage(), e);
+            }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             previous = null;
@@ -76,11 +113,23 @@ public class DBStore implements Store {
     public User delete(int id) {
         User deleted = this.findById(id);
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
+             PreparedStatement userState = connection.prepareStatement(
                      "DELETE FROM users WHERE ID_USER = ?"
+             );
+             PreparedStatement credState = connection.prepareStatement(
+                     "DELETE from credentional WHERE id_user = ?"
              )) {
-            statement.setInt(1, id);
-            statement.execute();
+            connection.setAutoCommit(false);
+            userState.setInt(1, id);
+            credState.setInt(1, id);
+            credState.execute();
+            userState.execute();
+            try {
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                LOG.error(e.getMessage(), e);
+            }
             LOG.info(String.format("User: %s \n has been deleted!", deleted.toString()));
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -94,7 +143,7 @@ public class DBStore implements Store {
         try (Connection connection = SOURCE.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(
-                     "SELECT * from users"
+                     "SELECT * from users u join  credentional cred ON u.id_user = cred.id_user join role r on u.id_role = r.id;"
              )) {
             while (resultSet.next()) {
                 allUsers.add(this.getByResultSet(resultSet));
@@ -110,12 +159,13 @@ public class DBStore implements Store {
         User result = null;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT  * FROM users WHERE ID_USER = ?"
+                     "select * from users u join  credentional cred ON u.id_user = cred.id_user join role r on u.id_role = r.id Where u.id_user = ?"
              )) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
-                result = getByResultSet(resultSet);
+                User user1 = getByResultSet(resultSet);
+                result = user1;
             }
             LOG.info(String.format("getting user by id: %s", result.toString()));
         } catch (SQLException e) {
@@ -125,15 +175,67 @@ public class DBStore implements Store {
     }
 
     private final User getByResultSet(ResultSet set) throws SQLException {
-        return new User(
-                set.getInt("ID_USER"),
+
+        return new User(set.getInt("ID_USER"),
                 set.getString("NAME_USER"),
-                set.getString("LOGIN_USER"),
+                set.getString("login"),
                 set.getString("EMAIL_USER"),
+                set.getString("password"),
+                Role.valueOf(set.getString("name_role")),
                 set.getTimestamp("DATE_CREATE").toLocalDateTime());
     }
 
     private static class DBStoreHolder {
         private static final DBStore INSTANCE = new DBStore();
+    }
+
+    private void createAllRole(List<Role> roles) {
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "insert into role(name_role) VALUES (?)"
+             )) {
+            if (!this.getListRoles().equals(roles)) {
+                for (Role role : roles) {
+                    statement.setString(1, role.toString());
+                    statement.executeUpdate();
+                    LOG.info(String.format("Role: %s added in table", role.toString()));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    private int getRoleId(String nameRole) {
+        int idRole = 0;
+        try (Connection connection = SOURCE.getConnection();
+             ResultSet resultSet = connection.createStatement().executeQuery(String.format("select id from role WHERE role.name_role like '%s'", nameRole))) {
+            resultSet.next();
+            connection.setAutoCommit(false);
+            idRole = resultSet.getInt(1);
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return idRole;
+    }
+
+    private List<Role> getListRoles() {
+        List<Role> result = new ArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(
+                     "SELECT name_role from role"
+             )) {
+            while (resultSet.next()) {
+                Role temp = Role.valueOf(resultSet.getString("name_role"));
+                if (!Arrays.asList(Role.values()).contains(temp)) {
+                    throw new StoresException("Проверьте существующие роли. Такой роли не существует");
+                }
+                result.add(temp);
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
     }
 }

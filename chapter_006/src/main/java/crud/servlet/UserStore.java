@@ -1,5 +1,7 @@
 package crud.servlet;
 
+import crud.servlet.models.User;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

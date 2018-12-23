@@ -1,8 +1,8 @@
 package crud.servlet.servlets;
 
-import crud.servlet.User;
 import crud.servlet.Validate;
 import crud.servlet.ValidateService;
+import crud.servlet.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

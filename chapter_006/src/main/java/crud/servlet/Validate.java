@@ -1,5 +1,7 @@
 package crud.servlet;
 
+import crud.servlet.models.User;
+
 import java.util.List;
 import java.util.Map;
 

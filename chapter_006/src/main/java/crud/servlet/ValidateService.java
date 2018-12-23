@@ -1,5 +1,7 @@
 package crud.servlet;
 
+import crud.servlet.models.User;
+
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -21,6 +23,7 @@ public class ValidateService implements Validate {
         User user = new User(
                 param.get("name")[0],
                 param.get("login")[0],
+                param.get("password")[0],
                 param.get("email")[0]
         );
         this.loginIsExist(user.getLogin());
@@ -38,7 +41,9 @@ public class ValidateService implements Validate {
                 id,
                 param.get("name")[0],
                 param.get("login")[0],
-                param.get("email")[0]
+                param.get("email")[0],
+                param.get("password")[0],
+                param.get("role")[0]
         );
         this.validateMailAddres(user.getMail());
         this.mailIsExist(user.getMail(), user.getId());

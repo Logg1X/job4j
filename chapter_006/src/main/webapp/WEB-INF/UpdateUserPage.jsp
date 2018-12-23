@@ -5,15 +5,62 @@
     <title>Update User</title>
 </head>
 <body>
-
 <c:if test="${user != null}">
-    <form action="${pageContext.servletContext.contextPath}/edit" method="post">
-        <input name="id" type="hidden" value="${user.id}"/>
-        Name : <input type="text" name="name" value="${user.name}">
-        Login : <input type="text" name="login" value="${user.login}">
-        Email : <input type="text" name="email" value="${user.mail}">
-        <input type="submit" name="edit">
-    </form>
+    <table>
+        <th>Update user:</th>
+        <form action="${pageContext.servletContext.contextPath}/edit" method="post">
+            <input name="id" type="hidden" value="${user.id}"/>
+            <tr>
+                <td>Name :</td>
+                <td><input type="text" name="name" value="${user.name}"></td>
+            </tr>
+            <tr>
+                <td>Login :</td>
+                <td><input type="text" name="login" value="${user.login}"></td>
+            </tr>
+            <tr>
+                <td>Password :</td>
+                <td><input type="text" name="password" value="${user.password}"></td>
+            </tr>
+            <tr>
+                <td>Email :</td>
+                <td><input type="text" name="email" value="${user.mail}"></td>
+            </tr>
+            </tr>
+            <tr>
+                <td>Role :</td>
+                <td><i>Current role: "${user.role}"</i>
+                </br>
+                    <select name="role">
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select></td>
+            </tr>
+            </br>
+            <th>
+                <input type="submit" name="edit">
+            </th>
+        </form>
+    </table>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 2px solid #252421;
+            padding: 6px;
+        }
+
+        input, select {
+            height: 30px;
+            width: 130px;
+            top: 50%;
+            left: 50%;
+        }
+
+
+    </style>
 </c:if>
 <c:out value="${result}"/>
 </body>

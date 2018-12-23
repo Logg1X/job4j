@@ -12,10 +12,46 @@
 </head>
 <body>
 <form action="${pageContext.servletContext.contextPath}/createUser" method="post">
-    Name : <input type="text" name="name"/>
-    Login : <input type="text" name="login"/>
-    Email : <input type="text" name="email"/>
-    <input type="submit" value="create">
+    <table>
+        <th>Create new user:</th>
+        <tr>
+            <td>Name :</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>Login :</td>
+            <td><input type="text" name="login"/></td>
+        </tr>
+        <tr>
+            <td>Password :</td>
+            <td><input type="text" name="password"/></td>
+        </tr>
+        <tr>
+            <td>Email :</td>
+            <td><input type="text" name="email"/></td>
+        </tr>
+        </br>
+        <th>
+            <input type="submit" value="create">
+        </th>
+    </table>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 2px solid #252421;
+            padding: 6px;
+        }
+
+        input {
+            height: 30px;
+            width: 130px;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
 </form>
 </body>
 </html>

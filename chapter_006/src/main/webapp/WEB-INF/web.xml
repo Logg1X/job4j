@@ -52,4 +52,12 @@
         <servlet-name>StartServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>SignIn</servlet-name>
+        <servlet-class>crud.servlet.servlets.SignIn</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SignIn</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
 </web-app>
