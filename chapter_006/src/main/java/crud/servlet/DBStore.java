@@ -36,6 +36,10 @@ public class DBStore implements Store {
         return DBStoreHolder.INSTANCE;
     }
 
+    private static class DBStoreHolder {
+        private static final DBStore INSTANCE = new DBStore();
+    }
+
     @Override
     public int add(User user) {
         int id = user.getId();
@@ -49,7 +53,10 @@ public class DBStore implements Store {
              )
         ) {
             connection.setAutoCommit(false);
-            var idRole = this.getRoleId("USER");
+            if (user.getRole() == null) {
+                user.setRole(Role.USER);
+            }
+            int idRole = this.getRoleId(user.getRole().toString());
             statement.setString(1, user.getName());
             statement.setString(2, user.getMail());
             statement.setTimestamp(3, Timestamp.valueOf(user.getCreateDate()));
@@ -164,14 +171,32 @@ public class DBStore implements Store {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
-                User user1 = getByResultSet(resultSet);
-                result = user1;
+                result = getByResultSet(resultSet);
             }
             LOG.info(String.format("getting user by id: %s", result.toString()));
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
         return result;
+    }
+
+    public User getByCredentional(String login, String password) {
+        User user = null;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT * from users join credentional c2 on users.id_user = c2.id_user join role r on users.id_role = r.id where c2.login = ? and c2.password =?");
+        ) {
+            statement.setString(1, login);
+            statement.setString(2, password);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    user = this.getByResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return user;
     }
 
     private final User getByResultSet(ResultSet set) throws SQLException {
@@ -185,21 +210,15 @@ public class DBStore implements Store {
                 set.getTimestamp("DATE_CREATE").toLocalDateTime());
     }
 
-    private static class DBStoreHolder {
-        private static final DBStore INSTANCE = new DBStore();
-    }
-
     private void createAllRole(List<Role> roles) {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "insert into role(name_role) VALUES (?)"
+                     "insert into role(name_role) VALUES (?) ON CONFLICT DO NOTHING"
              )) {
-            if (!this.getListRoles().equals(roles)) {
-                for (Role role : roles) {
-                    statement.setString(1, role.toString());
-                    statement.executeUpdate();
-                    LOG.info(String.format("Role: %s added in table", role.toString()));
-                }
+            for (Role role : roles) {
+                statement.setString(1, role.toString());
+                statement.executeUpdate();
+                LOG.info(String.format("Role: %s added in table", role.toString()));
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -227,11 +246,7 @@ public class DBStore implements Store {
                      "SELECT name_role from role"
              )) {
             while (resultSet.next()) {
-                Role temp = Role.valueOf(resultSet.getString("name_role"));
-                if (!Arrays.asList(Role.values()).contains(temp)) {
-                    throw new StoresException("Проверьте существующие роли. Такой роли не существует");
-                }
-                result.add(temp);
+                result.add(Role.valueOf(resultSet.getString("name_role")));
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);

@@ -30,11 +30,15 @@ public class Rule {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Rule role = (Rule) o;
-        return id == role.id &&
-                Objects.equals(name, role.name);
+        return id == role.id
+                && Objects.equals(name, role.name);
     }
 
     @Override

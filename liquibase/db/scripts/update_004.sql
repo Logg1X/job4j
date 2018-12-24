@@ -2,5 +2,3 @@ create table if not exists credentional(id_user integer primary key references u
 create table if not exists role(id serial primary key, name_role varchar(50));
 ALTER TABLE users ADD COLUMN id_role integer references role(id);
 ALTER TABLE users DROP COLUMN login_user;
--- ALTER TABLE users ADD primary KEY (id_user) references credentional(id_user);
--- create table if not exists role(id integer, login varchar(100), password varchar (100))

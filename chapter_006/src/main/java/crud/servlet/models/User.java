@@ -133,6 +133,8 @@ public class User {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", login='" + login + '\''
+                + ", password='" + password + '\''
+                + ", role=" + role
                 + ", mail='" + mail + '\''
                 + ", createDate=" + createDate
                 + '}';

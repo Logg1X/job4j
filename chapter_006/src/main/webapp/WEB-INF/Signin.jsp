@@ -13,30 +13,30 @@
 </head>
 <body>
 <table>
+
     <th>Sign In:</th>
-    <tr>
-        <td>Login :</td>
-        <td><input type="text" name="login"/></td>
-    </tr>
-    <tr>
-        <td>Password :</td>
-        <td><input type="text" name="password"/></td>
-    </tr>
-    <tr>
-        <td>
-            <form action="${pageContext.servletContext.contextPath}/signin" method="post">
+    <form action="${pageContext.servletContext.contextPath}/signin" method="post">
+        <tr>
+            <td>Login :</td>
+            <td><input type="text" name="login"/></td>
+        </tr>
+        <tr>
+            <td>Password :</td>
+            <td><input type="text" name="password"/></td>
+        </tr>
+        <tr>
+            <td>
+
                 <input type="submit" value="Sign in">
-            </form>
-        </td>
-        <td>
-            <form action="${pageContext.servletContext.contextPath}/createUser" method="get">
-                <input type="submit" value="Registration">
-            </form>
-        </td>
+            </td>
+    </form>
+    <td>
+        <form action="${pageContext.servletContext.contextPath}/createUser" method="get">
+            <input type="submit" value="Registration">
+        </form>
+    </td>
     </tr>
 </table>
-
-
 <style type="text/css">
     table {
         border-collapse: collapse;

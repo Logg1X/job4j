@@ -4,12 +4,13 @@ import crud.servlet.models.User;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 public class ValidateService implements Validate {
 
     private static ValidateService logic = new ValidateService();
-    private final Store store = DBStore.getInstance();
+    private final DBStore store = DBStore.getInstance();
 
     private ValidateService() {
     }
@@ -78,6 +79,20 @@ public class ValidateService implements Validate {
         return store.findById(id);
     }
 
+    public boolean isCredentional(String loggin, String password) {
+        AtomicBoolean rst = new AtomicBoolean(false);
+        store.findAll().forEach(user -> {
+            if (user.getLogin().equals(loggin) && user.getPassword().equals(password)) {
+                rst.set(true);
+            }
+        });
+        return rst.get();
+    }
+
+    public User getByCredentional(String login, String password) {
+        return store.getByCredentional(login, password);
+    }
+
     private void loginIsExist(String login) {
         if (store.findAll()
                 .stream()
@@ -122,4 +137,5 @@ public class ValidateService implements Validate {
             throw new StoresException("A user with this email exists!");
         }
     }
+
 }
