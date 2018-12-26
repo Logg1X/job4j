@@ -13,7 +13,11 @@
 </head>
 <body>
 <table>
-
+    <c:if test="${param.signOut == true}">
+        <c:set scope="session" var="currentUser" value="${null}"/>
+        <c:set scope="request" var="result" value="signOut"/>
+    </c:if>
+<c:if test="${currentUser == null}">
     <th>Sign In:</th>
     <form action="${pageContext.servletContext.contextPath}/signin" method="post">
         <tr>
@@ -22,7 +26,7 @@
         </tr>
         <tr>
             <td>Password :</td>
-            <td><input type="text" name="password"/></td>
+            <td><input type="password" name="password"/></td>
         </tr>
         <tr>
             <td>
@@ -36,23 +40,40 @@
         </form>
     </td>
     </tr>
-</table>
-<style type="text/css">
+</c:if>
+<c:if test="${currentUser != null}">
+    <th>Sign out:</th>
+    <form name="Sign Out" method="get">
+    <tr>
+    <td>
+    <input type="hidden" name="signOut" value="${true}"/>
+    <input type="submit" value="Sign out">
+    </td>
+    </form>
+    <%--<td>--%>
+    <%--<form action="${pageContext.servletContext.contextPath}/createUser" method="get">--%>
+    <%--<input type="submit" value="Registration">--%>
+    <%--</form>--%>
+    <%--</td>--%>
+    </tr>
+    </c:if>
+    </table>
+    <style type="text/css">
     table {
-        border-collapse: collapse;
+    border-collapse: collapse;
     }
 
     td {
-        border: 2px solid #252421;
-        padding: 6px;
+    border: 2px solid #252421;
+    padding: 6px;
     }
 
     input {
-        height: 30px;
-        width: 130px;
-        top: 50%;
-        left: 50%;
+    height: 30px;
+    width: 130px;
+    top: 50%;
+    left: 50%;
     }
-</style>
-</body>
-</html>
+    </style>
+    </body>
+    </html>

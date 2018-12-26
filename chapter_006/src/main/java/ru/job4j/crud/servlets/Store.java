@@ -1,6 +1,6 @@
-package crud.servlet;
+package ru.job4j.crud.servlets;
 
-import crud.servlet.models.User;
+import ru.job4j.crud.servlets.models.User;
 
 import java.util.List;
 
@@ -16,4 +16,5 @@ public interface Store {
 
     User findById(int id);
 
+    User getByCredentional(String login, String password);
 }

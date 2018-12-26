@@ -1,6 +1,6 @@
-package crud.servlet;
+package ru.job4j.crud.servlets;
 
-import crud.servlet.models.User;
+import ru.job4j.crud.servlets.models.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,6 +45,11 @@ public class UserStore implements Store {
     @Override
     public User findById(int id) {
         return userStore.get(id);
+    }
+
+    @Override
+    public User getByCredentional(String login, String password) {
+        return null;
     }
 
     public int generateUserId() {

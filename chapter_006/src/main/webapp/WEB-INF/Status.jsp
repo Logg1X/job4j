@@ -6,7 +6,7 @@
 </head>
 <body>
 <c:out value="${result}"/>
-<form action="${pageContext.servletContext.contextPath}/usersTable" method="get">
+<form action="${pageContext.servletContext.contextPath}/listUsr" method="get">
     <input type="submit" value="<--Home.">
 </form>
 </body>

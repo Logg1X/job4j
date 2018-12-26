@@ -1,10 +1,11 @@
-package crud.servlet;
+package ru.job4j.crud.servlets;
 
-import crud.servlet.models.Role;
-import crud.servlet.models.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ru.job4j.crud.servlets.models.Role;
+import ru.job4j.crud.servlets.models.Rule;
+import ru.job4j.crud.servlets.models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-public class DBStore implements Store {
+public class DBStore implements Store, AutoCloseable {
     private static final Logger LOG = LogManager.getLogger(DBStore.class.getName());
     private static final BasicDataSource SOURCE = new BasicDataSource();
 
@@ -29,11 +30,18 @@ public class DBStore implements Store {
         SOURCE.setMaxIdle(10);
         SOURCE.setMaxOpenPreparedStatements(100);
         this.createAllRole(Arrays.asList(Role.values()));
+        this.insertDefaultPermission();
+        this.createDefaultUsers();
     }
 
     //Создание схемы производится через модуль liquibase.
     public static DBStore getInstance() {
         return DBStoreHolder.INSTANCE;
+    }
+
+    @Override
+    public void close() throws Exception {
+        SOURCE.close();
     }
 
     private static class DBStoreHolder {
@@ -49,7 +57,7 @@ public class DBStore implements Store {
                              + "VALUES(?,?,?,?) RETURNING id_user", Statement.RETURN_GENERATED_KEYS
              );
              PreparedStatement st = connection.prepareStatement(
-                     "INSERT INTO credentional(login,password,id_user) VALUES (?,?,?)"
+                     "INSERT INTO credentional(login,password,id_user) VALUES (?,MD5(?),?)"
              )
         ) {
             connection.setAutoCommit(false);
@@ -90,7 +98,7 @@ public class DBStore implements Store {
                      "UPDATE users SET name_user= ?,email_user = ?,id_role=? where id_user = ?"
              );
              PreparedStatement credStat = connection.prepareStatement(
-                     "UPDATE credentional SET login=?,password=? where id_user = ?"
+                     "UPDATE credentional SET login=?,password=MD5(?) where id_user = ?"
              )) {
             connection.setAutoCommit(false);
             userStat.setString(1, user.getName());
@@ -184,7 +192,7 @@ public class DBStore implements Store {
         User user = null;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT * from users join credentional c2 on users.id_user = c2.id_user join role r on users.id_role = r.id where c2.login = ? and c2.password =?");
+                     "SELECT * from users join credentional c2 on users.id_user = c2.id_user join role r on users.id_role = r.id where c2.login = ? and c2.password =MD5(?)");
         ) {
             statement.setString(1, login);
             statement.setString(2, password);
@@ -213,12 +221,16 @@ public class DBStore implements Store {
     private void createAllRole(List<Role> roles) {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "insert into role(name_role) VALUES (?) ON CONFLICT DO NOTHING"
-             )) {
-            for (Role role : roles) {
-                statement.setString(1, role.toString());
-                statement.executeUpdate();
-                LOG.info(String.format("Role: %s added in table", role.toString()));
+                     "insert into role(name_role) VALUES (?)"
+             );
+             Statement state = connection.createStatement();
+             ResultSet set = state.executeQuery("select * FROM role")) {
+            if (!set.next()) {
+                for (Role role : roles) {
+                    statement.setString(1, role.toString());
+                    statement.execute();
+                    LOG.info(String.format("Role: %s added in table", role.toString()));
+                }
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -237,6 +249,98 @@ public class DBStore implements Store {
         }
         return idRole;
     }
+
+    private void createDefaultUsers() {
+        try (Connection connection = SOURCE.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery("SELECT * from users")) {
+            if (!rs.next()) {
+                this.add(new User("Admin", "Admin", "admin@admin.com", "admin", Role.ADMIN));
+                this.add(new User("User", "User", "user", "user@user.com"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertDefaultPermission() {
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "Insert into rule(grant_rule,access_path) VALUES (?,?)"
+             );
+             Statement stat = connection.createStatement();
+             ResultSet set = stat.executeQuery("select * from rule");
+        ) {
+            if (!set.next()) {
+                connection.setAutoCommit(false);
+                statement.setString(1, "CREATE");
+                statement.setString(2, "/createUser");
+                statement.execute();
+                statement.setString(1, "UPDATE");
+                statement.setString(2, "/edit");
+                statement.execute();
+                statement.setString(1, "DELETE");
+                statement.setString(2, "/users");
+                statement.execute();
+                statement.setString(1, "SELECT");
+                statement.setString(2, "/listUsr");
+                statement.execute();
+                stat.execute(
+                        "INSERT into role_rule(id_role, id_rule) VALUES ((SELECT id FROM role  where role.name_role='ADMIN'),"
+                                + "(SELECT id_rule From rule WHERE rule.grant_rule = 'CREATE'))"
+                );
+                stat.execute(
+                        "INSERT into role_rule(id_role, id_rule) VALUES ((SELECT id FROM role  where role.name_role='ADMIN'),"
+                                + "(SELECT id_rule From rule WHERE rule.grant_rule = 'UPDATE'))"
+                );
+                stat.execute(
+                        "INSERT into role_rule(id_role, id_rule) VALUES ((SELECT id FROM role  where role.name_role='ADMIN'),"
+                                + "(SELECT id_rule From rule WHERE rule.grant_rule = 'DELETE'))"
+                );
+                stat.execute(
+                        "INSERT into role_rule(id_role, id_rule) VALUES ((SELECT id FROM role  where role.name_role='ADMIN'),"
+                                + "(SELECT id_rule From rule WHERE rule.grant_rule = 'SELECT'))"
+                );
+                stat.execute(
+                        "INSERT into role_rule(id_role, id_rule) VALUES ((SELECT id FROM role  where role.name_role='USER'),"
+                                + "(SELECT id_rule From rule WHERE rule.grant_rule = 'SELECT'))"
+                );
+
+                try {
+                    connection.commit();
+                } catch (SQLException e) {
+                    LOG.error(e.getMessage(), e);
+                    connection.rollback();
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public List<Rule> getRulesByRole(String role) {
+        List<Rule> rule = new ArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT rule.id_rule, rule.grant_rule, rule.access_path from rule "
+                     + "join role_rule rule2 on rule.id_rule = rule2.id_rule "
+                     + "where rule2.id_role =(SELECT role.id from role where name_role =?)")
+        ) {
+            statement.setString(1, role);
+            try (ResultSet set = statement.executeQuery()) {
+                while (set.next()) {
+                    rule.add(new Rule(
+                            set.getInt("id_rule"),
+                            set.getString("grant_rule"),
+                            set.getString("access_path")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rule;
+    }
+
 
     private List<Role> getListRoles() {
         List<Role> result = new ArrayList<>();

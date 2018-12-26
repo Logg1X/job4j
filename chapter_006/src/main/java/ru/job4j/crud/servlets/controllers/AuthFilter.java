@@ -1,6 +1,9 @@
-package crud.servlet.servlets;
+package ru.job4j.crud.servlets.controllers;
 
-import crud.servlet.models.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import ru.job4j.crud.servlets.ValidateService;
+import ru.job4j.crud.servlets.models.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
+    private ValidateService logic = ValidateService.getInstance();
+    private static final Logger LOGGER = LogManager.getLogger(AuthFilter.class.getName());
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -18,6 +23,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         req.setCharacterEncoding("UTF-8");
+        String path = req.getServletPath();
         User user = (User) session.getAttribute("currentUser");
         if (user == null && (!req.getRequestURI().contains("/signin") && !req.getRequestURI().contains("/createUser"))) {
             ((HttpServletResponse) response).sendRedirect(String.format("%s/signin", req.getContextPath()));
@@ -28,6 +34,12 @@ public class AuthFilter implements Filter {
 
     @Override
     public void destroy() {
+        try {
+            logic.close();
+            LOGGER.info("Close connection pool....");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 }
 

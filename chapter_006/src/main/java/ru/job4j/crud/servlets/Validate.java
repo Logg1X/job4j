@@ -1,6 +1,6 @@
-package crud.servlet;
+package ru.job4j.crud.servlets;
 
-import crud.servlet.models.User;
+import ru.job4j.crud.servlets.models.User;
 
 import java.util.List;
 import java.util.Map;
@@ -15,4 +15,6 @@ public interface Validate {
     List<User> findAll();
 
     User findById(Map<String, String[]> param);
+
+    User getByCredentional(String login, String password);
 }

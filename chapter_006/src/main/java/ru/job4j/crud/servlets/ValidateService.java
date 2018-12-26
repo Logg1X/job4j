@@ -1,6 +1,6 @@
-package crud.servlet;
+package ru.job4j.crud.servlets;
 
-import crud.servlet.models.User;
+import ru.job4j.crud.servlets.models.User;
 
 import java.util.List;
 import java.util.Map;
@@ -93,6 +93,17 @@ public class ValidateService implements Validate {
         return store.getByCredentional(login, password);
     }
 
+    public boolean isAllowedaccess(User usr, String path) {
+        AtomicBoolean result = new AtomicBoolean(false);
+        if (usr != null) {
+            store.getRulesByRole(usr.getRole().toString()).forEach(rule -> {
+                if (rule.getAccessPath().contains(path)) {
+                    result.set(true);
+                }
+            });
+        }
+        return result.get();
+    }
     private void loginIsExist(String login) {
         if (store.findAll()
                 .stream()
@@ -137,5 +148,7 @@ public class ValidateService implements Validate {
             throw new StoresException("A user with this email exists!");
         }
     }
-
+    public void close() throws Exception {
+        this.store.close();
+    }
 }

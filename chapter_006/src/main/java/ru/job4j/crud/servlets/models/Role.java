@@ -1,4 +1,4 @@
-package crud.servlet.models;
+package ru.job4j.crud.servlets.models;
 
 public enum Role {
     //роли администратора:

@@ -1,4 +1,4 @@
-package crud.servlet.models;
+package ru.job4j.crud.servlets.models;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -35,6 +35,14 @@ public class User {
         this.role = role;
         this.mail = mail;
         this.createDate = createDate;
+    }
+    public User(String name, String login, String mail, String password, Role role) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.mail = mail;
+        this.createDate = now();
     }
 
     public User(int id, String name, String login, String mail, String password, String role) {

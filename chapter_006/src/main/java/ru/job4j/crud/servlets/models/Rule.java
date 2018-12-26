@@ -1,31 +1,40 @@
-package crud.servlet.models;
+package ru.job4j.crud.servlets.models;
 
 import java.util.Objects;
 
 public class Rule {
     private int id;
     private String name;
+    private String accessPath;
 
-    public Rule(String name) {
+    public Rule(int id, String name, String accessPath) {
+        this.id = id;
         this.name = name;
+        this.accessPath = accessPath;
     }
 
     public int getId() {
         return id;
     }
 
-    public Rule setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Rule setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
+    }
+
+    public String getAccessPath() {
+        return accessPath;
+    }
+
+    public void setAccessPath(String accessPath) {
+        this.accessPath = accessPath;
     }
 
     @Override
@@ -36,14 +45,15 @@ public class Rule {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Rule role = (Rule) o;
-        return id == role.id
-                && Objects.equals(name, role.name);
+        Rule rule = (Rule) o;
+        return id == rule.id
+                && Objects.equals(name, rule.name)
+                && Objects.equals(accessPath, rule.accessPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, accessPath);
     }
 
     @Override
@@ -51,6 +61,7 @@ public class Rule {
         return "Rule{"
                 + "id=" + id
                 + ", name='" + name + '\''
+                + ", accessPath='" + accessPath + '\''
                 + '}';
     }
 }

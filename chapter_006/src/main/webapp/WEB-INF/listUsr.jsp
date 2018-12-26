@@ -3,9 +3,11 @@
 <html>
 <body>
 <table>
+    <form action="${pageContext.servletContext.contextPath}/signin" method="get">
+        <input type="submit" value="SignOut">
+        <i>Current User: "${currentUser.login}"</i>
+    </form>
     <c:if test="${users != null && !users.isEmpty()}">
-        <%--<%List<User> users = (List<User>) request.getAttribute("users");%>--%>
-        <%--<%if (users != null && !users.isEmpty()) {%>--%>
         <tr>
             <th>
                 <form action="${pageContext.servletContext.contextPath}/createUser" method="get">

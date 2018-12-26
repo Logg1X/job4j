@@ -1,4 +1,4 @@
-package crud.servlet;
+package ru.job4j.crud.servlets;
 
 import java.io.IOException;
 import java.io.InputStream;
