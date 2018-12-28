@@ -1,5 +1,6 @@
 package ru.job4j.crud.servlets.controllers;
 
+import ru.job4j.crud.servlets.Validate;
 import ru.job4j.crud.servlets.models.User;
 import ru.job4j.crud.servlets.ValidateService;
 
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SignInServlet extends HttpServlet {
-    private ValidateService logic = ValidateService.getInstance();
+    private Validate logic = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

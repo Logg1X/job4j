@@ -1,7 +1,5 @@
-package utility;
+package ru.job4j.crud.servlets;
 
-import ru.job4j.crud.servlets.StoresException;
-import ru.job4j.crud.servlets.Validate;
 import ru.job4j.crud.servlets.models.Role;
 import ru.job4j.crud.servlets.models.Rule;
 import ru.job4j.crud.servlets.models.User;
@@ -11,13 +9,15 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class ValidateStub implements Validate {
-    private Map<String,User> users = new HashMap<>();
-    private Map<Role,List<Rule>> role_rule = new HashMap<>();
+    private Map<String, User> users = new HashMap<>();
+    private Map<Role, List<Rule>> role_rule = new HashMap<>();
     private final Rule CREATE = new Rule(1, "CREATE", "/createUser");
     private final Rule UPDATE = new Rule(2, "UPDATE", "/edit");
     private final Rule DELETE = new Rule(3, "DELETE", "/users");
     private final Rule SELECT = new Rule(4, "SELECT", "/listUsr");
-    public ValidateStub() {
+    private static final Validate INSTANCE = new ValidateStub();
+
+    private ValidateStub() {
         users.put("1", new User(1,
                 "Admin",
                 "Admin",
@@ -48,6 +48,10 @@ public class ValidateStub implements Validate {
         role_rule.put(Role.USER, List.of(SELECT));
     }
 
+    public static Validate getInstance() {
+        return  INSTANCE;
+    }
+
     @Override
     public int add(Map<String, String[]> param) {
         User user = new User(
@@ -60,7 +64,7 @@ public class ValidateStub implements Validate {
         this.validateMailAddres(user.getMail());
         this.mailIsExist(user.getMail());
         var id = user.getId();
-        users.put(String.valueOf(id),user);
+        users.put(String.valueOf(id), user);
         return user.getId();
     }
 
@@ -121,6 +125,12 @@ public class ValidateStub implements Validate {
         }
         return result;
     }
+
+    @Override
+    public void close() {
+
+    }
+
     private void loginIsExist(String login) {
         if (users.values()
                 .stream()

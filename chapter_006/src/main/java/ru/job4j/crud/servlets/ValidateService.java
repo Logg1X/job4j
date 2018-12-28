@@ -15,7 +15,7 @@ public class ValidateService implements Validate {
     private ValidateService() {
     }
 
-    public static ValidateService getInstance() {
+    public static Validate getInstance() {
         return logic;
     }
 
@@ -77,16 +77,6 @@ public class ValidateService implements Validate {
         int id = Integer.valueOf(param.get("id")[0]);
         this.userIsNotExist(id);
         return store.findById(id);
-    }
-
-    public boolean isCredentional(String loggin, String password) {
-        AtomicBoolean rst = new AtomicBoolean(false);
-        store.findAll().forEach(user -> {
-            if (user.getLogin().equals(loggin) && user.getPassword().equals(password)) {
-                rst.set(true);
-            }
-        });
-        return rst.get();
     }
 
     public User getByCredentional(String login, String password) {

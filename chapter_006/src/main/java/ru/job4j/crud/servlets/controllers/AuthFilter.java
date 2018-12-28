@@ -2,6 +2,7 @@ package ru.job4j.crud.servlets.controllers;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ru.job4j.crud.servlets.Validate;
 import ru.job4j.crud.servlets.ValidateService;
 import ru.job4j.crud.servlets.models.User;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
-    private ValidateService logic = ValidateService.getInstance();
+    private Validate logic = ValidateService.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(AuthFilter.class.getName());
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

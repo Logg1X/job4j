@@ -17,4 +17,8 @@ public interface Validate {
     User findById(Map<String, String[]> param);
 
     User getByCredentional(String login, String password);
+
+    boolean isAllowedaccess(User usr, String path);
+
+    void close() throws Exception;
 }
