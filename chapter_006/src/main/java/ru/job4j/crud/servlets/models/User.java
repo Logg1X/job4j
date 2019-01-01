@@ -45,6 +45,16 @@ public class User {
         this.createDate = now();
     }
 
+    public User(int id, String name, String login, String mail, String password, String role, String dateCreate) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.mail = mail;
+        this.password = password;
+        this.role = Role.valueOf(role);
+        this.createDate = LocalDateTime.parse(dateCreate);
+    }
+
     public User(int id, String name, String login, String mail, String password, String role) {
         this.id = id;
         this.name = name;

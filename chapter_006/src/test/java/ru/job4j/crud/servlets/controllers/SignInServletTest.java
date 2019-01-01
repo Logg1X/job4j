@@ -1,4 +1,5 @@
 package ru.job4j.crud.servlets.controllers;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 
 import static org.mockito.Mockito.*;
@@ -53,8 +53,9 @@ public class SignInServletTest {
         verify(request, atLeastOnce()).getRequestDispatcher(anyString());
         verify(dispatcher, atLeastOnce()).forward(request, response);
     }
+
     @Test
-    public void doPost() throws ServletException, IOException {
+    public void whenValidCredentional() throws ServletException, IOException {
         when(request.getParameter("login")).thenReturn(login);
         when(request.getParameter("password")).thenReturn(password);
         when(request.getSession()).thenReturn(session);
@@ -65,5 +66,20 @@ public class SignInServletTest {
         verify(request, never()).setAttribute("result", eq(anyString()));
         verify(request, never()).getRequestDispatcher(anyString());
         verify(dispatcher, never()).forward(request, response);
+    }
+
+    @Test
+    public void whenInvalidCredentional() throws ServletException, IOException {
+        when(request.getParameter("login")).thenReturn("sdjch");
+        when(request.getParameter("password")).thenReturn("sidchyg");
+        when(request.getRequestDispatcher(eq("/WEB-INF/Status.jsp"))).thenReturn(dispatcher);
+        when(request.getSession()).thenReturn(session);
+        new SignInServlet().doPost(request, response);
+        verify(session, never()).setAttribute("currentUser", validate.getByCredentional(login, password));
+        verify(session, never()).setAttribute("access", true);
+        verify(response, never()).sendRedirect(String.format("%s/", request.getContextPath()));
+        verify(request, atLeastOnce()).setAttribute(eq("result"), eq("Invalid credentional!"));
+        verify(request, atLeastOnce()).getRequestDispatcher("/WEB-INF/Status.jsp");
+        verify(dispatcher, atLeastOnce()).forward(request, response);
     }
 }

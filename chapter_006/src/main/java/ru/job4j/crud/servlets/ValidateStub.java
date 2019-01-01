@@ -5,16 +5,19 @@ import ru.job4j.crud.servlets.models.Rule;
 import ru.job4j.crud.servlets.models.User;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ValidateStub implements Validate {
     private Map<String, User> users = new HashMap<>();
-    private Map<Role, List<Rule>> role_rule = new HashMap<>();
-    private final Rule CREATE = new Rule(1, "CREATE", "/createUser");
-    private final Rule UPDATE = new Rule(2, "UPDATE", "/edit");
-    private final Rule DELETE = new Rule(3, "DELETE", "/users");
-    private final Rule SELECT = new Rule(4, "SELECT", "/listUsr");
+    private Map<Role, List<Rule>> roleRule = new HashMap<>();
+    private static final Rule CREATE = new Rule(1, "CREATE", "/createUser");
+    private static final Rule UPDATE = new Rule(2, "UPDATE", "/edit");
+    private static final Rule DELETE = new Rule(3, "DELETE", "/users");
+    private static final Rule SELECT = new Rule(4, "SELECT", "/listUsr");
     private static final Validate INSTANCE = new ValidateStub();
 
     private ValidateStub() {
@@ -44,12 +47,12 @@ public class ValidateStub implements Validate {
                 Role.USER,
                 LocalDateTime.now()
         ));
-        role_rule.put(Role.ADMIN, List.of(SELECT, CREATE, UPDATE, DELETE));
-        role_rule.put(Role.USER, List.of(SELECT));
+        roleRule.put(Role.ADMIN, List.of(SELECT, CREATE, UPDATE, DELETE));
+        roleRule.put(Role.USER, List.of(SELECT));
     }
 
     public static Validate getInstance() {
-        return  INSTANCE;
+        return INSTANCE;
     }
 
     @Override
@@ -63,7 +66,8 @@ public class ValidateStub implements Validate {
         this.loginIsExist(user.getLogin());
         this.validateMailAddres(user.getMail());
         this.mailIsExist(user.getMail());
-        var id = user.getId();
+        var id = users.keySet().size() + 1;
+        user.setId(id);
         users.put(String.valueOf(id), user);
         return user.getId();
     }
@@ -78,7 +82,8 @@ public class ValidateStub implements Validate {
                 param.get("login")[0],
                 param.get("email")[0],
                 param.get("password")[0],
-                param.get("role")[0]
+                param.get("role")[0],
+                param.get("createDate")[0]
         );
         this.validateMailAddres(user.getMail());
         this.mailIsExist(user.getMail(), user.getId());
@@ -112,14 +117,13 @@ public class ValidateStub implements Validate {
                         user ->
                                 user.getLogin().equals(login)
                                         && user.getPassword().equals(password))
-                .findFirst()
-                .get();
+                .findFirst().orElse(null);
     }
 
     public boolean isAllowedaccess(User usr, String path) {
         Boolean result = false;
         if (usr != null) {
-            result = role_rule.get(usr.getRole())
+            result = roleRule.get(usr.getRole())
                     .stream()
                     .anyMatch(rule -> rule.getAccessPath().contains(path));
         }
