@@ -22,17 +22,34 @@ public class Dao {
     public Dao(String connectPropPath, String queryPropPath) {
         this.connection = setConnection(connectPropPath);
         initSQLQuery(queryPropPath);
-        this.createTableVacancy();
-        this.createTableDateUpdate();
+//        this.createTableVacancy();
+//        this.createTableDateUpdate();
     }
+
+//    private Connection setConnection(String config) {
+//        Properties properties = new Properties();
+//        Connection connection = null;
+//        try (InputStream loadFile = Dao.class.getClassLoader().getResourceAsStream(config)) {
+//            properties.load(loadFile);
+//            Class.forName(properties.getProperty("sqlite.driver"));
+//            connection = DriverManager.getConnection(properties.getProperty("sqlite.db.url"));
+//        } catch (IOException | ClassNotFoundException | SQLException e) {
+//            LOG.error(e.getMessage(), e);
+//        }
+//        return connection;
+//    }
 
     private Connection setConnection(String config) {
         Properties properties = new Properties();
         Connection connection = null;
         try (InputStream loadFile = Dao.class.getClassLoader().getResourceAsStream(config)) {
             properties.load(loadFile);
-            Class.forName(properties.getProperty("sqlite.driver"));
-            connection = DriverManager.getConnection(properties.getProperty("sqlite.db.url"));
+            Class.forName(properties.getProperty("driver-class-name"));
+            connection = DriverManager.getConnection(
+                    properties.getProperty("url"),
+                    properties.getProperty("username"),
+                    properties.getProperty("password")
+            );
         } catch (IOException | ClassNotFoundException | SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -89,22 +106,22 @@ public class Dao {
         }
     }
 
-    private void createTableVacancy() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY_SQL_RU"));
-            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY_HH_RU"));
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-
-    private void createTableDateUpdate() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_UPDATE_DATE"));
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
+//    private void createTableVacancy() {
+//        try (Statement statement = connection.createStatement()) {
+//            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY_SQL_RU"));
+//            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_VACANCY_HH_RU"));
+//        } catch (SQLException e) {
+//            LOG.error(e.getMessage(), e);
+//        }
+//    }
+//
+//    private void createTableDateUpdate() {
+//        try (Statement statement = connection.createStatement()) {
+//            statement.executeUpdate(sqlQueryProp.getProperty("CREATE_TABLE_UPDATE_DATE"));
+//        } catch (SQLException e) {
+//            LOG.error(e.getMessage(), e);
+//        }
+//    }
 
     public void insertDateUpdate() {
         try (PreparedStatement statement = connection.prepareStatement(sqlQueryProp.getProperty("INSERT_DATE_UPDATE"))) {
@@ -129,8 +146,7 @@ public class Dao {
         List<DateUpdate> result = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sqlQueryProp.getProperty("GET_LAST_UPDATE"));
-            resultSet.next();
-            if (!resultSet.isClosed()) {
+            while (resultSet.next()) {
                 String date = resultSet.getString("date_last_update");
                 result.add(new DateUpdate(date));
             }

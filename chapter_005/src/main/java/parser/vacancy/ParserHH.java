@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,14 +62,24 @@ public class ParserHH {
     }
 
     private String createRequest(LocalDateTime dateTime) {
+//        String dateToString = dateTime.format();
         return new StringBuilder(baseUrl)
                 .append("?area=1") //регион(город)
                 .append("&text=NAME:(java+NOT+script+NOT+android)") //текст запроса
                 .append("&employment=full") //тип занятости (полна/не полная)
                 .append("&order_by=publication_time") // сортировка по дате публикации
-                .append(String.format("&date_from=%s", dateTime)) // ограничевающая поиск "снизу" дата
+                .append(String.format("&date_from=%s", dateTime).split("\\.")[0]) // ограничевающая поиск "снизу" дата
                 .append("&per_page=100") //кол-во вакансий на одной странице
                 .append("&page=") //№ страницы
                 .toString();
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter a = DateTimeFormatter.ofPattern("YYYY-MM-DD hh:mm:ss");
+        String b = now.format(a).split(".",1)[0].replace(" ","T");
+        System.out.println(now);
+        System.out.println(now.toString().split("\\.")[0]);
+        System.out.println(b);
     }
 }
