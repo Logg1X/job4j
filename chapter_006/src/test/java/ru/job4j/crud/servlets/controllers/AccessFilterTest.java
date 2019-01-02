@@ -28,14 +28,14 @@ import static org.mockito.Mockito.*;
 @PrepareForTest(ValidateService.class)
 public class AccessFilterTest {
     @Mock
-    HttpServletRequest request;
+    private HttpServletRequest request;
     @Mock
-    HttpServletResponse response;
+    private HttpServletResponse response;
     @Mock
-    HttpSession session;
+    private HttpSession session;
     @Mock
-    FilterChain chain;
-    Validate validate;
+    private FilterChain chain;
+    private Validate validate;
 
     @Before
     public void setUp() throws Exception {

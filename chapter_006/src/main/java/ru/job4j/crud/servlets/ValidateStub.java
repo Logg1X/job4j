@@ -157,12 +157,14 @@ public class ValidateStub implements Validate {
         }
     }
 
+
     private void validateMailAddres(String mail) {
         Pattern pattern = Pattern.compile("(?!(.*[А-Яа-я].*)).*@.*\\..*$");
         if (!pattern.matcher(mail).matches()) {
             throw new StoresException("email is incorrect!");
         }
     }
+
 
     private void mailIsExist(String mail, int id) {
         if (users.values()

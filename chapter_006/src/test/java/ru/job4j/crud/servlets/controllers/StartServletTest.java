@@ -21,10 +21,10 @@ import static org.mockito.Mockito.verify;
 @PrepareForTest(ValidateService.class)
 public class StartServletTest {
     @Mock
-    HttpServletRequest request;
+    private HttpServletRequest request;
 
     @Mock
-    HttpServletResponse response;
+    private HttpServletResponse response;
 
     @Before
     public void setUp() throws Exception {

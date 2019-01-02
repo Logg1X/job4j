@@ -26,12 +26,12 @@ import static org.mockito.Mockito.*;
 @PrepareForTest(ValidateService.class)
 public class UserTableServletTest {
     @Mock
-    HttpServletRequest request;
+    private HttpServletRequest request;
     @Mock
-    HttpServletResponse response;
+    private HttpServletResponse response;
     @Mock
-    RequestDispatcher dispatcher;
-    Validate validate;
+    private RequestDispatcher dispatcher;
+    private Validate validate;
 
     @Before
     public void setUp() throws Exception {
