@@ -62,7 +62,6 @@ public class ParserHH {
     }
 
     private String createRequest(LocalDateTime dateTime) {
-//        String dateToString = dateTime.format();
         return new StringBuilder(baseUrl)
                 .append("?area=1") //регион(город)
                 .append("&text=NAME:(java+NOT+script+NOT+android)") //текст запроса
@@ -72,14 +71,5 @@ public class ParserHH {
                 .append("&per_page=100") //кол-во вакансий на одной странице
                 .append("&page=") //№ страницы
                 .toString();
-    }
-
-    public static void main(String[] args) {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter a = DateTimeFormatter.ofPattern("YYYY-MM-DD hh:mm:ss");
-        String b = now.format(a).split(".",1)[0].replace(" ","T");
-        System.out.println(now);
-        System.out.println(now.toString().split("\\.")[0]);
-        System.out.println(b);
     }
 }
