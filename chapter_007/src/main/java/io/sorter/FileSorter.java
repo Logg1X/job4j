@@ -10,13 +10,26 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class FileSorter implements Sorter {
-
+    /**
+     * Количество памяти обрабатываемое программой.
+     */
     private final int clusterSize;
 
+    /**
+     * Конструктор класса.
+     * @param clusterSize количество памяти обрабатываемое программой.
+     */
     public FileSorter(int clusterSize) {
-        this.clusterSize = clusterSize;
+        this.clusterSize = checkMaxClusterSize(clusterSize);
     }
 
+    /**
+     * Сортирает файл по длине строк от меньшей к большей.
+     *
+     * @param source   файл который будет отсортирован.
+     * @param distance отсортированный файл.
+     * @throws IOException
+     */
     @Override
     public void sort(File source, File distance) throws IOException {
         List<File> resultList = this.externalSorting(source);
@@ -32,6 +45,25 @@ public class FileSorter implements Sorter {
         }
     }
 
+    /**
+     * Проверяет максимально доступное количество памяти обрабатываемое программой.
+     * Максимальное количество обрабатываемой памяти 1024 кб.
+     *
+     * @param clusterSize количество памяти обрабатываемое программой.
+     * @return количество памяти обрабатываемое программой. если привышает 10240000 Б, вернет 10240000.
+     */
+    private int checkMaxClusterSize(int clusterSize) {
+        return clusterSize < 1024000 ? clusterSize : 1024000;
+    }
+
+    /**
+     * Разбивает файл на части по количеству доступной памяти {clusterSize}.
+     * {clusterSize} задается пользователем.
+     *
+     * @param file исходный файл.
+     * @return список частей файла {file}.
+     * @throws IOException
+     */
     private List<File> splitFile(File file) throws IOException {
         List<File> tempFiles = new ArrayList<>();
         try (var currentFile = new RandomAccessFile(file, "r")) {
@@ -56,6 +88,13 @@ public class FileSorter implements Sorter {
         return tempFiles;
     }
 
+    /**
+     * Содиржимое файла записывает в список строк.
+     *
+     * @param file исходный файл.
+     * @return Список строк из файла.
+     * @throws IOException если файл не существует.
+     */
     private List<String> getListFromFile(File file) throws IOException {
         List<String> result = new ArrayList<>();
         try (var input = new BufferedReader(new FileReader(file))) {
@@ -67,10 +106,23 @@ public class FileSorter implements Sorter {
         return result;
     }
 
+    /**
+     * Корректирует кодировку текста.
+     *
+     * @param line Строка.
+     * @return Строка с необходимой кодировкой.
+     */
     private String correctEncoding(String line) {
         return new String(line.getBytes(ISO_8859_1), UTF_8);
     }
 
+    /**
+     * Сортирует каждый файл  в списке в памяти по длине строк от меньшей к большей.
+     *
+     * @param files Список с файлами.
+     * @return список отсортированных файлов.
+     * @throws IOException
+     */
     private List<File> sortInMemoryToList(List<File> files) throws IOException {
         List<File> utilityList = new ArrayList<>(files);
         var i = 0;
@@ -92,8 +144,15 @@ public class FileSorter implements Sorter {
         return utilityList;
     }
 
-    private List<File> externalSorting(File sors) throws IOException {
-        var temp = new LinkedList<>(sortInMemoryToList(splitFile(sors)));
+    /**
+     * Метод сортирует части файла @param по длине строк от меньшей к большему и объединяет в один файл.
+     *
+     * @param sours Начальный не отсортированный фал.
+     * @return Список содержащий один временный отсортированный файл.
+     * @throws IOException
+     */
+    private List<File> externalSorting(File sours) throws IOException {
+        var temp = new LinkedList<>(sortInMemoryToList(splitFile(sours)));
         if (!temp.isEmpty()) {
             while (temp.size() != 1) {
                 var current = File.createTempFile("TTT", ".txt");
@@ -137,7 +196,8 @@ public class FileSorter implements Sorter {
                             currentfile.close();
                             temp.poll();
                             temp.poll();
-                            temp.addFirst(current);
+                            temp.addLast(current);
+
                         }
                     }
                 }
