@@ -1,4 +1,4 @@
-package io.socets.bot;
+package io.sockets.bot;
 
 import java.util.Objects;
 

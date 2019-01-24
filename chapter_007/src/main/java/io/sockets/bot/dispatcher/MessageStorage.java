@@ -1,4 +1,6 @@
-package io.socets.bot;
+package io.sockets.bot.dispatcher;
+
+import io.sockets.bot.Message;
 
 import java.util.List;
 import java.util.Map;

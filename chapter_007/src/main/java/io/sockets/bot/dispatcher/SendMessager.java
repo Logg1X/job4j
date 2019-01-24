@@ -1,6 +1,9 @@
-package io.socets.bot;
+package io.sockets.bot.dispatcher;
 
-import java.io.PrintWriter;
+import io.sockets.bot.Message;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -8,24 +11,29 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 
 public class SendMessager {
-    private final PrintWriter printWriter;
+    private final DataOutputStream out;
     private final Message message;
 
-    public SendMessager(PrintWriter printWriter, Message message) {
-        this.printWriter = printWriter;
+    public SendMessager(DataOutputStream printWriter, Message message) {
+        this.out = printWriter;
         this.message = message;
     }
 
 
-    void writeMessage(Message message) {
-        printWriter.println(message.getMessage());
-        printWriter.println();
+    void writeMessage(Message message) throws IOException {
+        out.writeUTF(message.getMessage());
+        out.writeUTF("");
+        out.flush();
     }
 
 
     public void send() {
         Message mess = this.findMessageByString(MessageStorage.getInstance().loadMessages(), this.message.getMessage());
-        writeMessage(mess);
+        try {
+            writeMessage(mess);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Message findMessageByString(Map<List<String>, Message> messageStor, String str) {

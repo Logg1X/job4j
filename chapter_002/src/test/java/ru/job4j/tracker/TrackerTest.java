@@ -43,22 +43,6 @@ public class TrackerTest {
         assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
     }
 
-    @Test
-    public void whenDeleteItemWithIdThenReturnMassiveWithoutThisItem() {
-        Tracker tracker = new Tracker();
-        Item item1 = new Item("test1", "1testDescription1", 1L);
-        Item item2 = new Item("test2", "2testDescription2", 2L);
-        Item item3 = new Item("test3", "3testDescription3", 3L);
-        Item item4 = new Item("test4", "4testDescription4", 4L);
-        Item item5 = new Item("test5", "5testDescription4", 5L);
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
-        tracker.add(item4);
-        tracker.delete(item2.getId());
-        tracker.delete(item3.getId());
-        assertThat(tracker.findAll().get(1), is(item4));
-    }
 
     @Test
     public void whenInMassiveSeveralItemsWithTheSameNamesThenReturnThisDuplicates() {
