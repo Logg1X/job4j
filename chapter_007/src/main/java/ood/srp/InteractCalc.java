@@ -29,7 +29,9 @@ public class InteractCalc {
                 1, new Add(1, "Add"),
                 2, new Subtract(2, "Subtract"),
                 3, new Div(3, "Division"),
-                4, new Multiple(4, "Multiple"));
+                4, new Multiple(4, "Multiple"),
+                5, new Cosinus(5, "Cossinus"),
+                6, new Sinus(6, "Sinus"));
     }
 
     public Operation getOperation(int key) {
@@ -126,4 +128,67 @@ public class InteractCalc {
             return " * ";
         }
     }
+
+    private class Cosinus extends OperImentation {
+
+        protected Cosinus(int key, String name) {
+            super(key, name);
+        }
+
+        @Override
+        public Double[] getParammetrs(Scanner scanner, double previousResult) {
+            Double[] result = new Double[2];
+            result[0] = previousResult;
+            if (result[0] == 0) {
+                System.out.println("Введите число");
+                result[0] = scanner.nextDouble();
+            }
+            return result;
+        }
+
+        @Override
+        public double execute(Scanner scanner) {
+            Double[] parammetrs = this.getParammetrs(scanner, previousResult);
+            previousResult = Math.cos(parammetrs[0]);
+            System.out.println(String.format("%s %s = %s", this.getSymbol(), parammetrs[0], previousResult));
+            return previousResult;
+        }
+
+        @Override
+        public String getSymbol() {
+            return "COS";
+        }
+    }
+
+    private class Sinus extends OperImentation {
+
+        protected Sinus(int key, String name) {
+            super(key, name);
+        }
+
+        @Override
+        public Double[] getParammetrs(Scanner scanner, double previousResult) {
+            Double[] result = new Double[2];
+            result[0] = previousResult;
+            if (result[0] == 0) {
+                System.out.println("Введите число");
+                result[0] = scanner.nextDouble();
+            }
+            return result;
+        }
+
+        @Override
+        public double execute(Scanner scanner) {
+            Double[] parammetrs = this.getParammetrs(scanner, previousResult);
+            previousResult = Math.sin(parammetrs[0]);
+            System.out.println(String.format("%s %s = %s", this.getSymbol(), parammetrs[0], previousResult));
+            return previousResult;
+        }
+
+        @Override
+        public String getSymbol() {
+            return "SIN";
+        }
+    }
+
 }
