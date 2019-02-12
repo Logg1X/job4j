@@ -5,7 +5,7 @@ import foodsshop.storage.Storage;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Eat implements Product {
+public abstract class Food implements Product {
     private String name;
     private Storage storage;
     private LocalDate expaireDate;
@@ -13,7 +13,7 @@ public class Eat implements Product {
     private double price;
     private int discount;
 
-    public Eat(String name, LocalDate expaireDate, LocalDate createDate, double price, int discount) {
+    public Food(String name, LocalDate expaireDate, LocalDate createDate, double price, int discount) {
         this.name = name;
         this.expaireDate = expaireDate;
         this.createDate = createDate;
@@ -90,13 +90,13 @@ public class Eat implements Product {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Eat eat = (Eat) o;
-        return Double.compare(eat.price, price) == 0
-                && discount == eat.discount
-                && Objects.equals(name, eat.name)
-                && Objects.equals(storage, eat.storage)
-                && Objects.equals(expaireDate, eat.expaireDate)
-                && Objects.equals(createDate, eat.createDate);
+        Food food = (Food) o;
+        return Double.compare(food.price, price) == 0
+                && discount == food.discount
+                && Objects.equals(name, food.name)
+                && Objects.equals(storage, food.storage)
+                && Objects.equals(expaireDate, food.expaireDate)
+                && Objects.equals(createDate, food.createDate);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Eat implements Product {
 
     @Override
     public String toString() {
-        return "Eat{"
+        return "Food{"
                 + "name='" + name + '\''
                 + ", storage=" + storage
                 + ", expaireDate=" + expaireDate

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FinderApp {
 
-    public static Finder getFinder(String s) {
+    public Finder getFinder(String s) {
         Map<String, Finder> finds = null;
         try {
             finds = Map.of(
@@ -23,7 +23,7 @@ public class FinderApp {
         return finds.get(s);
     }
 
-    private static class FullCompareFinder implements Finder {
+    private class FullCompareFinder implements Finder {
         @Override
         public void find(String startDirectory, String searchString, String logNameFile) throws IOException {
             PrintStream ps = new PrintStream(new FileOutputStream(new File(logNameFile)));
@@ -34,7 +34,7 @@ public class FinderApp {
         }
     }
 
-    private static class MaskFinder implements Finder {
+    private class MaskFinder implements Finder {
         @Override
         public void find(String startDirectory, String searchString, String logNameFile) throws IOException {
             PrintStream ps = new PrintStream(new FileOutputStream(new File(logNameFile)));
@@ -45,7 +45,7 @@ public class FinderApp {
         }
     }
 
-    private static class RegexFinder implements Finder {
+    private class RegexFinder implements Finder {
         @Override
         public void find(String startDirectory, String searchString, String logNameFile) throws IOException {
             PrintStream ps = new PrintStream(new FileOutputStream(new File(logNameFile)));
@@ -68,7 +68,8 @@ public class FinderApp {
             if (args.length == 7) {
                 if (args[0].equals("-d") && args[2].equals("-n") && args[5].equals("-o")
                         && args[4].equals("-m") || args[4].equals("-f") || args[4].equals("-r")) {
-                    FinderApp.getFinder(args[4]).find(args[1], args[3], args[6]);
+                    FinderApp app = new FinderApp();
+                    app.getFinder(args[4]).find(args[1], args[3], args[6]);
                     search = false;
                 }
             }
