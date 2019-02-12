@@ -8,7 +8,7 @@ package ru.job4j.calculator;
  * @version 2.0.
  * @since 5.06.2018.
  */
-public class Calculator {
+public class Calculator implements BaseCalculator {
 
     /**
      * Результирующая переменная.
@@ -21,7 +21,7 @@ public class Calculator {
      * @param first  - первый аргумент.
      * @param second - второй аргумент.
      */
-
+    @Override
     public final void add(final double first, final double second) {
         this.result = first + second;
     }
@@ -32,7 +32,7 @@ public class Calculator {
      * @param first  - первый аргумент.
      * @param second - второй аргумент.
      */
-
+    @Override
     public final void subtract(final double first, final double second) {
         this.result = first - second;
     }
@@ -43,7 +43,7 @@ public class Calculator {
      * @param first  - первый аргумент.
      * @param second - второй аргумент.
      */
-
+    @Override
     public final void div(final double first, final double second) {
         this.result = first / second;
     }
@@ -54,7 +54,7 @@ public class Calculator {
      * @param first  - первый аргумент.
      * @param second - второй аргумент.
      */
-
+    @Override
     public final void multiple(final double first, final double second) {
         this.result = first * second;
     }
@@ -62,7 +62,7 @@ public class Calculator {
     /**
      * @return result Возвращеет результат операции.
      */
-
+    @Override
     public final double getResult() {
         return this.result;
     }

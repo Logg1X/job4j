@@ -1,20 +1,20 @@
 package ood.srp;
 
+import ru.job4j.calculator.BaseCalculator;
 import ru.job4j.calculator.Calculator;
 
 import java.util.Map;
 import java.util.Scanner;
 
-public class InteractCalc {
-    private final Calculator calculator;
+public class InteractCalc extends CalcDecorator {
+    private Calculator calculator;
     private double previousResult;
     private Map<Integer, Operation> allOperations;
 
-
-    public InteractCalc(Calculator calculator) {
-        this.calculator = calculator;
-        allOperations = createOperations();
+    public InteractCalc(BaseCalculator calculator) {
+        super(calculator);
     }
+
 
     public void resetResult() {
         previousResult = 0;
