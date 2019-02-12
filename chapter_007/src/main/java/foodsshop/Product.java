@@ -1,7 +1,5 @@
 package foodsshop;
 
-import foodsshop.storage.Storage;
-
 import java.time.LocalDate;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -13,10 +11,6 @@ public interface Product {
         var result = b / a * 100;
         return result;
     }
-
-    void sendToStorage();
-
-    void setStorage(Storage storage);
 
     String getName();
 

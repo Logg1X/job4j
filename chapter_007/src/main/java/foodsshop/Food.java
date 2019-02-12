@@ -1,34 +1,22 @@
 package foodsshop;
 
-import foodsshop.storage.Storage;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Eat implements Product {
+public class Food implements Product {
     private String name;
-    private Storage storage;
     private LocalDate expaireDate;
     private LocalDate createDate;
     private double price;
     private int discount;
 
-    public Eat(String name, LocalDate expaireDate, LocalDate createDate, double price, int discount) {
+    public Food(String name, LocalDate expaireDate, LocalDate createDate, double price, int discount) {
         this.name = name;
         this.expaireDate = expaireDate;
         this.createDate = createDate;
         this.price = price;
         this.discount = discount;
-    }
-
-    @Override
-    public void sendToStorage() {
-        this.storage.store(this);
-    }
-
-    @Override
-    public void setStorage(Storage storage) {
-        this.storage = storage;
     }
 
     @Override
@@ -90,25 +78,24 @@ public class Eat implements Product {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Eat eat = (Eat) o;
+        Food eat = (Food) o;
         return Double.compare(eat.price, price) == 0
                 && discount == eat.discount
                 && Objects.equals(name, eat.name)
-                && Objects.equals(storage, eat.storage)
                 && Objects.equals(expaireDate, eat.expaireDate)
                 && Objects.equals(createDate, eat.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, storage, expaireDate, createDate, price, discount);
+        return Objects.hash(name, expaireDate, createDate, price, discount);
     }
 
     @Override
     public String toString() {
-        return "Eat{"
+
+        return "Food{"
                 + "name='" + name + '\''
-                + ", storage=" + storage
                 + ", expaireDate=" + expaireDate
                 + ", createDate=" + createDate
                 + ", price=" + price
