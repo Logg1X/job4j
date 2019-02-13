@@ -2,7 +2,7 @@ package ood.srp;
 
 import ru.job4j.calculator.BaseCalculator;
 
-public abstract class CalcDecorator implements BaseCalculator{
+public abstract class CalcDecorator implements BaseCalculator {
     private BaseCalculator baseCalculator;
 
     public CalcDecorator(BaseCalculator baseCalculator) {
@@ -11,22 +11,22 @@ public abstract class CalcDecorator implements BaseCalculator{
 
     @Override
     public void add(double first, double second) {
-        baseCalculator.add(first,second);
+        baseCalculator.add(first, second);
     }
 
     @Override
     public void subtract(double first, double second) {
-        baseCalculator.add(first,second);
+        baseCalculator.add(first, second);
     }
 
     @Override
     public void div(double first, double second) {
-        baseCalculator.add(first,second);
+        baseCalculator.add(first, second);
     }
 
     @Override
     public void multiple(double first, double second) {
-        baseCalculator.add(first,second);
+        baseCalculator.add(first, second);
     }
 
     @Override
