@@ -1,8 +1,10 @@
-package foodsshop;
+package ood.lsp.foodstorage;
 
-import foodsshop.storage.Shop;
-import foodsshop.storage.Trash;
-import foodsshop.storage.Warehouse;
+import ood.lsp.foodstorage.products.Food;
+import ood.lsp.foodstorage.products.Product;
+import ood.lsp.foodstorage.storage.Shop;
+import ood.lsp.foodstorage.storage.Trash;
+import ood.lsp.foodstorage.storage.Warehouse;
 import org.junit.Test;
 
 import java.time.LocalDate;

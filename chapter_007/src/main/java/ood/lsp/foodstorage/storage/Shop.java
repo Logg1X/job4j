@@ -1,6 +1,6 @@
-package foodsshop.storage;
+package ood.lsp.foodstorage.storage;
 
-import foodsshop.Product;
+import ood.lsp.foodstorage.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ public class Shop implements Storage {
         double unsuitabilityLevel = product.getUnsuitabilityLevel();
         if (unsuitabilityLevel > 25 && unsuitabilityLevel < 100) {
             result = this.products.add(product);
+            this.currentConteiner++;
             if (unsuitabilityLevel > 75) {
                 product.setDiscount(35);
             }

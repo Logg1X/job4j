@@ -1,4 +1,4 @@
-package foodsshop;
+package ood.lsp.foodstorage.products;
 
 
 import java.time.LocalDate;

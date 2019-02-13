@@ -1,6 +1,6 @@
-package foodsshop.storage;
+package ood.lsp.foodstorage.storage;
 
-import foodsshop.Product;
+import ood.lsp.foodstorage.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ public class Trash implements Storage {
         double unsuitabilityLevel = product.getUnsuitabilityLevel();
         if (unsuitabilityLevel > 100.0) {
             result = this.products.add(product);
+            this.currentConteiner++;
         }
         return result;
     }

@@ -1,6 +1,6 @@
-package foodsshop.storage;
+package ood.lsp.foodstorage.storage;
 
-import foodsshop.Product;
+import ood.lsp.foodstorage.products.Product;
 
 import java.util.List;
 
