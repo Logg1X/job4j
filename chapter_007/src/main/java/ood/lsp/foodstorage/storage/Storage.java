@@ -5,7 +5,9 @@ import ood.lsp.foodstorage.products.Product;
 import java.util.List;
 
 public interface Storage {
-    boolean store(Product product);
+    void store(Product product);
+
+    boolean isAppropriate(Product product);
 
     List<Product> getAllProductsInStorage();
 

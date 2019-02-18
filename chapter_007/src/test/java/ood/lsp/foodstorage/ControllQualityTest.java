@@ -19,28 +19,28 @@ public class ControllQualityTest {
     @Test
     public void whenSortProductByStorageThenShopTrashWarehouse() {
         ControllQuality controllQuality = new ControllQuality();
-        controllQuality.addStorage("Shop", new Shop("Shop", 10));
+        controllQuality.addStorage("Shop", new Shop("Shop", 3));
         controllQuality.addStorage("Warehouse", new Warehouse("Shop", 10));
         controllQuality.addStorage("Trash", new Trash("Shop", 10));
         List<Product> products = List.of(
                 new Food("Eat1",
-                        LocalDate.of(2019, 02, 20),
-                        LocalDate.of(2019, 01, 01),
+                        LocalDate.now().plusDays(7),
+                        LocalDate.now().minusDays(45),
                         19.0,
                         0),
                 new Food("Eat2",
-                        LocalDate.of(2019, 02, 28),
-                        LocalDate.of(2019, 02, 1),
+                        LocalDate.now().plusDays(25),
+                        LocalDate.now().minusDays(55),
                         16.0,
                         0),
                 new Food("Eat3",
-                        LocalDate.of(2019, 02, 9),
-                        LocalDate.of(2019, 02, 1),
+                        LocalDate.now().minusDays(1),
+                        LocalDate.now().minusDays(12),
                         16.0,
                         0),
                 new Food("Eat4",
-                        LocalDate.of(2019, 03, 28),
-                        LocalDate.of(2019, 02, 1),
+                        LocalDate.now().plusDays(110),
+                        LocalDate.now().minusDays(2),
                         16.0,
                         0));
         controllQuality.sortProductsByStorage(products);
@@ -52,4 +52,23 @@ public class ControllQualityTest {
         assertThat(controllQuality.getAllStorage().get("Warehouse").getAllProductsInStorage().size(), is(1));
         assertTrue(controllQuality.getAllStorage().get("Warehouse").getAllProductsInStorage().contains(products.get(3)));
     }
+
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void whenStorageOverflowThenShopIsFull() {
+        ControllQuality controllQuality = new ControllQuality();
+        controllQuality.addStorage("Shop", new Shop("Shop", 1));
+        List<Product> products = List.of(
+                new Food("Eat1",
+                        LocalDate.now().plusDays(7),
+                        LocalDate.now().minusDays(45),
+                        19.0,
+                        0),
+                new Food("Eat2",
+                        LocalDate.now().plusDays(25),
+                        LocalDate.now().minusDays(55),
+                        16.0,
+                        0));
+        controllQuality.sortProductsByStorage(products);
+    }
+
 }

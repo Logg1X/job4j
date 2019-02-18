@@ -23,24 +23,6 @@ public class Shop implements Storage {
     }
 
     @Override
-    public boolean store(Product product) {
-        if (this.currentConteiner == size) {
-            throw new ArrayIndexOutOfBoundsException("Storage is full!");
-        }
-        boolean result = false;
-        double unsuitabilityLevel = product.getUnsuitabilityLevel();
-        if (unsuitabilityLevel > 25 && unsuitabilityLevel < 100) {
-            result = this.products.add(product);
-            this.currentConteiner++;
-            if (unsuitabilityLevel > 75) {
-                product.setDiscount(35);
-            }
-        }
-        return result;
-    }
-
-
-    @Override
     public String getName() {
         return this.name;
     }
@@ -48,5 +30,29 @@ public class Shop implements Storage {
     @Override
     public int getSize() {
         return this.size;
+    }
+
+    @Override
+    public void store(Product product) {
+        if (this.currentConteiner == size) {
+            throw new ArrayIndexOutOfBoundsException("Storage is full!");
+        }
+        if (isAppropriate(product)) {
+            this.products.add(product);
+            this.currentConteiner++;
+        }
+    }
+
+    @Override
+    public boolean isAppropriate(Product product) {
+        boolean result = false;
+        double unsuitabilityLevel = product.getUnsuitabilityLevel();
+        if (unsuitabilityLevel > 25 && unsuitabilityLevel < 100) {
+            result = true;
+            if (unsuitabilityLevel > 75) {
+                product.setDiscount(35);
+            }
+        }
+        return result;
     }
 }

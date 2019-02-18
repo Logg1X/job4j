@@ -18,25 +18,6 @@ public class Trash implements Storage {
         this.currentConteiner = 0;
     }
 
-    public List<Product> getAllProductsInStorage() {
-        return products;
-    }
-
-    @Override
-    public boolean store(Product product) {
-        if (this.currentConteiner == size) {
-            throw new ArrayIndexOutOfBoundsException("Storage is full!");
-        }
-        boolean result = false;
-        double unsuitabilityLevel = product.getUnsuitabilityLevel();
-        if (unsuitabilityLevel > 100.0) {
-            result = this.products.add(product);
-            this.currentConteiner++;
-        }
-        return result;
-    }
-
-
     @Override
     public String getName() {
         return this.name;
@@ -45,5 +26,31 @@ public class Trash implements Storage {
     @Override
     public int getSize() {
         return this.size;
+    }
+
+    public List<Product> getAllProductsInStorage() {
+        return products;
+    }
+
+    @Override
+    public void store(Product product) {
+        if (this.currentConteiner == size) {
+            throw new ArrayIndexOutOfBoundsException("Storage is full!");
+        }
+        if (isAppropriate(product)) {
+            this.products.add(product);
+            this.currentConteiner++;
+        }
+
+    }
+
+    @Override
+    public boolean isAppropriate(Product product) {
+        boolean result = false;
+        double unsuitabilityLevel = product.getUnsuitabilityLevel();
+        if (unsuitabilityLevel > 100.0) {
+            result = true;
+        }
+        return result;
     }
 }
