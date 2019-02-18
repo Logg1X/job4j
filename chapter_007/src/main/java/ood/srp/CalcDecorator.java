@@ -1,36 +1,34 @@
 package ood.srp;
 
-import ru.job4j.calculator.BaseCalculator;
+public abstract class CalcDecorator implements InterCalc {
+    InterCalc interactCalculator;
 
-public abstract class CalcDecorator implements BaseCalculator {
-    private BaseCalculator baseCalculator;
-
-    public CalcDecorator(BaseCalculator baseCalculator) {
-        this.baseCalculator = baseCalculator;
+    public CalcDecorator(InterCalc interactCalculator) {
+        this.interactCalculator = interactCalculator;
     }
 
     @Override
-    public void add(double first, double second) {
-        baseCalculator.add(first, second);
+    public void resetResult() {
+        interactCalculator.resetResult();
     }
 
     @Override
-    public void subtract(double first, double second) {
-        baseCalculator.add(first, second);
+    public void showMenu() {
+        interactCalculator.showMenu();
     }
 
     @Override
-    public void div(double first, double second) {
-        baseCalculator.add(first, second);
-    }
-
-    @Override
-    public void multiple(double first, double second) {
-        baseCalculator.add(first, second);
+    public Operation getOperation(int key) {
+        return interactCalculator.getOperation(key);
     }
 
     @Override
     public double getResult() {
-        return baseCalculator.getResult();
+        return interactCalculator.getResult();
+    }
+
+    @Override
+    public void setResult(double result) {
+        interactCalculator.setResult(result);
     }
 }

@@ -1,25 +1,26 @@
 package ood.srp;
 
-import ru.job4j.calculator.BaseCalculator;
 import ru.job4j.calculator.Calculator;
 
 import java.util.Map;
 import java.util.Scanner;
 
-public class InteractCalc extends CalcDecorator {
+public class SimpleInteractCalc implements InterCalc {
     private Calculator calculator;
     private double previousResult;
     private Map<Integer, Operation> allOperations;
 
-    public InteractCalc(BaseCalculator calculator) {
-        super(calculator);
+    public SimpleInteractCalc(Calculator calculator) {
+        this.calculator = calculator;
+        this.allOperations = createOperations();
     }
 
-
+    @Override
     public void resetResult() {
         previousResult = 0;
     }
 
+    @Override
     public void showMenu() {
         allOperations.values().forEach(operation -> System.out.println(String.format("%s - %s", operation.getKey(), operation.getName())));
     }
@@ -29,11 +30,10 @@ public class InteractCalc extends CalcDecorator {
                 1, new Add(1, "Add"),
                 2, new Subtract(2, "Subtract"),
                 3, new Div(3, "Division"),
-                4, new Multiple(4, "Multiple"),
-                5, new Cosinus(5, "Cossinus"),
-                6, new Sinus(6, "Sinus"));
+                4, new Multiple(4, "Multiple"));
     }
 
+    @Override
     public Operation getOperation(int key) {
         Operation result;
         if (!allOperations.keySet().contains(key)) {
@@ -44,6 +44,15 @@ public class InteractCalc extends CalcDecorator {
         return result;
     }
 
+    @Override
+    public double getResult() {
+        return this.previousResult;
+    }
+
+    @Override
+    public void setResult(double previousResult) {
+        this.previousResult = previousResult;
+    }
 
     private class Add extends OperImentation {
 
@@ -52,12 +61,11 @@ public class InteractCalc extends CalcDecorator {
         }
 
         @Override
-        public double execute(Scanner scanner) {
+        public void execute(Scanner scanner) {
             Double[] parammetrs = this.getParammetrs(scanner, previousResult);
             calculator.add(parammetrs[0], parammetrs[1]);
             previousResult = calculator.getResult();
             System.out.println(String.format("%s%s%s = %s%s", parammetrs[0], this.getSymbol(), parammetrs[1], previousResult, System.lineSeparator()));
-            return previousResult;
         }
 
         @Override
@@ -73,12 +81,11 @@ public class InteractCalc extends CalcDecorator {
         }
 
         @Override
-        public double execute(Scanner scanner) {
+        public void execute(Scanner scanner) {
             Double[] parammetrs = this.getParammetrs(scanner, previousResult);
             calculator.subtract(parammetrs[0], parammetrs[1]);
             previousResult = calculator.getResult();
             System.out.println(String.format("%s%s%s = %s%s", parammetrs[0], this.getSymbol(), parammetrs[1], previousResult, System.lineSeparator()));
-            return previousResult;
         }
 
         @Override
@@ -94,12 +101,11 @@ public class InteractCalc extends CalcDecorator {
         }
 
         @Override
-        public double execute(Scanner scanner) {
+        public void execute(Scanner scanner) {
             Double[] parammetrs = this.getParammetrs(scanner, previousResult);
             calculator.div(parammetrs[0], parammetrs[1]);
             previousResult = calculator.getResult();
             System.out.println(String.format("%s%s%s = %s%s", parammetrs[0], this.getSymbol(), parammetrs[1], previousResult, System.lineSeparator()));
-            return previousResult;
         }
 
         @Override
@@ -115,12 +121,11 @@ public class InteractCalc extends CalcDecorator {
         }
 
         @Override
-        public double execute(Scanner scanner) {
+        public void execute(Scanner scanner) {
             Double[] parammetrs = this.getParammetrs(scanner, previousResult);
             calculator.multiple(parammetrs[0], parammetrs[1]);
             previousResult = calculator.getResult();
             System.out.println(String.format("%s%s%s = %s%s", parammetrs[0], this.getSymbol(), parammetrs[1], previousResult, System.lineSeparator()));
-            return previousResult;
         }
 
         @Override
@@ -129,66 +134,5 @@ public class InteractCalc extends CalcDecorator {
         }
     }
 
-    private class Cosinus extends OperImentation {
-
-        protected Cosinus(int key, String name) {
-            super(key, name);
-        }
-
-        @Override
-        public Double[] getParammetrs(Scanner scanner, double previousResult) {
-            Double[] result = new Double[2];
-            result[0] = previousResult;
-            if (result[0] == 0) {
-                System.out.println("Введите число");
-                result[0] = scanner.nextDouble();
-            }
-            return result;
-        }
-
-        @Override
-        public double execute(Scanner scanner) {
-            Double[] parammetrs = this.getParammetrs(scanner, previousResult);
-            previousResult = Math.cos(parammetrs[0]);
-            System.out.println(String.format("%s %s = %s", this.getSymbol(), parammetrs[0], previousResult));
-            return previousResult;
-        }
-
-        @Override
-        public String getSymbol() {
-            return "COS";
-        }
-    }
-
-    private class Sinus extends OperImentation {
-
-        protected Sinus(int key, String name) {
-            super(key, name);
-        }
-
-        @Override
-        public Double[] getParammetrs(Scanner scanner, double previousResult) {
-            Double[] result = new Double[2];
-            result[0] = previousResult;
-            if (result[0] == 0) {
-                System.out.println("Введите число");
-                result[0] = scanner.nextDouble();
-            }
-            return result;
-        }
-
-        @Override
-        public double execute(Scanner scanner) {
-            Double[] parammetrs = this.getParammetrs(scanner, previousResult);
-            previousResult = Math.sin(parammetrs[0]);
-            System.out.println(String.format("%s %s = %s", this.getSymbol(), parammetrs[0], previousResult));
-            return previousResult;
-        }
-
-        @Override
-        public String getSymbol() {
-            return "SIN";
-        }
-    }
 
 }

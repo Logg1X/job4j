@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class AppCalc {
     public static void main(String[] args) {
-        InteractCalc calc = new InteractCalc(new Calculator());
+        InterCalc calc = new EngineerInteractCalc(new SimpleInteractCalc(new Calculator()));
         Scanner scanner = new Scanner(System.in);
         Operation operation = null;
         boolean start = true;
