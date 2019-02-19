@@ -5,7 +5,14 @@ import ood.lsp.foodstorage.products.Product;
 import java.util.List;
 
 public interface Storage {
-    void store(Product product);
+    default void store(Product product) {
+        if (this.getAllProductsInStorage().size() == this.getSize()) {
+            throw new ArrayIndexOutOfBoundsException("Storage is full!");
+        }
+        if (isAppropriate(product)) {
+            this.getAllProductsInStorage().add(product);
+        }
+    }
 
     boolean isAppropriate(Product product);
 

@@ -60,7 +60,7 @@ public class Food implements Product {
     }
 
     @Override
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 

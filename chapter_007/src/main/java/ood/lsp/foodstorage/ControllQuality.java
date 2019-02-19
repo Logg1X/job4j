@@ -19,12 +19,12 @@ public class ControllQuality {
         return allStorage;
     }
 
-
     void sortProductsByStorage(List<Product> products) {
         for (Storage storage : allStorage.values()) {
             for (Product product : products) {
-               storage.store(product);
+                storage.store(product);
             }
         }
     }
 }
+

@@ -56,12 +56,22 @@ public abstract class ProdDecorator implements Product {
     }
 
     @Override
-    public double getDiscount() {
+    public int getDiscount() {
         return product.getDiscount();
     }
 
     @Override
     public void setDiscount(int discount) {
         product.setDiscount(discount);
+    }
+
+    @Override
+    public boolean isRecyclable() {
+        return product.isRecyclable();
+    }
+
+    @Override
+    public boolean isPerishable() {
+        return product.isPerishable();
     }
 }

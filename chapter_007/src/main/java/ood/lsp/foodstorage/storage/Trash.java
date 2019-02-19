@@ -8,14 +8,12 @@ import java.util.List;
 public class Trash implements Storage {
     private int size;
     private String name;
-    private int currentConteiner;
     private List<Product> products;
 
     public Trash(String name, int size) {
         this.size = size;
         this.name = name;
         this.products = new ArrayList<>();
-        this.currentConteiner = 0;
     }
 
     @Override
@@ -30,18 +28,6 @@ public class Trash implements Storage {
 
     public List<Product> getAllProductsInStorage() {
         return products;
-    }
-
-    @Override
-    public void store(Product product) {
-        if (this.currentConteiner == size) {
-            throw new ArrayIndexOutOfBoundsException("Storage is full!");
-        }
-        if (isAppropriate(product)) {
-            this.products.add(product);
-            this.currentConteiner++;
-        }
-
     }
 
     @Override

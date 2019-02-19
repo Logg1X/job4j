@@ -8,14 +8,12 @@ import java.util.List;
 public class Shop implements Storage {
     private int size;
     private String name;
-    private int currentConteiner;
     private List<Product> products;
 
     public Shop(String name, int size) {
         this.size = size;
         this.name = name;
         this.products = new ArrayList<>();
-        this.currentConteiner = 0;
     }
 
     public List<Product> getAllProductsInStorage() {
@@ -32,16 +30,6 @@ public class Shop implements Storage {
         return this.size;
     }
 
-    @Override
-    public void store(Product product) {
-        if (this.currentConteiner == size) {
-            throw new ArrayIndexOutOfBoundsException("Storage is full!");
-        }
-        if (isAppropriate(product)) {
-            this.products.add(product);
-            this.currentConteiner++;
-        }
-    }
 
     @Override
     public boolean isAppropriate(Product product) {

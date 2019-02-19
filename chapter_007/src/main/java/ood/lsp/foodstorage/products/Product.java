@@ -12,6 +12,14 @@ public interface Product {
         return result;
     }
 
+    default boolean isRecyclable() {
+        return false;
+    }
+
+    default boolean isPerishable() {
+        return false;
+    }
+
     String getName();
 
     void setName(String name);
@@ -28,7 +36,7 @@ public interface Product {
 
     void setPrice(double price);
 
-    double getDiscount();
+    int getDiscount();
 
     void setDiscount(int discount);
 }
