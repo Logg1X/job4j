@@ -1,5 +1,6 @@
 package ood.isp;
 
+import com.google.common.base.Joiner;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -38,8 +39,8 @@ public class MenuTest {
         e5.getList().add(e9);
         menu.showMenu(menu.getList(), 1);
 
-        String expected = "--Задача 1\r\n----Задача 1.1\r\n------Задача 1.1.1\r\n--------Задача 1.1.1.1\r\n----------Задача 1.1.1.1.1\r\n"
-                + "------Задача 1.1.2\r\n--Задача 1.2\r\n----Задача 1.2.1\r\n------Задача 1.2.1.1\r\n----Задача 1.2.2\r\n";
-        assertThat(out.toString(), is(expected));
+        String exp = Joiner.on(System.lineSeparator()).join("--Задача 1", "----Задача 1.1", "------Задача 1.1.1", "--------Задача 1.1.1.1", "----------Задача 1.1.1.1.1",
+                "------Задача 1.1.2", "--Задача 1.2", "----Задача 1.2.1", "------Задача 1.2.1.1", "----Задача 1.2.2", "");
+        assertThat(out.toString(), is(exp));
     }
 }
