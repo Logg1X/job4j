@@ -12,4 +12,16 @@ public class Perishable extends ProdDecorator {
     public boolean isPerishable() {
         return this.keepRefrigerated;
     }
+
+    @Override
+    public String toString() {
+        return "Food{"
+                + "name='" + getName() + '\''
+                + ", expaireDate=" + getExpaireDate()
+                + ", createDate=" + getCreateDate()
+                + ", price=" + getPrice()
+                + ", discount=" + getDiscount()
+                + ", keepRefrigerated=" + isPerishable()
+                + '}';
+    }
 }

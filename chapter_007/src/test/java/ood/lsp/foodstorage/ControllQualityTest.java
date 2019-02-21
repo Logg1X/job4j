@@ -123,4 +123,60 @@ public class ControllQualityTest {
         assertThat(cq.getAllStorage().get("Warehouse").getAllProductsInStorage().size(), is(1));
     }
 
+    @Test
+    public void whenResortAllProductInAllStoragesThenResort() {
+        ControllQuality controllQuality = new ControllQuality();
+        controllQuality.addStorage("Shop", new Shop("Shop", 10));
+        controllQuality.addStorage("Warehouse", new SmartWarehouse(new Warehouse("SmartWarehouse", 10)));
+        controllQuality.addStorage("Trash", new SmartTrash(new Trash("Shop", 10)));
+        controllQuality.addStorage("Processing", new Processing(new Trash("Processing", 5)));
+        controllQuality.addStorage("Fridge", new ColdStorage(new Warehouse("Fridge", 5)));
+        List<Product> products = List.of(
+                new Food("Eat1",
+                        LocalDate.now().plusDays(7),
+                        LocalDate.now().minusDays(45),
+                        19.0,
+                        0),
+                new Food("Eat2",
+                        LocalDate.now().plusDays(25),
+                        LocalDate.now().minusDays(55),
+                        16.0,
+                        0),
+                new Food("Eat3",
+                        LocalDate.now().minusDays(1),
+                        LocalDate.now().minusDays(12),
+                        16.0,
+                        0),
+                new RecyclableFood(new Food("Eat4",
+                        LocalDate.now().minusDays(1),
+                        LocalDate.now().minusDays(15),
+                        19.0,
+                        0)),
+                new Food("Eat5",
+                        LocalDate.now().plusDays(110),
+                        LocalDate.now().minusDays(2),
+                        16.0,
+                        0),
+                new Perishable(new Food("Eat6",
+                        LocalDate.now().plusDays(110),
+                        LocalDate.now().minusDays(2),
+                        16.0,
+                        0)),
+                new Perishable(new Food("Eat7",
+                        LocalDate.now().plusDays(100),
+                        LocalDate.now().minusDays(3),
+                        25.0,
+                        0)
+                ));
+        controllQuality.sortProductsByStorage(products);
+        assertThat(controllQuality.getAllStorage().get("Shop").getAllProductsInStorage().size(), is(2));
+        assertThat(controllQuality.getAllStorage().get("Warehouse").getAllProductsInStorage().size(), is(1));
+        assertThat(controllQuality.getAllStorage().get("Trash").getAllProductsInStorage().size(), is(1));
+        assertThat(controllQuality.getAllStorage().get("Processing").getAllProductsInStorage().size(), is(1));
+        assertThat(controllQuality.getAllStorage().get("Fridge").getAllProductsInStorage().size(), is(2));
+        controllQuality.getAllStorage().get("Shop").getAllProductsInStorage().get(1).setExpaireDate(LocalDate.now().minusDays(1));
+        controllQuality.resort();
+        assertThat(controllQuality.getAllStorage().get("Shop").getAllProductsInStorage().size(), is(1));
+        assertThat(controllQuality.getAllStorage().get("Trash").getAllProductsInStorage().size(), is(2));
+    }
 }
