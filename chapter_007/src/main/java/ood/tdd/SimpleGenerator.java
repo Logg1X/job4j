@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 public class SimpleGenerator {
 
+    private static final Pattern PATT = Pattern.compile("\\$\\{\\w*\\}");
+
     public String generated(String template, Map<String, String> keys) {
         this.validateKeys(template, keys);
         for (String s : keys.keySet()) {
@@ -19,7 +21,7 @@ public class SimpleGenerator {
 
     private Set<String> getKeysFromString(String template) {
         Set<String> result = new HashSet<>();
-        Matcher matcher = Pattern.compile("\\$\\{\\w*\\}").matcher(template);
+        Matcher matcher = PATT.matcher(template);
         while (matcher.find()) {
             result.add(matcher.group());
         }
