@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for Calculator class.
+ * ru.job4j.Test for Calculator class.
  *
  * @author Toporov Pavel.
  * @version 2.0.
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class CalculatorTest {
     /**
-     * Test add.
+     * ru.job4j.Test add.
      */
     @Test
     public void wenAddOnePlusOneThenTwo() {
@@ -26,7 +26,7 @@ public class CalculatorTest {
     }
 
     /**
-     * Test div.
+     * ru.job4j.Test div.
      */
     @Test
     public void whenDiv2On2Then1() {
@@ -38,7 +38,7 @@ public class CalculatorTest {
     }
 
     /**
-     * Test subtract.
+     * ru.job4j.Test subtract.
      */
     @Test
     public void whenSubtract4Minus1Then3() {
@@ -50,7 +50,7 @@ public class CalculatorTest {
     }
 
     /**
-     * Test multiple.
+     * ru.job4j.Test multiple.
      */
     @Test
     public void whenMultiple2By3Then6() {

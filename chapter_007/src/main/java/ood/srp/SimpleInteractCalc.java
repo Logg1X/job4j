@@ -1,6 +1,5 @@
 package ood.srp;
 
-import ru.job4j.calculator.Calculator;
 
 import java.util.Map;
 import java.util.Scanner;

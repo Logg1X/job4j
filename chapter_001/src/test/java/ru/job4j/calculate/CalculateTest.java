@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test
+ * ru.job4j.Test
  *
  * @author Pavel Toporov (per4mancerror@gmail.com).
  * @version $id$
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 
 public class CalculateTest {
     /**
-     * Test echo.
+     * ru.job4j.Test echo.
      */
     @Test
     public void whenTakeNameThenTreeEchoPlusName() {

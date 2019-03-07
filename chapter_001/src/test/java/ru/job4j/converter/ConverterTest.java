@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for Converter class.
+ * ru.job4j.Test for Converter class.
  *
  * @author Toporov Pavel.
  * @version 1.0.
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class ConverterTest {
     /**
-     * Test rubleToDollar.
+     * ru.job4j.Test rubleToDollar.
      */
     @Test
     public void when124RublesToDollarThen1() {
@@ -24,7 +24,7 @@ public class ConverterTest {
     }
 
     /**
-     * Test rubleToEuro.
+     * ru.job4j.Test rubleToEuro.
      */
     @Test
     public void when146RublesToEuroThen1() {
@@ -34,7 +34,7 @@ public class ConverterTest {
     }
 
     /**
-     * Test euroToRubles.
+     * ru.job4j.Test euroToRubles.
      */
     @Test
     public void when2EuroToRublesThen146() {
@@ -44,7 +44,7 @@ public class ConverterTest {
     }
 
     /**
-     * Test dollarToRubles.
+     * ru.job4j.Test dollarToRubles.
      */
     @Test
     public void when2DollarsToRublesThen124() {

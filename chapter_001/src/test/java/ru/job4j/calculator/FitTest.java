@@ -6,7 +6,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for fit task
+ * ru.job4j.Test for fit task
  *
  * @version 2.1
  * @autor Toporov Pavel
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  */
 public class FitTest {
     /**
-     * Test manWeight
+     * ru.job4j.Test manWeight
      */
     @Test
     public void manWeight() {
@@ -24,7 +24,7 @@ public class FitTest {
     }
 
     /**
-     * Test womanWeight
+     * ru.job4j.Test womanWeight
      */
     @Test
     public void womanWeight() {

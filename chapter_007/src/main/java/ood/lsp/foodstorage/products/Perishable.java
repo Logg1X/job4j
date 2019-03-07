@@ -1,16 +1,16 @@
 package ood.lsp.foodstorage.products;
 
 public class Perishable extends ProdDecorator {
-    private final boolean keepRefrigerated;
+    private final boolean perishable;
 
     public Perishable(Food product) {
         super(product);
-        this.keepRefrigerated = true;
+        this.perishable = true;
     }
 
     @Override
     public boolean isPerishable() {
-        return this.keepRefrigerated;
+        return this.perishable;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Perishable extends ProdDecorator {
                 + ", createDate=" + getCreateDate()
                 + ", price=" + getPrice()
                 + ", discount=" + getDiscount()
-                + ", keepRefrigerated=" + isPerishable()
+                + ", perishable=" + isPerishable()
                 + '}';
     }
 }

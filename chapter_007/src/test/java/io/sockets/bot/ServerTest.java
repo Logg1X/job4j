@@ -32,7 +32,7 @@ public class ServerTest {
 //        assertThat(out.toString(), is(expected));
 //    }
 //
-//    @Test
+//    @ru.job4j.Test
 //    public void whenAskHiThenGreatOracle() throws IOException {
 //        this.testServer(
 //                Joiner.on(System.lineSeparator()).join("crazybot", "hi", "exit", "close program"),
@@ -47,7 +47,7 @@ public class ServerTest {
 //        );
 //    }
 //
-//    @Test
+//    @ru.job4j.Test
 //    public void whenAskHoweAreYouThenItsOk() throws IOException {
 //        this.testServer(
 //                Joiner.on(System.lineSeparator()).join("crazybot", "how are u?", "exit", "close program"),
@@ -62,7 +62,7 @@ public class ServerTest {
 //        );
 //    }
 //
-//    @Test
+//    @ru.job4j.Test
 //    public void whenAskUnsupportedThenIDonNotUnderstand() throws IOException {
 //        this.testServer(
 //                Joiner.on(System.lineSeparator()).join("crazybot", "Unsupported ask", "exit", "close program"),
@@ -77,7 +77,7 @@ public class ServerTest {
 //        );
 //    }
 //
-//    @Test
+//    @ru.job4j.Test
 //    public void whenAskExitThenCloseProgram() throws IOException {
 //        this.testServer(
 //                "close program",
