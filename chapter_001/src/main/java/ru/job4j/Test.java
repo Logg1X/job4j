@@ -8,21 +8,19 @@ public class Test {
         Test test = new Test();
         String a = "ШААЛААШ";
         System.out.println(test.testStr(a));
-        System.out.println(test.testAAAA("MMJ AADDDDAAAKKKKKKK"));
+        System.out.println(test.testAAAA("MMJAADDDDAAAKKKKKKK"));
 
     }
 
     public String testAAAA(String a) {
         String result = "";
         int counter = 1;
-        int i = 0;
-        while (i < a.length() - 1) { // AADDDDAAA
-            result = result + String.valueOf(a.charAt(i));
-            while (i != a.length() - 1 && a.charAt(i) == a.charAt(++i)) {
+        for (int j = 0; j < a.length() - 1; j++) {
+            char[] c = a.toCharArray();
+            if (j + 1 < a.length() - 1 && c[j + 1] == c[j]) {
                 counter++;
-            }
-            if (counter > 1) {
-                result = result + String.valueOf(counter);
+            } else {
+                result = counter > 1 ? result + c[j] + counter : result + c[j];
                 counter = 1;
             }
         }
