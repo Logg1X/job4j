@@ -11,9 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 
@@ -29,10 +27,29 @@ public class ParserHTML {
     private static final String REGEX = ".*([Jj]ava|[Jj]avaSE|JAVA|[Jj]avaEE)(?!([Ss]cript|\\s+[Ss]cript)).*";
     private static final String TODAY = "сегодня";
     private static final String YESTERDAY = "вчера";
-    private static final String DATE_FORMAT = "d MMM yy, HH:mm";
+    private static final String DATE_FORMAT = "d MMMM yy, HH:mm";
     private static final String DATE_TIME_FORMAT = "dd LLLL yyyy, HH:mm";
     private static final String TIME_FORMAT = "HH:mm";
+    private static final Map<String, String> MONTH = addAllMonth();
 
+
+    private static Map<String, String> addAllMonth() {
+        Map<String, String> MONTH = new HashMap<>();
+        MONTH.put("янв", "января");
+        MONTH.put("фев", "февраля");
+        MONTH.put("мар", "марта");
+        MONTH.put("апр", "апреля");
+        MONTH.put("май", "мая");
+        MONTH.put("июн", "июня");
+        MONTH.put("июл", "июля");
+        MONTH.put("авг", "августа");
+        MONTH.put("сен", "сентября");
+        MONTH.put("окт", "октября");
+        MONTH.put("ноя", "ноября");
+        MONTH.put("дек", "декабря");
+        return MONTH;
+
+    }
 
     public Set<Vacancy> parser(LocalDateTime dateUpdate) {
         Set<Vacancy> result = new HashSet<>();
@@ -80,8 +97,13 @@ public class ParserHTML {
                 );
             }
         } else {
-            if (date.contains("май")) {
-                date = date.replace("й", "я");
+            String[] d = date.split(" ");
+            if (MONTH.keySet().contains(d[1])) {
+                d[1] = MONTH.get(d[1]);
+                date = "";
+                for (String s : d) {
+                    date = String.format("%s %s", date, s).strip();
+                }
             }
             result = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_FORMAT));
         }
