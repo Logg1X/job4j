@@ -34,20 +34,20 @@ public class ParserHTML {
 
 
     private static Map<String, String> addAllMonth() {
-        Map<String, String> MONTH = new HashMap<>();
-        MONTH.put("янв", "января");
-        MONTH.put("фев", "февраля");
-        MONTH.put("мар", "марта");
-        MONTH.put("апр", "апреля");
-        MONTH.put("май", "мая");
-        MONTH.put("июн", "июня");
-        MONTH.put("июл", "июля");
-        MONTH.put("авг", "августа");
-        MONTH.put("сен", "сентября");
-        MONTH.put("окт", "октября");
-        MONTH.put("ноя", "ноября");
-        MONTH.put("дек", "декабря");
-        return MONTH;
+        Map<String, String> month = new HashMap<>();
+        month.put("янв", "января");
+        month.put("фев", "февраля");
+        month.put("мар", "марта");
+        month.put("апр", "апреля");
+        month.put("май", "мая");
+        month.put("июн", "июня");
+        month.put("июл", "июля");
+        month.put("авг", "августа");
+        month.put("сен", "сентября");
+        month.put("окт", "октября");
+        month.put("ноя", "ноября");
+        month.put("дек", "декабря");
+        return month;
 
     }
 
