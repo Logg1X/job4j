@@ -9,18 +9,13 @@ public class Player {
         this.figure = figure;
     }
 
-    public char[][] getBoard() {
-        return board;
-    }
-
-
     public char getFigure() {
         return figure;
     }
 
 
     public char[][] move(int x, int y) {
-        this.board[y][x] = (char) (this.figure + ' ');
+        this.board[y][x] = (this.figure);
         return this.board;
     }
 }

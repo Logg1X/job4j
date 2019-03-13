@@ -1,10 +1,11 @@
 package gc;
 
+import java.util.Date;
 import java.util.stream.IntStream;
 
 public class User {
     private String name;
-    private Object[][] arr = new Object[1000][2];
+    private Object[][] arr = new Object[5][2];
 
 
     public User() {
@@ -32,7 +33,7 @@ public class User {
         info();
         System.out.println("Start");
         info();
-        IntStream.range(0, 52).forEach(value -> {
+        IntStream.range(0, 10000).forEach(value -> {
 //            System.gc();
             User user0 = new User(String.valueOf(value));
             info(true);
