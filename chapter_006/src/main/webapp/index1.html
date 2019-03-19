@@ -7,24 +7,33 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-        function validate() {
-            var result = true;
-            var fields = document.getElementsByClassName('validate-form');
-            var sex = document.getElementsByName('sex');
-            for (var i = 0; i < fields.length; i++) {
-                if (fields[i].lastElementChild.value === "" || (!sex[0].checked && !sex[1].checked)) {
-                    alert("Fill in the main fields!");
-                    result = false;
-                    break;
-                }
-            }
-            if (result) {
-                alert("Great, the form is confirmed!");
-                alert("I like weakly typed languages...(sarcasm)");
-            }
-            return result;
+    <script>function addRow() {
+        var firstName = $('#first_name').val();
+        var lastName = $('#Surname').val();
+        var email = $('#email').val();
+        if (validate()) {
+            $('#table tr:last').after(
+                '<tr>'
+                + '<td>'+firstName+'</td>'
+                + '<td>'+lastName+'</td>'
+                + '<td>'+email+'</td>'
+                + '</tr>')
         }
+    }
+
+    function validate() {
+        var result = true;
+        var fields = document.getElementsByClassName('validate-form');
+        var sex = document.getElementsByName('sex');
+        for (var i = 0; i < fields.length; i++) {
+            if (fields[i].lastElementChild.value === "" || (!sex[0].checked && !sex[1].checked)) {
+                alert("Fill in the main fields!");
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
     </script>
 </head>
 <body>
@@ -37,7 +46,7 @@
             <label for="first_name">* First Name:</label>
             <input type="text" class="form-control" placeholder="Enter first name" id="first_name">
         </div>
-        <div class="form-group">
+        <div class="validate-form">
             <label for="Surname">Last Name:</label>
             <input type="text" class="form-control" placeholder="Enter surname" id="Surname">
         </div>
@@ -65,9 +74,10 @@
             <label><input type="checkbox"> Remember me</label>
         </div>
         <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
+        <button type="button" class="btn btn-default" onclick="return addRow();">Add</button>
     </form>
     <div class="container">
-        <table class="table table-striped">
+        <table class="table table-striped" id="table">
             <thead>
             <tr>
                 <th>Firstname</th>
