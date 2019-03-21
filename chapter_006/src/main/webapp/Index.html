@@ -7,33 +7,43 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>function addRow() {
-        var firstName = $('#first_name').val();
-        var lastName = $('#Surname').val();
-        var email = $('#email').val();
-        if (validate()) {
-            $('#table tr:last').after(
-                '<tr>'
-                + '<td>'+firstName+'</td>'
-                + '<td>'+lastName+'</td>'
-                + '<td>'+email+'</td>'
-                + '</tr>')
-        }
-    }
-
-    function validate() {
-        var result = true;
-        var fields = document.getElementsByClassName('validate-form');
-        var sex = document.getElementsByName('sex');
-        for (var i = 0; i < fields.length; i++) {
-            if (fields[i].lastElementChild.value === "" || (!sex[0].checked && !sex[1].checked)) {
-                alert("Fill in the main fields!");
-                result = false;
-                break;
+    <script>
+        function addRow() {
+            var firstName = $('#first_name').val();
+            var lastName = $('#Surname').val();
+            var email = $('#email').val();
+            if (validate()) {
+                $('#table tr:last').after(
+                    '<tr>'
+                    + '<td>' + firstName + '</td>'
+                    + '<td>' + lastName + '</td>'
+                    + '<td>' + email + '</td>'
+                    + '</tr>')
             }
         }
-        return result;
-    }
+
+        function validate() {
+            var result = true;
+            var fields = document.getElementsByClassName('validate-form');
+            var sex = document.getElementsByName('sex');
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].lastElementChild.value === "" || (!sex[0].checked && !sex[1].checked)) {
+                    alert("Fill in the main fields!");
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
+
+            ($.ajax({
+                method: "get",
+                url: "./json",
+                complete: function(data) {
+                    console.log(JSON.parse(data.responseType))
+                }
+            }));
+
     </script>
 </head>
 <body>
