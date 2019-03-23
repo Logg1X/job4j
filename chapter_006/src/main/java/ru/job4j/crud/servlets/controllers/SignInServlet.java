@@ -1,8 +1,8 @@
 package ru.job4j.crud.servlets.controllers;
 
 import ru.job4j.crud.servlets.Validate;
-import ru.job4j.crud.servlets.models.User;
 import ru.job4j.crud.servlets.ValidateService;
+import ru.job4j.crud.servlets.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +28,7 @@ public class SignInServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("currentUser", user);
             session.setAttribute("access", true);
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/Index.html", req.getContextPath()));
         } else {
             req.setAttribute("result", "Invalid credentional!");
             req.getRequestDispatcher("/WEB-INF/Status.jsp").forward(req, resp);

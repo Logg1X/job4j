@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class StartServlet extends HttpServlet {
+public class PersonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/chapter_006/Index.html");
+        req.getRequestDispatcher("WEB-INF/DinamicPersons.jsp").forward(req, resp);
     }
 }

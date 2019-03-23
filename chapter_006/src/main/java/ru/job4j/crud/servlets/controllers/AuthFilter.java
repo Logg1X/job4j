@@ -15,6 +15,7 @@ import java.io.IOException;
 public class AuthFilter implements Filter {
     private Validate logic = ValidateService.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(AuthFilter.class.getName());
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }

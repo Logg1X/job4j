@@ -13,9 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AccessFilter implements Filter {
-    private Validate logic = ValidateService.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(AccessFilter.class.getName());
-
+    private Validate logic = ValidateService.getInstance();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -29,11 +28,15 @@ public class AccessFilter implements Filter {
         User user = (User) session.getAttribute("currentUser");
         session.setAttribute("access", logic.isAllowedaccess(user, path));
         Boolean access = (Boolean) session.getAttribute("access");
+        if (user != null && (path.equals("/json") || path.equals("/simplePage"))) {
+            access = true;
+            chain.doFilter(request, response);
+        }
         if (user != null && String.valueOf(user.getId()).equals(req.getParameter("id")) && path.equals("/edit")) {
             access = true;
         }
         if (!access
-                && user != null && !path.equals("/")
+                && user != null && !path.equals("/Index.html")
                 && !path.equals("/signin")) {
             ((HttpServletResponse) response).sendError(403, "Permission deny!");
             return;

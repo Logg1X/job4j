@@ -94,6 +94,7 @@ public class ValidateService implements Validate {
         }
         return result.get();
     }
+
     private void loginIsExist(String login) {
         if (store.findAll()
                 .stream()
@@ -138,6 +139,7 @@ public class ValidateService implements Validate {
             throw new StoresException("A user with this email exists!");
         }
     }
+
     public void close() throws Exception {
         this.store.close();
     }

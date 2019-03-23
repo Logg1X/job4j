@@ -36,6 +36,7 @@ public class User {
         this.mail = mail;
         this.createDate = createDate;
     }
+
     public User(String name, String login, String mail, String password, Role role) {
         this.name = name;
         this.login = login;
