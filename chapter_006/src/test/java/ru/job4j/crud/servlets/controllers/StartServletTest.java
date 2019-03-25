@@ -34,6 +34,6 @@ public class StartServletTest {
     @Test
     public void doGet() throws IOException, ServletException {
         new StartServlet().doGet(request, response);
-        verify(response, atLeastOnce()).sendRedirect("/chapter_006/listUsr");
+        verify(response, atLeastOnce()).sendRedirect("/chapter_006/Index.html");
     }
 }

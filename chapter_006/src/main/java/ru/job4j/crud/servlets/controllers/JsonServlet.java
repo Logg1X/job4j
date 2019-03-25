@@ -36,6 +36,16 @@ public class JsonServlet extends HttpServlet {
         map.put(String.valueOf(id), person);
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        BufferedReader br = req.getReader();
+        String jsonText = mapper.writeValueAsString(br); toSBuilder(br).toString();
+        Person person = mapper.readValue(jsonText, Person.class);
+        int id = map.size() + 1;
+        map.put(String.valueOf(id), person);
+    }
+
     private StringBuilder toSBuilder(BufferedReader br) throws IOException {
         StringBuilder sb = new StringBuilder();
         String res = "";

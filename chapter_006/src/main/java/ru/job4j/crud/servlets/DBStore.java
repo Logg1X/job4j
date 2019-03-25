@@ -285,15 +285,6 @@ public class DBStore implements Store, AutoCloseable {
                 statement.setString(1, "SELECT");
                 statement.setString(2, "/listUsr");
                 statement.execute();
-                statement.setString(1, "SELECT");
-                statement.setString(2, "/simplePage");
-                statement.execute();
-                statement.setString(1, "SELECT");
-                statement.setString(2, "/Index.html");
-                statement.execute();
-                statement.setString(1, "SELECT");
-                statement.setString(2, "/json");
-                statement.execute();
                 stat.execute(
                         "INSERT into role_rule(id_role, id_rule) VALUES ((SELECT id FROM role  where role.name_role='ADMIN'),"
                                 + "(SELECT id_rule From rule WHERE rule.grant_rule = 'CREATE'))"

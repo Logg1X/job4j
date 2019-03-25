@@ -62,7 +62,7 @@ public class SignInServletTest {
         new SignInServlet().doPost(request, response);
         verify(session, atLeastOnce()).setAttribute("currentUser", validate.getByCredentional(login, password));
         verify(session, atLeastOnce()).setAttribute("access", true);
-        verify(response, atLeastOnce()).sendRedirect(String.format("%s/", request.getContextPath()));
+        verify(response, atLeastOnce()).sendRedirect(String.format("%s/Index.html", request.getContextPath()));
         verify(request, never()).setAttribute("result", eq(anyString()));
         verify(request, never()).getRequestDispatcher(anyString());
         verify(dispatcher, never()).forward(request, response);

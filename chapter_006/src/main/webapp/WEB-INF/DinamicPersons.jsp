@@ -5,9 +5,9 @@
   Time: 17:32
   To change this template use File | Settings | File Templates.
 --%>
+<html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en">
 <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -72,10 +72,11 @@
                 Password: $('#pwd').val(),
                 sex: document.getElementsByName('sex')[0].checked
             };
+            var jtext = JSON.stringify(formData);
             $.ajax({
                 method: "POST",
                 url: "./json",
-                data: JSON.stringify(formData),
+                data: jtext,
                 complete: function (data) {
                     console.log(data);
                     if (data.statusText === "success") {
