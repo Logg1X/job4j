@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo APP</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script>
+
+    function gettasks() {
+        var checkComplete = "";
+        if (document.getElementById('flag').checked) {
+            checkComplete = "noCompleteTask";
+        }
+        $($.ajax({
+            method: "get",
+            url: "./MyTasks?checkComplete=" + checkComplete,
+            complete: function (data) {
+                var result = '<thead>\n'
+                    + '            <tr>\n'
+                    + '                <th width="1%">Done</th>\n'
+                    + '                <th width="62%">Description</th>\n'
+                    + '                <th width="1%">Create</th>\n'
+                    + '            </tr>\n'
+                    + '            </thead>';
+                var tasks = JSON.parse(data.responseText);
+                for (var i = 0; i < tasks.length; i++) {
+                    result = result.concat(addLineTask(tasks[i]));
+                }
+                $('.table').html(result);
+            }
+        }));
+    }
+
+    function addLineTask(task) {
+        var result;
+        var desc = task.desc;
+        var date = new Date();
+        date.setTime(task.created);
+        var dateCreated = date.toLocaleDateString();
+        var done = task.done;
+        var check = "";
+        var id = task.id;
+        if (done) {
+            check = 'checked';
+            result = '<tr class="line"><td><input type="checkbox" onclick="updateStatus(' + id + ')"' + check + '></td>'
+                + '<td><strike>' + desc + '</strike></td>'
+                + '<td><strike>' + dateCreated + '</strike></td>'
+                + '<input class="lineId" name="id" type="hidden" value=' + id + '/></tr>';
+        } else {
+            result = '<tr class="line"><td><input type="checkbox" onclick="updateStatus(' + id + ')"' + check + '></td>'
+                + '<td>' + desc + '</td>'
+                + '<td>' + dateCreated + '</td>'
+                + '<input class="lineId" name="id" type="hidden" value=' + id + '/></tr>';
+        }
+        return result;
+    }
+
+    function updateStatus(id) {
+        $.ajax({
+            url:'./MyTasks',
+            method:'POST',
+            dataType:'json',
+            data: {id: id},
+            complete: function () {
+                gettasks()
+            }
+        });
+    }
+
+    function addTask() {
+        var description = document.getElementById("desc").value;
+        if (validate()) {
+            $.ajax({
+                url:'./MyTasks',
+                method:'POST',
+                dataType:'json',
+                data: {desc: description},
+                complete: function () {
+                    gettasks()
+                }
+            });
+        }
+    }
+
+    function validate() {
+        var result = true;
+        var fill = document.getElementById("desc").value;
+        if (fill === '') {
+            alert("Fill in the description field");
+            result = false;
+        }
+        return result;
+    }
+
+
+    // function task(name, desc, created, done, id) {
+    //     this.desc = desc;
+    //     this.created = created;
+    //     this.done = done;
+    //     this.id = id;
+    //
+    // }
+    $(document).ready(function () {
+        gettasks();
+    });
+</script>
+<style>
+    hr {
+        border: none; /* Убираем границу */
+        background-color: #6c7fff; /* Цвет линии */
+        color: #6c7fff; /* Цвет линии для IE6-7 */
+        height: 1px; /* Толщина линии */
+    }
+</style>
+<div class="container">
+    <H2>TODO list:</H2>
+    <hr/>
+    <form class="task-form">
+        <div class="form-group">
+            <label for="desc">Description:</label>
+            <input type="text" class="form-control validate" name="desc" id="desc" placeholder="Enter description"/>
+        </div>
+        <div>
+            <input type="button" class="btn btn-primary" onclick="addTask()" value="Add new task">
+        </div>
+        <hr/>
+        <div class="check-box">
+            <form>
+                <label>
+                    <input type="checkbox" id="flag" onclick="gettasks()">
+                    : no completed Task
+                </label>
+            </form>
+        </div>
+        <hr/>
+        <table class="table table-striped" id="table">
+        </table>
+    </form>
+</div>
+</body>
+</html>

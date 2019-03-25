@@ -145,7 +145,7 @@
         <module>chapter_006</module>
         <module>liquibase</module>
         <module>chapter_007</module>
-        <module>chapter_008_Hiber</module>
+        <module>chapter_008_hiber</module>
     </modules>
     <build>
         <plugins>
