@@ -2,6 +2,7 @@ package ru.job4j.todo;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -10,6 +11,7 @@ import ru.job4j.todo.models.Task;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 
 public enum DBStore implements Stor, Closeable {
     INSTANCE();
@@ -29,53 +31,47 @@ public enum DBStore implements Stor, Closeable {
         }
     }
 
-    public static void main(String[] args) {
-    }
-
     @Override
     public void addTask(Task task) {
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            session.save(task);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            this.factory.getCurrentSession().getTransaction().rollback();
-        }
+        this.tx(session -> session.save(task));
     }
 
     @Override
     public void updateStatus(String id) {
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            Task temp = session.get(Task.class, Integer.valueOf(id));
-            temp.setDone(!temp.isDone());
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            this.factory.getCurrentSession().getTransaction().rollback();
-        }
-
+        this.tx(session -> {
+            var task = session.get(Task.class, Integer.valueOf(id));
+            task.setDone(!task.isDone());
+            return "Status changed";
+        });
     }
 
     @Override
     public List<Task> getAllTasks() {
-        List<Task> result;
-        try (Session session = factory.openSession()) {
-            result = session.createQuery("from Task").list();
-        }
-        return result;
+        return this.tx(session -> session.createQuery("from Task").list());
     }
 
     @Override
     public List<Task> getNoCompletedTasks() {
-        List<Task> result;
-        try (Session session = factory.openSession()) {
-            result = session.createQuery("from Task where done = false ").list();
-        }
-        return result;
+        return this.tx(session -> session.createQuery("from Task where done = false ").list());
     }
 
     @Override
     public void close() throws IOException {
         this.factory.close();
+    }
+
+    private <T> T tx(final Function<Session, T> command) {
+        T result = null;
+        try (final Session session = factory.openSession()) {
+            try {
+                session.beginTransaction();
+                result = command.apply(session);
+                session.getTransaction().commit();
+            } catch (final Exception e) {
+                session.getTransaction().rollback();
+                throw e;
+            }
+        }
+        return result;
     }
 }
