@@ -3,7 +3,7 @@ package ru.job4j.todo.controlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import ru.job4j.todo.DBStore;
+import ru.job4j.todo.DBStorage;
 import ru.job4j.todo.Stor;
 import ru.job4j.todo.models.Task;
 
@@ -18,8 +18,8 @@ import java.util.List;
 public class TaskController extends HttpServlet {
     public static final Logger LOGGER = LogManager.getLogger(TaskController.class.getName());
     private ObjectMapper mapper = new ObjectMapper();
-    //    private Stor stor = MemStor.INSTANSCE;
-    private Stor stor = DBStore.INSTANCE;
+    //    private Stor stor = MemoryStorage.INSTANSCE;
+    private Stor stor = DBStorage.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,7 +57,7 @@ public class TaskController extends HttpServlet {
     @Override
     public void destroy() {
         try {
-            DBStore.INSTANCE.close();
+            DBStorage.INSTANCE.close();
             super.destroy();
             LOGGER.info("Connection is closed");
         } catch (IOException e) {

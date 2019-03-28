@@ -2,7 +2,6 @@ package ru.job4j.todo;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -13,31 +12,37 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 
-public enum DBStore implements Stor, Closeable {
+public enum DBStorage implements Stor, Closeable {
     INSTANCE();
 
-    private SessionFactory factory;
+    private final SessionFactory factory;
 
-    DBStore() {
+    DBStorage() {
+        this.factory = init();
+    }
+
+    private SessionFactory init() {
+        SessionFactory factory = null;
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure("todo.cfg.xml")
                 .build();
         try {
-            this.factory = new MetadataSources(registry)
+            factory = new MetadataSources(registry)
                     .buildMetadata()
                     .buildSessionFactory();
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
         }
+        return factory;
     }
 
     @Override
-    public void addTask(Task task) {
+    public void addTask(final Task task) {
         this.tx(session -> session.save(task));
     }
 
     @Override
-    public void updateStatus(String id) {
+    public void updateStatus(final String id) {
         this.tx(session -> {
             var task = session.get(Task.class, Integer.valueOf(id));
             task.setDone(!task.isDone());

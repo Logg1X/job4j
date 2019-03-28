@@ -5,11 +5,11 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
     <servlet>
-        <servlet-name>TaskControler</servlet-name>
+        <servlet-name>TaskController</servlet-name>
         <servlet-class>ru.job4j.todo.controlers.TaskController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>TaskControler</servlet-name>
+        <servlet-name>TaskController</servlet-name>
         <url-pattern>/MyTasks</url-pattern>
     </servlet-mapping>
 </web-app>

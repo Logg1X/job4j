@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public enum MemStor implements Stor {
+public enum MemoryStorage implements Stor {
     INSTANSCE();
 
-    private ConcurrentHashMap<String, Task> allTasks;
+    private final ConcurrentHashMap<String, Task> allTasks;
 
-    MemStor() {
+    MemoryStorage() {
         this.allTasks = new ConcurrentHashMap<>();
         Task task = new Task("Починить шкаф в квартире");
         this.addTask(task);
@@ -20,7 +20,7 @@ public enum MemStor implements Stor {
 
     public static void main(String[] args) {
         Task task = new Task("Тестовая задача");
-        DBStore.INSTANCE.addTask(task);
+        DBStorage.INSTANCE.addTask(task);
     }
 
     @Override
