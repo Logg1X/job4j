@@ -6,10 +6,18 @@
   <session-factory>
     <property name="connection.url">jdbc:postgresql://localhost:5432/tops</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
-    <property name="connection.username">postgres</property>
-    <property name="connection.password">505132580</property>
     <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
     <mapping resource="ru/job4j/todo/models/Task.hbm.xml"/>
+    <mapping class="ru.job4j.car.models.Brand"/>
+    <mapping resource="ru/job4j/car/models/Brand.hbm.xml"/>
+    <mapping class="ru.job4j.car.models.Car"/>
+    <mapping resource="ru/job4j/car/models/Car.hbm.xml"/>
+    <mapping class="ru.job4j.car.models.Carcase"/>
+    <mapping resource="ru/job4j/car/models/Carcase.hbm.xml"/>
+    <mapping class="ru.job4j.car.models.Color"/>
+    <mapping resource="ru/job4j/car/models/Color.hbm.xml"/>
+    <mapping class="ru.job4j.car.models.Wd"/>
+    <mapping resource="ru/job4j/car/models/Wd.hbm.xml"/>
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
