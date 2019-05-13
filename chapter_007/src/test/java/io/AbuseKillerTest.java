@@ -19,8 +19,8 @@ public class AbuseKillerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         OutputStream out = new ByteArrayOutputStream();
         killer.dropAbuses(in, out, abuse);
-        String exp = "Мама мыла\n"
-                + "раму\n";
+        String exp = "Мама мыла\r\n"
+                + "раму\r\n";
         assertThat(exp, is(out.toString()));
     }
 }
